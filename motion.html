@@ -1677,6 +1677,54 @@ const Fx = (() => {
   return { ...top, layer: createLayer, helpers, lightPage };
 })();
 
+/* Sillon · grade final commun, WebGL 1. Référence CPU : FORGE.gradeRGB.
+   Aucun framebuffer ni texture supplémentaire. `off` retourne la couleur avant tout calcul.
+   Appliquer après matière/illustration/lumière, avant les facteurs de couverture et de fondu.
+   Les RGB peuvent dépasser 1 (impulsions) ; seul le framebuffer limite les hautes lumières. */
+const BrainGrade = (() => {
+  const UNIFORMS = Object.freeze(['uGradeMode', 'uGrade', 'uGradeE1', 'uGradeE2', 'uGradeA']);
+  const GLSL = `
+uniform float uGradeMode;
+uniform vec4 uGrade; // angle en radians, saturation, valeur, contraste
+uniform vec3 uGradeE1; uniform vec3 uGradeE2; uniform vec3 uGradeA;
+vec3 brainGrade(vec3 c) {
+  if (uGradeMode < 0.5) return c;
+  const vec3 W = vec3(0.2126, 0.7152, 0.0722);
+  float y = max(0.0, dot(c, W));
+  if (y <= 0.0) return vec3(0.0);
+  if (uGradeMode < 1.5) {
+    float co = cos(uGrade.x), si = sin(uGrade.x);
+    c = c * co + cross(vec3(0.5773502691896258), c) * si + vec3(dot(c, vec3(0.3333333333333333))) * (1.0 - co);
+  } else {
+    float t = clamp(y, 0.0, 1.0);
+    if (uGradeMode < 2.5) c = mix(uGradeE1, uGradeE2, t);
+    else c = t < 0.5 ? mix(uGradeE1, uGradeE2, t * 2.0) : mix(uGradeE2, uGradeA, t * 2.0 - 1.0);
+    c *= y / max(dot(c, W), 0.0001);
+  }
+  c = mix(vec3(dot(c, W)), c, uGrade.y);
+  return max(vec3(0.0), (c * uGrade.z - 0.5) * uGrade.w + 0.5);
+}
+vec3 brainGradePremul(vec3 c, float alpha) {
+  if (uGradeMode < 0.5) return c;
+  return alpha > 0.0001 ? brainGrade(c / alpha) * alpha : vec3(0.0);
+}
+`;
+  // Préparé une fois par changement de profil, pas par pixel ni par image.
+  function params(f = {}) {
+    const r = f.recolor || {}, bound = (v, d, lo, hi) => typeof v === 'number' && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : d;
+    return { mode: Math.max(0, ['off', 'teinte', 'duo', 'trio'].indexOf(r.mode)),
+      k: [bound(r.hue, 0, -180, 180) * Math.PI / 180, bound(r.sat, 100, 0, 200) / 100, bound(r.val, 100, 50, 150) / 100, bound(r.contrast, 100, 70, 140) / 100],
+      e1: f.e1 || [1, 1, 1], e2: f.e2 || [1, 1, 1], a: f.a || [1, 1, 1] };
+  }
+  function bind(gl, loc, grade) {
+    gl.uniform1f(loc.uGradeMode, grade ? grade.mode : 0);
+    if (!grade || !grade.mode) return;
+    gl.uniform4fv(loc.uGrade, grade.k);
+    gl.uniform3fv(loc.uGradeE1, grade.e1); gl.uniform3fv(loc.uGradeE2, grade.e2); gl.uniform3fv(loc.uGradeA, grade.a);
+  }
+  return Object.freeze({ GLSL, UNIFORMS, params, bind });
+})();
+
 /* ═════════════ Scène : le cerveau vivant ═════════════
    Un nuage de particules en forme de cerveau (procédural), des territoires lumineux, des neurones avec
    dendrites, des axones et des impulsions qui voyagent. WebGL (points additifs), repli Canvas 2D.
@@ -2094,9 +2142,10 @@ void main(){
 }`;
   const FS = `
 precision mediump float;
+${BrainGrade.GLSL}
 varying vec4 vCol; varying float vHard; uniform float uLine; uniform vec2 uFh; // halo, opacité d'ensemble (Forge)
 void main(){
-  if (uLine > 0.5) { gl_FragColor = vec4(vCol.rgb * vCol.a, vCol.a); return; } // lignes du calque mémoire
+  if (uLine > 0.5) { gl_FragColor = vec4(brainGrade(vCol.rgb) * vCol.a, vCol.a); return; } // lignes du calque mémoire
   vec2 c = gl_PointCoord * 2.0 - 1.0;
   float r2 = dot(c, c);
   if (r2 > 1.0) discard;
@@ -2104,7 +2153,7 @@ void main(){
   float core = exp(-r2 * (vHard > 0.5 ? 40.0 : 22.0));
   float a = vCol.a * (glow * 0.55 * uFh.x + core * 0.9) * uFh.y;
   if (vHard < -0.5) a = vCol.a * exp(-r2 * 2.6) * (1.0 - r2); // nuage du calque mémoire : une lueur sans cœur
-  gl_FragColor = vec4(vCol.rgb * a, a);
+  gl_FragColor = vec4(brainGrade(vCol.rgb) * a, a);
 }`;
 
   function compile(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
@@ -2122,7 +2171,7 @@ void main(){
       for (const n of ['uMVP', 'uScale', 'uTime', 'uDpr', 'uKindA', 'uFlick', 'uFocusD', 'uEye', 'uReveal', 'uSeed', 'uWave', 'uWaveDir', 'uWaveCol', 'uConv', 'uIgC', 'uIgP', 'uIgS', 'uIgX', 'uIgCol', 'uRipC', 'uRipP', 'uRipCol', 'uAmb', 'uAmb2', 'uAmbL', 'uTraceA', 'uFg', 'uFc1', 'uFc2', 'uFc3', 'uFm', 'uFh', 'uZc']) loc[n] = gl.getUniformLocation(prog, n);
       loc.uGroupA = gl.getUniformLocation(prog, 'uGroupA[0]') || gl.getUniformLocation(prog, 'uGroupA');
       loc.uRegC = gl.getUniformLocation(prog, 'uRegC[0]'); loc.uRegCol = gl.getUniformLocation(prog, 'uRegCol[0]'); loc.uRegA = gl.getUniformLocation(prog, 'uRegA[0]'); loc.uRegOn = gl.getUniformLocation(prog, 'uRegOn');
-      for (const n of ['uMem', 'uBaseA', 'uLine']) loc[n] = gl.getUniformLocation(prog, n);
+      for (const n of ['uMem', 'uBaseA', 'uLine', ...BrainGrade.UNIFORMS]) loc[n] = gl.getUniformLocation(prog, n);
       loc.uZoneA = gl.getUniformLocation(prog, 'uZoneA[0]') || gl.getUniformLocation(prog, 'uZoneA');
       if (loc.uBaseA) gl.uniform2f(loc.uBaseA, 1, 1);
       mesh = null;
@@ -3804,12 +3853,12 @@ void main(){
     for (const Z of mem.zones) {
       const s = zoneScreen(Z); if (!s) continue;
       const u = Z.gi >= 0 ? mem.zu[Z.gi] : 1, rr = s.r * (0.55 + 0.5 * Z.q) * dpr, x = s.x * dpr, y = s.y * dpr;
-      const g = c.createRadialGradient(x, y, 0, x, y, rr), col = Z.col.map((v) => Math.round(v * 255)).join(',');
+      const g = c.createRadialGradient(x, y, 0, x, y, rr), col = grade2D(Z.col).map((v) => Math.round(v * 255)).join(',');
       g.addColorStop(0, `rgba(${col},${Math.min(1, (Z.count ? 0.22 + 0.4 * Z.q + 0.1 * Z.act : 0.1) * u * A)})`); g.addColorStop(1, `rgba(${col},0)`);
       c.globalAlpha = 1; c.fillStyle = g; c.fillRect(x - rr, y - rr, rr * 2, rr * 2);
     }
     // au plus ~700 points (le repli 2D est lent) : une couleur par zone, projection en ligne, sans allocation
-    const step = Math.max(1, Math.ceil(mem.nodes.length / 700)), m = mvp, cols = mem.zones.map((Z) => `rgb(${Z.col.map((v) => Math.round((v * 0.7 + 0.3) * 255)).join(',')})`);
+    const step = Math.max(1, Math.ceil(mem.nodes.length / 700)), m = mvp, cols = mem.zones.map((Z) => `rgb(${grade2D(Z.col.map(v => v * 0.7 + 0.3)).map(v => Math.round(v * 255)).join(',')})`);
     let cz = -1;
     for (let i = 0; i < mem.nodes.length; i += step) {
       const n = mem.nodes[i], p = n.p, cw = m[3] * p[0] + m[7] * p[1] + m[11] * p[2] + m[15]; if (cw <= 0.01) continue;
@@ -3822,7 +3871,7 @@ void main(){
     c.lineWidth = dpr;
     for (const b of mem.bundles) {
       const pa = project(b.cv.a), pc = project(b.cv.c), pb = project(b.cv.b); if (!pa || !pb || !pc) continue;
-      c.globalAlpha = Math.min(0.5, (0.1 + 0.05 * Math.log(1 + b.n)) * A * wk.lineA); /* step9-fx */ c.strokeStyle = `rgb(${mem.zones[b.b].col.map((v) => Math.round(v * 255)).join(',')})`;
+      c.globalAlpha = Math.min(0.5, (0.1 + 0.05 * Math.log(1 + b.n)) * A * wk.lineA); /* step9-fx */ c.strokeStyle = `rgb(${grade2D(mem.zones[b.b].col).map((v) => Math.round(v * 255)).join(',')})`;
       c.beginPath(); c.moveTo(pa.x * dpr, pa.y * dpr); c.quadraticCurveTo(2 * pc.x * dpr - (pa.x + pb.x) * dpr / 2, 2 * pc.y * dpr - (pa.y + pb.y) * dpr / 2, pb.x * dpr, pb.y * dpr); c.stroke();
     }
     if (mem.labels2D && A > 0.5) {
@@ -4108,6 +4157,8 @@ void main(){
     FG.size = num(o.size, 1, 0.4, 2); FG.halo = num(o.halo, 1, 0, 3); FG.alpha = num(o.alpha, 1, 0.3, 1.3); FG.speed = num(o.speed, 1, 0.2, 2.5);
     FG.density = num(o.density, 1, 0.2, 1); FG.boost = num(o.boost, 0, 0, 2); FG.tint = num(o.tint, 0, 0, 1);
     FG.e1 = col(o.e1, FG0.e1); FG.e2 = col(o.e2, FG0.e2); FG.a = col(o.a, FG0.a); FG.hue = num(o.hue, 0, -0.1, 0.1);
+    FG.recolor = typeof FORGE !== 'undefined' ? FORGE.normalizeRecolor(o.recolor) : o.recolor;
+    FG.grade = BrainGrade.params({ ...FG, recolor: FG.recolor });
     FG.scan = num(o.scan, 0, 0, 1); FG.facet = num(o.facet, 0, 0, 1); FG.desat = num(o.desat, 0, 0, 1); FG.rim = num(o.rim, 0, 0, 1);
     FG.zones = Math.round(num(o.zones, 8, 1, 12));
     FG.mesh = o.mesh && typeof o.mesh === 'object' ? o.mesh : null;
@@ -4229,6 +4280,7 @@ void main(){
   /* v6-voyage : ce que le maillage reçoit du voyage (rayons X, fondu près de l'œil, passage, densité des fibres et son centre) */
   function voyF() { return { xray: vx.x, near: vx.near, hole: vx.hole, density: vx.dens, dc: vx.dc }; }
   function forgeUniforms() {
+    BrainGrade.bind(gl, loc, FG.grade);
     if (!loc.uFg) return;
     gl.uniform4f(loc.uFg, FG.size, FG.density, FG.boost, 0);
     gl.uniform4f(loc.uFc1, FG.e1[0], FG.e1[1], FG.e1[2], FG.tint);
@@ -4252,14 +4304,14 @@ void main(){
       const dimK = (mem.a > 0.003 || mem.dim > 0.003 ? 1 - 0.55 * mem.dim : 1) * fadeK;
       // v6-cerveaux : les animations des fibres (l'effet en cours, le repos de l'univers) et le mouvement réduit
       const fxR = fxReduced(), fx = typeof FiberAnim !== 'undefined' ? FiberAnim.toUniforms(fxList, time * 1000, fxR, { rest: fxRestId || FG.restAnim, timeScale: FG.speed }) : null;
-      meshDrawn = mesh.draw({ M: FG.mesh, matKey: FG.matKey, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
+      meshDrawn = mesh.draw({ grade: FG.grade, M: FG.mesh, matKey: FG.matKey, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
       meshOnFrame = meshDrawn;
       if (meshDrawn) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.blendFunc(gl.ONE, gl.ONE); gl.depthMask(false); } // le test de profondeur reste : les points sont cachés par la matière
     }
     if (!(mesh && FG.mesh && FG.tint > 0.001)) meshOnFrame = false;
     // v6-voyage : sans matière forgée, le voyage montre quand même le vrai cortex, en fantôme (contour, rayons X, passage)
     if (!meshDrawn && layers.length && mesh && mesh.drawGhost) {
-      try { if (mesh.drawGhost({ mvp, eye: eyePos(), target: cam.target, time: ftime, dim: fadeK, tint: 1, e1: FG.e1, e2: FG.e2, a: FG.a, dpr, reduced: fxReduced(), ...voyF() })) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.depthMask(true); } } catch (e) { /* le nuage de points reste */ }
+      try { if (mesh.drawGhost({ grade: FG.grade, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: fadeK, tint: 1, e1: FG.e1, e2: FG.e2, a: FG.a, dpr, reduced: fxReduced(), ...voyF() })) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.depthMask(true); } } catch (e) { /* le nuage de points reste */ }
     }
     if (!meshDrawn) { gl.disable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.blendFunc(gl.ONE, gl.ONE); }
     if (loc.uAmb) { gl.uniform4f(loc.uAmb, amb.col[0], amb.col[1], amb.col[2], amb.k); gl.uniform4f(loc.uAmb2, amb.dir, amb.dim, trFocus, restA); gl.uniform4f(loc.uAmbL, amb.L[0], amb.L[1], amb.L[2], amb.spot); gl.uniform1f(loc.uTraceA, traceA); }
@@ -4314,7 +4366,7 @@ void main(){
     }
     // v6-voyage : les calques (quartiers, autoroutes, neurones-cours, trajet) par-dessus ; l'état GL des points est rendu ensuite
     if (layers.length) {
-      const c = { gl, mvp, eye: eyePos(), target: cam.target.slice(), time, dpr, W, H, scale: canvas.height / (2 * Math.tan(fov / 2)), project, reduced: fxReduced(), tier: mesh ? mesh.tier : 2 };
+      const c = { grade: FG.grade, gl, mvp, eye: eyePos(), target: cam.target.slice(), time, dpr, W, H, scale: canvas.height / (2 * Math.tan(fov / 2)), project, reduced: fxReduced(), tier: mesh ? mesh.tier : 2 };
       for (const L of layers) { try { L.draw(c); } catch (e) { console.warn('[Scene] calque', e); } }
       gl.useProgram(prog); gl.disable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE); gl.depthMask(true);
     }
@@ -4327,7 +4379,18 @@ void main(){
     return igl.out + ((igl.floor + (1 + igl.boost * litF - igl.floor) * lit) - igl.out) * inS;
   }
   /* Repli Canvas 2D : mêmes données, projection sur le processeur */
+  const grade2D = rgb => FG.grade && FG.grade.mode && typeof FORGE !== 'undefined'
+    ? FORGE.gradeRGB(rgb, FG.recolor, { e1: FG.e1, e2: FG.e2, a: FG.a }).map(v => Math.min(1, v)) : rgb;
   let sprite = null;
+  const gradeSprites = new Map();
+  function gradedSprite(col) {
+    if (!FG.grade || !FG.grade.mode) return sprite;
+    if (gradeSprites.has(col)) return gradeSprites.get(col);
+    const img = document.createElement('canvas'); img.width = img.height = 64;
+    const c = img.getContext('2d'); c.drawImage(sprite, 0, 0); c.globalCompositeOperation = 'source-in'; c.fillStyle = col; c.fillRect(0, 0, 64, 64);
+    if (gradeSprites.size >= 128) gradeSprites.delete(gradeSprites.keys().next().value);
+    gradeSprites.set(col, img); return img;
+  }
   function render2D(dynN) {
     const c = ctx2;
     c.setTransform(1, 0, 0, 1, 0, 0);
@@ -4351,9 +4414,10 @@ void main(){
         const size = arr[o + 7] * scale / pr.w;
         const x = pr.x * dpr, y = pr.y * dpr;
         c.globalAlpha = Math.min(1, a);
-        const col = `rgb(${arr[o + 3] * 255 | 0},${arr[o + 4] * 255 | 0},${arr[o + 5] * 255 | 0})`;
+        const rgb = grade2D([arr[o + 3], arr[o + 4], arr[o + 5]]);
+        const col = `rgb(${rgb[0] * 255 | 0},${rgb[1] * 255 | 0},${rgb[2] * 255 | 0})`;
         if (size < 3) { c.fillStyle = col; c.fillRect(x - 0.8, y - 0.8, 1.6, 1.6); }
-        else { c.fillStyle = col; c.beginPath(); c.arc(x, y, Math.min(size, 60) * 0.18, 0, 6.283); c.fill(); c.globalAlpha = Math.min(1, a * 0.5); c.drawImage(sprite, x - size / 2, y - size / 2, size, size); }
+        else { c.fillStyle = col; c.beginPath(); c.arc(x, y, Math.min(size, 60) * 0.18, 0, 6.283); c.fill(); c.globalAlpha = Math.min(1, a * 0.5); c.drawImage(gradedSprite(col), x - size / 2, y - size / 2, size, size); }
       }
     };
     drawSet(staticData, brainDraw, 0, 2);

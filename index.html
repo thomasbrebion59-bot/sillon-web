@@ -4120,6 +4120,43 @@ html.sbfx-labwait .sbh-zl { opacity: 0 !important; transition: none !important; 
 .fg-pane { padding-bottom: 0; }
 .fg-row .fg-sil { justify-content: center; }
 
+/* Couleur globale : noms et coches accompagnent toujours les pastilles. */
+.fg-grade { margin-block: 12px 20px; }
+.fg-grade-modes { display: flex; gap: 8px; }
+.fg-grade-mode { text-align: center; min-width: 72px; min-height: 44px; flex: 1; border: 1px solid var(--line, #4A526D); border-radius: 12px; background: #171C30; color: #F5F6FF; font: inherit; cursor: pointer; }
+.fg-grade-mode[aria-pressed="true"], .fg-theme[aria-pressed="true"] { border-color: #D6D9FF; outline: 2px solid #D6D9FF; outline-offset: 1px; }
+.fg-grade-range { display: grid; grid-template-columns: 1fr auto; align-items: center; margin-block: 12px; font-size: 13px; color: #E4E8F6; }
+.fg-grade-range output { font-variant-numeric: tabular-nums; }
+.fg-grade-range input { grid-column: 1 / -1; width: 100%; height: 44px; margin: 0; accent-color: #C3B8FF; cursor: pointer; }
+.fg-grade-range input:disabled { opacity: .45; cursor: default; }
+.fg-rainbow { appearance: none; -webkit-appearance: none; background: transparent; }
+.fg-rainbow::-webkit-slider-runnable-track { height: 8px; border-radius: 8px; background: linear-gradient(90deg,#FF7878,#FFDD77,#7CDD8B,#7BDDDD,#8D9EFF,#D99BFF,#FF7878); }
+.fg-rainbow::-moz-range-track { height: 8px; border-radius: 8px; background: linear-gradient(90deg,#FF7878,#FFDD77,#7CDD8B,#7BDDDD,#8D9EFF,#D99BFF,#FF7878); }
+.fg-rainbow::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 24px; height: 24px; margin-top: -8px; border-radius: 50%; border: 3px solid #FFF; background: #252A40; box-shadow: 0 0 0 1px #252A40; }
+.fg-rainbow::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; border: 3px solid #FFF; background: #252A40; }
+.fg-grade-preview { height: 16px; border-radius: 8px; margin-block: 12px; }
+.fg-theme-group { border: 0; padding: 0; margin: 16px 0; min-width: 0; }
+.fg-theme-group legend { font-size: 13px; font-weight: 600; margin-bottom: 10px; color: #D6DCEF; }
+.fg-themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.fg-theme { display: grid; grid-template-columns: 1fr auto; gap: 6px; min-height: 72px; padding: 10px; border: 1px solid #4A526D; border-radius: 12px; background: #171C30; color: #F5F6FF; text-align: left; font: inherit; font-size: 12px; cursor: pointer; }
+.fg-theme-colors { display: flex; gap: 5px; grid-column: 1 / -1; }
+.fg-theme-colors .fg-dot { width: 18px; height: 18px; }
+.fg-theme-colors .fg-dot:nth-child(2) { border-radius: 4px; }
+.fg-theme-colors .fg-dot:nth-child(3) { clip-path: polygon(50% 0,100% 100%,0 100%); border-radius: 0; }
+.fg-theme-check { width: 1em; }
+.fg-original-palettes summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; }
+.fg-grade :focus-visible, .fg-theme:focus-visible, .fg-original-palettes :focus-visible { outline: 3px solid #FFF; outline-offset: 3px; }
+.fg-pick { flex-wrap: wrap; }
+.fg-pick input[type="color"] { min-width: 44px; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) { .fg-grade *, .fg-theme { animation: none; transition: none; } }
+/* v7 : trente choix, rubriques et navigation radio au clavier. */
+.fg-ut-group { align-self: stretch; display: flex; align-items: center; padding: 0 7px; border-left: 1px solid var(--fg-border); font-size: 12px; color: var(--fg-t2); }
+.fg-un, .fg-ut { min-width: 44px; min-height: 44px; }
+.fg-un:focus-visible, .fg-ut:focus-visible { outline: 2px solid var(--fg-t1); outline-offset: 3px; }
+.fg-ut { width: 88px; }
+.fg-ut span { white-space: normal; overflow: visible; overflow-wrap: normal; max-width: 88px; }
+.fg-rowl { min-height: 44px; }
+
 /* Sillon · v5 missions. --mc = couleur de la mission (choisie d'après le thème). Les emblèmes et schémas sont dessinés pour un fond
    sombre : ils vivent dans une pastille nuit, en thème clair comme en thème sombre. La couleur n'est jamais seule : forme + nom. */
 .sbm { --mc: var(--primary); }
@@ -6954,7 +6991,7 @@ const SB = (() => {
    Source des valeurs : design/forge/DESIGN-SYSTEM.md (§4 palettes, §6.2 matières, §6.3 curseurs).
    Principes :
    - le profil ne contient AUCUN contenu : changer le style ne touche ni les souvenirs, ni les zones, ni leur structure ;
-   - une graine tirée à la création rend chaque cerveau unique ; même profil = même rendu partout ;
+   - une graine tirée à la création fait varier son apparence ; même profil = même rendu partout ;
    - tout est borné et revalidé à la lecture (FORGE.normalize) : une sauvegarde abîmée ou modifiée à la main ne casse rien ;
    - sans profil (ou profil « neutre »), la scène garde exactement son look d'avant. */
 const FORGE = (() => {
@@ -7021,6 +7058,18 @@ const FORGE = (() => {
       ['galaxie', 'Galaxie', 'Deux bras spiraux, un pont d’étoiles.', 'repos-paquets', { alpha: 1, rough: 0.5, rim: 0.4, rimPow: 2.2 }, { gain: 0.12, width: 0.8 }, 0.22],
       ['aquarelle', 'Aquarelle', 'Pigments sur papier, bords mouillés.', 'repos-paquets', { alpha: 1, rough: 0.9, rim: 0.1, rimPow: 4 }, { gain: 0.14, width: 1.1 }, 0.2],
       ['synthwave', 'Synthwave', 'Néon magenta et cyan, couchant.', 'repos-paquets', { alpha: 1, rough: 0.2, rim: 0.5, rimPow: 2.4 }, { gain: 0.12, width: 0.9 }, 0.28],
+      ['caldeira', "Caldeira", "Fais couler tes idées.", 'repos-paquets', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['banquise', "Banquise", "Donne du frais à tes idées.", 'repos-respiration', { alpha: 1, rough: 0.25, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['erg', "Erg", "Dessine tes dunes intérieures.", 'repos-respiration', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['feuillets', "Feuillets", "Compose tes idées en couches.", 'repos-paquets', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['liege', "Liège", "Donne du grain à tes idées.", 'repos-respiration', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['brocart', "Brocart", "Habille tes idées à ta façon.", 'repos-paquets', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['terre-cuite', "Terre cuite", "Façonne tes idées à la main.", 'repos-respiration', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['marqueterie', "Marqueterie", "Assemble tes idées avec soin.", 'repos-paquets', { alpha: 1, rough: 0.45, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['dentelle', "Dentelle", "Relie tes idées avec délicatesse.", 'repos-respiration', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['porcelaine', "Porcelaine", "Émaille tes idées de bleu.", 'repos-scintillement', { alpha: 1, rough: 0.12, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['feutre', "Feutre", "Enveloppe tes idées de douceur.", 'repos-respiration', { alpha: 1, rough: 0.92, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
+      ['caoutchouc', "Élastomère", "Moule tes idées à ton goût.", 'repos-respiration', { alpha: 1, rough: 0.7, rim: 0.08, rimPow: 4 }, { gain: 0.09, width: 0.8 }, 0.12],
     ].map(([hid, name, hint, restAnim, sh, fb, speed]) => [`hyb-${hid}`, {
       id: `hyb-${hid}`, name, hint, emission: 0.4, pulse: 1.8, bloomGain: 0.2, bloomRadius: 10, rimGain: sh.rim, rimPower: sh.rimPow, speed, sigma: 0.05, rest: 5,
       scene: { size: 1, halo: 0.9, scan: 0, facet: 0, desat: 0, rim: sh.rim, alpha: 1 },
@@ -7056,7 +7105,7 @@ const FORGE = (() => {
      d'énergie et un accent), la matière et, pour Atlas, une couleur par zone. `fidelity` dit la vérité : « fidèle » = la scène sait rendre
      l'ambiance ; « approchée » = l'illustration montre ce qu'on vise, la scène en donne l'esprit (couleurs, matière), pas la texture exacte.
      Les couleurs sont celles de la palette dessinée, éclaircies quand il le faut pour tenir 4,5:1 sur le panneau (testé). */
-  // Captures WebGL relues : les écarts restants justifient « approchée » pour les 18 univers. Voir docs/forge/FIDELITE.md.
+  // Captures WebGL relues : les écarts restants justifient « approchée » pour les 30 univers. Voir docs/forge/FIDELITE.md.
   const UNIVERS_RAW = ([
     { id: 'fibres', name: 'Fibres', tagline: 'Tisse le fil de tes idées.', e1: '#FF5868', e2: '#3DFF9A', a: '#5894FF', material: 'filaments', fidelity: 'approchée', mode: 'sombre' },
     { id: 'encre', name: 'Encre', tagline: 'Trace ton propre chemin.', e1: '#E0824F', e2: '#7FAFD8', a: '#E8B84A', material: 'gravure', fidelity: 'approchée', mode: 'clair' },
@@ -7081,10 +7130,23 @@ const FORGE = (() => {
     { id: 'galaxie', name: 'Galaxie', tagline: 'Fais tourner ton univers.', e1: '#C59BFF', e2: '#FF8FD0', a: '#8FC8FF', material: 'hyb-galaxie', fidelity: 'approchée', mode: 'sombre', hybrid: true, rest: 'repos-paquets' },
     { id: 'aquarelle', name: 'Aquarelle', tagline: 'Laisse diffuser tes idées.', e1: '#F2917E', e2: '#86BCEB', a: '#E8C25A', material: 'hyb-aquarelle', fidelity: 'approchée', mode: 'clair', hybrid: true, rest: 'repos-paquets' },
     { id: 'synthwave', name: 'Synthwave', tagline: 'Mets tes idées au néon.', e1: '#FF6AD5', e2: '#4FE8FF', a: '#FFB45E', material: 'hyb-synthwave', fidelity: 'approchée', mode: 'sombre', hybrid: true, rest: 'repos-paquets' },
+    // v7 : douze matières opaques procédurales.
+    {"id": "caldeira", "name": "Caldeira", "tagline": "Fais couler tes idées.", "e1": "#FF987C", "e2": "#FFC16E", "a": "#FFE3A1", "mode": "sombre", "material": "hyb-caldeira", "rest": "repos-paquets", "hybrid": true, "fidelity": "approchée"},
+    {"id": "banquise", "name": "Banquise", "tagline": "Donne du frais à tes idées.", "e1": "#A9D6FF", "e2": "#D7EDF2", "a": "#B7C8ED", "mode": "sombre", "material": "hyb-banquise", "rest": "repos-respiration", "hybrid": true, "fidelity": "approchée"},
+    {"id": "erg", "name": "Erg", "tagline": "Dessine tes dunes intérieures.", "e1": "#EFC28D", "e2": "#E8B0A0", "a": "#F5DAA4", "mode": "clair", "material": "hyb-erg", "rest": "repos-respiration", "hybrid": true, "fidelity": "approchée"},
+    {"id": "feuillets", "name": "Feuillets", "tagline": "Compose tes idées en couches.", "e1": "#CEE0A6", "e2": "#C7B6DA", "a": "#F2D6AD", "mode": "clair", "material": "hyb-feuillets", "rest": "repos-paquets", "hybrid": true, "fidelity": "approchée"},
+    {"id": "liege", "name": "Liège", "tagline": "Donne du grain à tes idées.", "e1": "#D8AF83", "e2": "#E9CCAA", "a": "#CDAFA0", "mode": "sombre", "material": "hyb-liege", "rest": "repos-respiration", "hybrid": true, "fidelity": "approchée"},
+    {"id": "brocart", "name": "Brocart", "tagline": "Habille tes idées à ta façon.", "e1": "#ECA8C0", "e2": "#F0C49C", "a": "#DED1BA", "mode": "sombre", "material": "hyb-brocart", "rest": "repos-paquets", "hybrid": true, "fidelity": "approchée"},
+    {"id": "terre-cuite", "name": "Terre cuite", "tagline": "Façonne tes idées à la main.", "e1": "#E7A18C", "e2": "#DDB593", "a": "#F1D0AF", "mode": "clair", "material": "hyb-terre-cuite", "rest": "repos-respiration", "hybrid": true, "fidelity": "approchée"},
+    {"id": "marqueterie", "name": "Marqueterie", "tagline": "Assemble tes idées avec soin.", "e1": "#DCC082", "e2": "#C9AB8E", "a": "#EEDBB5", "mode": "sombre", "material": "hyb-marqueterie", "rest": "repos-paquets", "hybrid": true, "fidelity": "approchée"},
+    {"id": "dentelle", "name": "Dentelle", "tagline": "Relie tes idées avec délicatesse.", "e1": "#F0E6CF", "e2": "#C6DCE6", "a": "#DBCAD2", "mode": "sombre", "material": "hyb-dentelle", "rest": "repos-respiration", "hybrid": true, "fidelity": "approchée"},
+    {"id": "porcelaine", "name": "Porcelaine", "tagline": "Émaille tes idées de bleu.", "e1": "#A6BEEC", "e2": "#F0E8D8", "a": "#E1CE8D", "mode": "sombre", "material": "hyb-porcelaine", "rest": "repos-scintillement", "hybrid": true, "fidelity": "approchée"},
+    {"id": "feutre", "name": "Feutre", "tagline": "Enveloppe tes idées de douceur.", "e1": "#BCD3A1", "e2": "#A9CBBE", "a": "#D1B8D7", "mode": "clair", "material": "hyb-feutre", "rest": "repos-respiration", "hybrid": true, "fidelity": "approchée"},
+    {"id": "caoutchouc", "name": "Élastomère", "tagline": "Moule tes idées à ton goût.", "e1": "#E1EC80", "e2": "#B9D79A", "a": "#DED2ED", "mode": "sombre", "material": "hyb-caoutchouc", "rest": "repos-respiration", "hybrid": true, "fidelity": "approchée"},
   ]);
   /* L'ordre d'affichage recommandé (DESIGN-CERVEAUX.md) : le mode clair et la chaleur d'abord, puis les contrastes. Il ne bouge pas en silence.
      v6-cerveaux : les dix d'origine, puis les huit hybrides. */
-  const UNIVERS_ORDER = ['encre', 'boreale', 'atlas', 'recif', 'nacre', 'facettes', 'fibres', 'or-laque', 'cosmos', 'geode', 'foret', 'ocean', 'ville', 'vitrail', 'circuit', 'galaxie', 'aquarelle', 'synthwave'];
+  const UNIVERS_ORDER = ['encre', 'boreale', 'atlas', 'recif', 'nacre', 'facettes', 'fibres', 'or-laque', 'cosmos', 'geode', 'foret', 'ocean', 'ville', 'vitrail', 'circuit', 'galaxie', 'aquarelle', 'synthwave', 'caldeira', 'banquise', 'erg', 'feuillets', 'liege', 'brocart', 'terre-cuite', 'marqueterie', 'dentelle', 'porcelaine', 'feutre', 'caoutchouc'];
   // v6-cerveaux : chaque univers dit son animation de repos (les dix d'origine : les paquets d'avant) et s'il est hybride
   const UNIVERS = Object.freeze(UNIVERS_ORDER.map((id) => { const u = UNIVERS_RAW.find((x) => x.id === id); return Object.freeze({ ...u, hybrid: !!u.hybrid, rest: u.rest || 'repos-paquets' }); }));
   const UNIVERS_BY_ID = Object.freeze(Object.fromEntries(UNIVERS.map((u) => [u.id, u])));
@@ -7123,6 +7185,70 @@ const FORGE = (() => {
     return { hue: (r() - 0.5) * 0.10, phase: r(), asym: (r() - 0.5) * 0.12, grain: 0.85 + r() * 0.3, tilt: (r() - 0.5) * 0.18 };
   }
 
+  /* Couleur globale : RGB écran (0–1, valeurs HDR conservées), comme les shaders WebGL.
+     La rampe garde la luminance source : les creux et les impulsions ne deviennent pas des aplats. */
+  const RECOLOR_DEFAULT = Object.freeze({ mode: 'off', hue: 0, sat: 100, val: 100, contrast: 100 });
+  function normalizeRecolor(r) {
+    r = r && typeof r === 'object' ? r : {};
+    const bound = (k, lo, hi) => typeof r[k] === 'number' && Number.isFinite(r[k]) ? clampN(r[k], lo, hi) : RECOLOR_DEFAULT[k];
+    return { mode: ['off', 'teinte', 'duo', 'trio'].includes(r.mode) ? r.mode : 'off',
+      hue: bound('hue', -180, 180), sat: bound('sat', 0, 200), val: bound('val', 50, 150), contrast: bound('contrast', 70, 140) };
+  }
+  function gradeRGB(rgb, recolor, palette = PRESETS.cobalt) {
+    const r = normalizeRecolor(recolor), src = Array.from(rgb);
+    if (r.mode === 'off') return src;
+    const weights = [0.2126, 0.7152, 0.0722], lum = c => c.reduce((n, v, i) => n + v * weights[i], 0);
+    let c = src, y = Math.max(0, lum(c));
+    if (y <= 0) return [0, 0, 0];
+    if (r.mode === 'teinte') {
+      const a = r.hue * Math.PI / 180, co = Math.cos(a), si = Math.sin(a), grey = (c[0] + c[1] + c[2]) / 3;
+      c = c.map((v, i) => v * co + (c[(i + 2) % 3] - c[(i + 1) % 3]) / Math.sqrt(3) * si + grey * (1 - co));
+    } else {
+      const t = clampN(y, 0, 1), pal = ['e1', 'e2', 'a'].map(k => Array.isArray(palette[k]) ? palette[k] : rgb01(palette[k]));
+      const blend = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+      c = r.mode === 'duo' ? blend(pal[0], pal[1], t) : t < 0.5 ? blend(pal[0], pal[1], t * 2) : blend(pal[1], pal[2], t * 2 - 1);
+      c = c.map(v => v * y / Math.max(lum(c), 0.0001));
+    }
+    y = lum(c);
+    return c.map(v => Math.max(0, ((y + (v - y) * r.sat / 100) * r.val / 100 - 0.5) * r.contrast / 100 + 0.5));
+  }
+  function gradeHex(hex, recolor, palette) { return toHex(gradeRGB(rgb01(hex), recolor, palette).map(v => v * 255)); }
+
+  /* Catalogue Astra : copie de design/v7/PALETTES-V7.json (8 octobre 2026).
+     Embarqué pour fonctionner hors ligne, sans dépendre du lien local design-v7. */
+  const THEMES = Object.freeze([
+    {"id": "grenadine", "name": "Grenadine", "e1": "#FFA6A0", "e2": "#FF83B4", "a": "#FFD3DA", "group": "Chauds", "mood": "Donne à ton cerveau une chaleur fruitée."},
+    {"id": "safran", "name": "Safran", "e1": "#E8B953", "e2": "#F4DC79", "a": "#D3D88B", "group": "Chauds", "mood": "Éclaire tes plis de jaune épicé."},
+    {"id": "abricotine", "name": "Abricotine", "e1": "#FFB570", "e2": "#F6A0B5", "a": "#ECD5ED", "group": "Chauds", "mood": "Mêle pour toi abricot, rose et mauve."},
+    {"id": "cannelle", "name": "Cannelle", "e1": "#D7A58C", "e2": "#E3BD9F", "a": "#E4D499", "group": "Chauds", "mood": "Choisis des terres chaudes et douces."},
+    {"id": "azulejo", "name": "Azulejo", "e1": "#86B6FF", "e2": "#9BD8EE", "a": "#B9D3FA", "group": "Froids", "mood": "Habille ton cerveau de bleus francs."},
+    {"id": "petrole-doux", "name": "Pétrole doux", "e1": "#7CBFC4", "e2": "#A5D8D3", "a": "#CCE8DD", "group": "Froids", "mood": "Explore tes nuances de bleu vert."},
+    {"id": "iris", "name": "Iris", "e1": "#B6AFF2", "e2": "#D0BCF5", "a": "#F1C8E7", "group": "Froids", "mood": "Étire tes violets jusqu’au rose froid."},
+    {"id": "oliveraie", "name": "Oliveraie", "e1": "#C4CD7C", "e2": "#E3D292", "a": "#AED4AA", "group": "Nature", "mood": "Passe de tes olives au vert tendre."},
+    {"id": "eucalyptus", "name": "Eucalyptus", "e1": "#9BCDB0", "e2": "#B4C19A", "a": "#E0DBC2", "group": "Nature", "mood": "Pose tes couleurs en verts grisés."},
+    {"id": "argile-menthe", "name": "Argile et menthe", "e1": "#F0A88D", "e2": "#C8CC94", "a": "#94D3BA", "group": "Nature", "mood": "Relie pour toi terre et feuillage."},
+    {"id": "vendange", "name": "Vendange", "e1": "#C6ACE3", "e2": "#EDA6BB", "a": "#E7C57F", "group": "Nature", "mood": "Associe tes raisins aux feuilles dorées."},
+    {"id": "citron-electrique", "name": "Citron électrique", "e1": "#F0FF70", "e2": "#B9F988", "a": "#71ECCE", "group": "Néon", "mood": "Fais vibrer tes jaunes et verts."},
+    {"id": "laser", "name": "Laser", "e1": "#89DDFF", "e2": "#A4A0FF", "a": "#FFA4AC", "group": "Néon", "mood": "Traverse tes bleus jusqu’au corail lumineux."},
+    {"id": "bonbon-acide", "name": "Bonbon acide", "e1": "#FF8DE0", "e2": "#FFADA2", "a": "#ECE986", "group": "Néon", "mood": "Ose tes roses, corails et jaunes."},
+    {"id": "dragee", "name": "Dragée", "e1": "#EBC4E0", "e2": "#D4D8FA", "a": "#B5DDE2", "group": "Pastel", "mood": "Dépose tes couleurs en touches poudrées."},
+    {"id": "sorbet-poire", "name": "Sorbet poire", "e1": "#E4EAB5", "e2": "#F6DDAF", "a": "#F2C6B5", "group": "Pastel", "mood": "Réchauffe tes verts pâles de pêche."},
+    {"id": "brume-lilas", "name": "Brume lilas", "e1": "#BFDAD0", "e2": "#D4C3E8", "a": "#EADDE9", "group": "Pastel", "mood": "Voile ton cerveau de sauge mauve."},
+    {"id": "lin-fume", "name": "Lin fumé", "e1": "#BFAEA3", "e2": "#D6C9B4", "a": "#E7DECD", "group": "Sobres", "mood": "Retrouve tes nuances de lin chaud."},
+    {"id": "etain", "name": "Étain", "e1": "#A9BBBE", "e2": "#C6CED0", "a": "#DEDACE", "group": "Sobres", "mood": "Garde ton éclat en gris minéraux."},
+    {"id": "rose-cendre", "name": "Rose cendré", "e1": "#C3A7B4", "e2": "#D5BAC3", "a": "#E1D2C8", "group": "Sobres", "mood": "Nuance ton gris d’un rose discret."},
+    {"id": "outremer-citron", "name": "Outremer et citron", "e1": "#9CAEFF", "e2": "#C8B6DC", "a": "#F2E77D", "group": "Contrastés", "mood": "Relie tes bleus à un citron clair."},
+    {"id": "corail-piscine", "name": "Corail et piscine", "e1": "#FF9B90", "e2": "#CFC1C0", "a": "#78E2E7", "group": "Contrastés", "mood": "Fais dialoguer tes corails et cyans."},
+    {"id": "orchidee-pistache", "name": "Orchidée et pistache", "e1": "#DE9FE8", "e2": "#DCCAD2", "a": "#B9E285", "group": "Contrastés", "mood": "Accorde tes mauves à un vert vif."},
+    {"id": "cuivre-glacier", "name": "Cuivre et glacier", "e1": "#E5AC76", "e2": "#D8D8BD", "a": "#9AC6F3", "group": "Contrastés", "mood": "Confronte tes cuivres aux bleus glacés."},
+  ].map(t => Object.freeze(t)));
+  function applyTheme(p, id, mode = 'trio') {
+    const q = normalize(p), t = THEMES.find(t => t.id === id);
+    if (!q || !t) return q;
+    return normalize({ ...q, palette: { preset: q.palette.preset, custom: true, e1: t.e1, e2: t.e2, a: t.a },
+      recolor: { ...RECOLOR_DEFAULT, mode: mode === 'duo' ? 'duo' : 'trio' } });
+  }
+
   /* ───────── Profil ───────── */
   const cleanName = (s) => String(s == null ? '' : s).replace(/[\u0000-\u001F\u007F<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 24);
   const int = (v, d) => { const n = Math.round(Number(v)); return Number.isFinite(n) ? clampN(n, 0, 100) : d; };
@@ -7158,6 +7284,7 @@ const FORGE = (() => {
       silhouette: pick(p.silhouette, SILHOUETTES, 'classique'),
       univers: typeof p.univers === 'string' && Object.prototype.hasOwnProperty.call(UNIVERS_BY_ID, p.univers) ? p.univers : '',
       sliders,
+      recolor: normalizeRecolor(p.recolor),
       zoneColors: zc,
       forged: Number(p.forged) > 0 ? Math.floor(Number(p.forged)) : (p.forged === true ? 1 : 0), // 0 = pas encore forgé (rendu d'avant) ; sinon la date
     };
@@ -7250,7 +7377,7 @@ const FORGE = (() => {
   /* Les paramètres que brain-scene.js applique (Scene.setForge). Neutre (tint 0, tout à 1) si le profil n'a pas été forgé. */
   function sceneParams(p) {
     const q = normalize(p);
-    const neutral = { silhouette: 'classique', material: '', mesh: null, tex: '', dec: false, lobes: null, size: 1, halo: 1, speed: 1, density: 1, boost: 0, tint: 0, e1: [0.46, 0.55, 0.92], e2: [0.46, 0.55, 0.92], a: [1, 1, 1], scan: 0, facet: 0, desat: 0, rim: 0, alpha: 1, hue: 0, phase: 0, hybrid: '', restAnim: 'repos-paquets' /* v6-cerveaux */ };
+    const neutral = { recolor: normalizeRecolor(), silhouette: 'classique', material: '', mesh: null, tex: '', dec: false, lobes: null, size: 1, halo: 1, speed: 1, density: 1, boost: 0, tint: 0, e1: [0.46, 0.55, 0.92], e2: [0.46, 0.55, 0.92], a: [1, 1, 1], scan: 0, facet: 0, desat: 0, rim: 0, alpha: 1, hue: 0, phase: 0, hybrid: '', restAnim: 'repos-paquets' /* v6-cerveaux */ };
     if (!q || q.forged === 0) return neutral;
     const MM = MATERIALS[q.material], m = MM.scene, s = q.sliders, mo = morph(q.seed);
     /* Mapping des curseurs (§6.3), valeur par défaut = ×1 avant le gain ci-dessus :
@@ -7265,8 +7392,9 @@ const FORGE = (() => {
     if(q.univers === 'nacre' && mesh) mesh.shell = { ...mesh.shell, alpha: 1 };
     if(q.univers === 'fibres' && mesh) { mesh.shell = { ...mesh.shell, ghost: 0.06 }; mesh.fibers = { ...mesh.fibers, gain: 0.18, width: 0.65 }; }
     return {
+      recolor: { ...q.recolor },
       silhouette: q.silhouette, material: q.material, mesh: sceneMesh,
-      tex: q.univers || '', // l'illustration de l'univers (échantillon de matière) ; vide dès qu'on retouche la palette ou la matière
+      tex: q.univers || '', // l’illustration reste sous le grade, même après changement de palette
       dec: q.univers === 'fibres', // les couleurs de la tractographie (rouge, vert, bleu selon la direction)
       lobes: q.univers && UNIVERS_BY_ID[q.univers].lobes ? UNIVERS_BY_ID[q.univers].lobes.map(rgb01) : null, // Atlas : une couleur par lobe
       size: (0.65 + 0.70 * s.size / 100) * m.size * GAIN.size,
@@ -7292,7 +7420,7 @@ const FORGE = (() => {
     if (!q || !u) return q;
     const zc = {};
     if (u.zoneRamp) (Array.isArray(zoneIds) ? zoneIds : []).slice(0, 12).forEach((z, i) => { zc[z] = u.zoneRamp[i % u.zoneRamp.length]; });
-    return normalize({ ...q, univers: u.id, material: u.material, palette: { preset: q.palette.preset, custom: true, e1: u.e1, e2: u.e2, a: u.a }, zoneColors: zc, forged: q.forged });
+    return normalize({ ...q, recolor: normalizeRecolor(), univers: u.id, material: u.material, palette: { preset: q.palette.preset, custom: true, e1: u.e1, e2: u.e2, a: u.a }, zoneColors: zc, forged: q.forged });
   }
 
   /* ───────── Jalons ───────── */
@@ -7315,6 +7443,7 @@ const FORGE = (() => {
 
   return Object.freeze({
     VERSION, NIGHT, SURFACE_MAX, PRESETS, PRESET_ORDER, MATERIALS, MATERIAL_ORDER, SILHOUETTES, SILHOUETTE_ORDER, SLIDERS, SLIDER_ORDER, THEME_COLORS,
+    RECOLOR_DEFAULT, normalizeRecolor, gradeRGB, gradeHex, THEMES, applyTheme,
     isHex, contrast, luminance, mix, legible, newSeed, morph, create, normalize, equal, lowContrast, isNeutral, zoneColors, zoneOverrides, sceneParams, applyUnivers, UNIVERS, UNIVERS_BY_ID, warp, hubsFor, MILESTONES, milestone, milestoneTitle, serialize, parse,
   });
 })();
@@ -11869,6 +11998,55 @@ const Fx = (() => {
   return { ...top, layer: createLayer, helpers, lightPage };
 })();
 
+/* ——— brain-grade.js ——— */
+/* Sillon · grade final commun, WebGL 1. Référence CPU : FORGE.gradeRGB.
+   Aucun framebuffer ni texture supplémentaire. `off` retourne la couleur avant tout calcul.
+   Appliquer après matière/illustration/lumière, avant les facteurs de couverture et de fondu.
+   Les RGB peuvent dépasser 1 (impulsions) ; seul le framebuffer limite les hautes lumières. */
+const BrainGrade = (() => {
+  const UNIFORMS = Object.freeze(['uGradeMode', 'uGrade', 'uGradeE1', 'uGradeE2', 'uGradeA']);
+  const GLSL = `
+uniform float uGradeMode;
+uniform vec4 uGrade; // angle en radians, saturation, valeur, contraste
+uniform vec3 uGradeE1; uniform vec3 uGradeE2; uniform vec3 uGradeA;
+vec3 brainGrade(vec3 c) {
+  if (uGradeMode < 0.5) return c;
+  const vec3 W = vec3(0.2126, 0.7152, 0.0722);
+  float y = max(0.0, dot(c, W));
+  if (y <= 0.0) return vec3(0.0);
+  if (uGradeMode < 1.5) {
+    float co = cos(uGrade.x), si = sin(uGrade.x);
+    c = c * co + cross(vec3(0.5773502691896258), c) * si + vec3(dot(c, vec3(0.3333333333333333))) * (1.0 - co);
+  } else {
+    float t = clamp(y, 0.0, 1.0);
+    if (uGradeMode < 2.5) c = mix(uGradeE1, uGradeE2, t);
+    else c = t < 0.5 ? mix(uGradeE1, uGradeE2, t * 2.0) : mix(uGradeE2, uGradeA, t * 2.0 - 1.0);
+    c *= y / max(dot(c, W), 0.0001);
+  }
+  c = mix(vec3(dot(c, W)), c, uGrade.y);
+  return max(vec3(0.0), (c * uGrade.z - 0.5) * uGrade.w + 0.5);
+}
+vec3 brainGradePremul(vec3 c, float alpha) {
+  if (uGradeMode < 0.5) return c;
+  return alpha > 0.0001 ? brainGrade(c / alpha) * alpha : vec3(0.0);
+}
+`;
+  // Préparé une fois par changement de profil, pas par pixel ni par image.
+  function params(f = {}) {
+    const r = f.recolor || {}, bound = (v, d, lo, hi) => typeof v === 'number' && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : d;
+    return { mode: Math.max(0, ['off', 'teinte', 'duo', 'trio'].indexOf(r.mode)),
+      k: [bound(r.hue, 0, -180, 180) * Math.PI / 180, bound(r.sat, 100, 0, 200) / 100, bound(r.val, 100, 50, 150) / 100, bound(r.contrast, 100, 70, 140) / 100],
+      e1: f.e1 || [1, 1, 1], e2: f.e2 || [1, 1, 1], a: f.a || [1, 1, 1] };
+  }
+  function bind(gl, loc, grade) {
+    gl.uniform1f(loc.uGradeMode, grade ? grade.mode : 0);
+    if (!grade || !grade.mode) return;
+    gl.uniform4fv(loc.uGrade, grade.k);
+    gl.uniform3fv(loc.uGradeE1, grade.e1); gl.uniform3fv(loc.uGradeE2, grade.e2); gl.uniform3fv(loc.uGradeA, grade.a);
+  }
+  return Object.freeze({ GLSL, UNIFORMS, params, bind });
+})();
+
 /* ——— brain-fibers.js ——— */
 /* ═════════════ Sillon · les fibres de la substance blanche (src/brain-fibers.js) ═════════════
    Une tractographie dessinée : des milliers de fibres courbes et continues qui suivent les grands faisceaux du cerveau, aux coordonnées
@@ -13112,9 +13290,8 @@ vec3 illustration(vec3 p, vec3 N, out vec3 bump) {
 })();
 
 /* ——— brain-hybrid.js ——— */
-/* ═════════════ Sillon v6 · les huit cerveaux hybrides (src/brain-hybrid.js) ═════════════
-   Pur (aucun DOM) : le texte des shaders WebGL 1 des huit univers hybrides (forêt, ville, océan, vitrail, circuit, galaxie, aquarelle,
-   synthwave), leurs palettes à rôles et leur coût. Matière illustrée et signatures procédurales : une texture, aucune extension (pas de dérivées), des boucles
+/* ═════════════ Sillon v6/v7 · les vingt cerveaux hybrides (src/brain-hybrid.js) ═════════════
+   Pur (aucun DOM) : les shaders WebGL 1 des huit mondes v6 et des douze matières v7, leurs palettes à rôles et leur coût. Matière illustrée et signatures procédurales : une texture, aucune extension (pas de dérivées), des boucles
    à bornes constantes. Le maillage (brain-mesh.js) compile un programme seulement quand on choisit l'univers, le garde en cache et
    retombe sur le programme de base si la compilation échoue. Testé en Node (tests/sb-hybrid.test.mjs).
    Source : design/v6/cerveaux/PALETTES.md et design/v6/SPEC-V6.md §4 ; les couleurs d'énergie et l'accent sont ceux de FORGE.UNIVERS.
@@ -13124,8 +13301,12 @@ vec3 illustration(vec3 p, vec3 N, out vec3 bump) {
    - les fibres lisent aussi uFx0, uFx1, uFx2 et uRest (FiberAnim, src/brain-fiber-anim.js), comme les fibres de base.
    Chaque fréquence animée reste sous 1 Hz à vitesse normale : même la vitesse maximale du curseur (×2,5) reste sous 3 Hz. */
 const BrainHybrid = (() => {
-  const IDS = Object.freeze(['foret', 'ville', 'ocean', 'vitrail', 'circuit', 'galaxie', 'aquarelle', 'synthwave']);
-  const LIGHT = Object.freeze(['aquarelle']); // mode clair : papier opaque, fibres d'encre en mélange normal
+  const V7 = Object.freeze(["caldeira", "banquise", "erg", "feuillets", "liege", "brocart", "terre-cuite", "marqueterie", "dentelle", "porcelaine", "feutre", "caoutchouc"]);
+  const IDS = Object.freeze(['foret', 'ville', 'ocean', 'vitrail', 'circuit', 'galaxie', 'aquarelle', 'synthwave', ...V7]);
+  const PERIODS = Object.freeze({ caldeira: 7, banquise: 10, erg: 125, feuillets: 8, liege: 12, brocart: 9, 'terre-cuite': 10, marqueterie: 9, dentelle: 14, porcelaine: 11, feutre: 12, caoutchouc: 10 });
+  // Temps borné avant envoi au GPU : le repli mediump garde de petites valeurs, même après plusieurs heures.
+  const period = (id, fiber = false) => fiber ? (['caldeira', 'feuillets', 'brocart', 'marqueterie'].includes(id) ? PERIODS[id] : 12) : PERIODS[id];
+  const LIGHT = Object.freeze(['aquarelle', 'erg', 'feuillets', 'terre-cuite', 'feutre']); // mode clair : papier opaque, fibres d'encre en mélange normal
 
   /* Six couleurs par univers, chacune avec son rôle. Énergie 1, énergie 2 et accent = FORGE.UNIVERS (uE1, uE2, uA dans les shaders) ;
      fond, sillon et crête sont gravés dans le shader (constantes). */
@@ -13142,6 +13323,18 @@ const BrainHybrid = (() => {
     galaxie: P('#080817', '#19172D', '#FFF4D9', '#C59BFF', '#FF8FD0', '#8FC8FF'),
     aquarelle: P('#F7F0DF', '#205C64', '#FFF9EC', '#F2917E', '#86BCEB', '#E8C25A'),
     synthwave: P('#10091F', '#221532', '#FFF0CF', '#FF6AD5', '#4FE8FF', '#FFB45E'),
+    'caldeira': P('#160F0D', '#221B19', '#655348', '#FF987C', '#FFC16E', '#FFE3A1'),
+    'banquise': P('#0D202E', '#425F83', '#EFF6FA', '#A9D6FF', '#D7EDF2', '#B7C8ED'),
+    'erg': P('#F0E4D1', '#80613E', '#F5DAA4', '#EFC28D', '#E8B0A0', '#F5DAA4'),
+    'feuillets': P('#F2EEE3', '#68635B', '#F2D6AD', '#CEE0A6', '#C7B6DA', '#F2D6AD'),
+    'liege': P('#211B17', '#654B35', '#E9CCAA', '#D8AF83', '#E9CCAA', '#CDAFA0'),
+    'brocart': P('#2B1827', '#613448', '#DED1BA', '#ECA8C0', '#F0C49C', '#DED1BA'),
+    'terre-cuite': P('#F3E4D5', '#814A39', '#F1D0AF', '#E7A18C', '#DDB593', '#F1D0AF'),
+    'marqueterie': P('#0D231C', '#53402D', '#EEDBB5', '#DCC082', '#C9AB8E', '#EEDBB5'),
+    'dentelle': P('#24333F', '#253746', '#F0E6CF', '#F0E6CF', '#C6DCE6', '#DBCAD2'),
+    'porcelaine': P('#101C31', '#46639D', '#F0E8D8', '#A6BEEC', '#F0E8D8', '#E1CE8D'),
+    'feutre': P('#E6E8DE', '#546950', '#D1B8D7', '#BCD3A1', '#A9CBBE', '#D1B8D7'),
+    'caoutchouc': P('#281B35', '#677642', '#E1EC80', '#E1EC80', '#B9D79A', '#DED2ED'),
   });
 
   /* Le coût estimé (pas mesuré) et ce que fait la version allégée (niveau 1 du maillage : téléphone ou images lentes). */
@@ -13154,6 +13347,18 @@ const BrainHybrid = (() => {
     galaxie: Object.freeze({ level: 'moyen', lite: 'fbm à 1 octave pour la poussière des bras.' }),
     aquarelle: Object.freeze({ level: 'moyen', lite: 'fbm à 1 octave pour la granulation et la diffusion.' }),
     synthwave: Object.freeze({ level: 'léger', lite: 'Identique : isolignes et grille en simples seuils.' }),
+    'caldeira': Object.freeze({ level: 'moyen', lite: 'Deux octaves, normale intacte, lave sans bloom.' }),
+    'banquise': Object.freeze({ level: 'moyen', lite: 'Deux strates, grain 24, reflet fixe.' }),
+    'erg': Object.freeze({ level: 'moyen', lite: 'Rides 13, sans grain ni déplacement de phase.' }),
+    'feuillets': Object.freeze({ level: 'moyen', lite: 'Huit couches, bords élargis, tranche fixe.' }),
+    'liege': Object.freeze({ level: 'lourd', lite: 'Deux bruits 12/24 remplacent les 27 voisins.' }),
+    'brocart': Object.freeze({ level: 'lourd', lite: 'Maille 24, sans reflet directionnel ni paquet.' }),
+    'terre-cuite': Object.freeze({ level: 'moyen', lite: 'Deux octaves, sans chamotte ni relief.' }),
+    'marqueterie': Object.freeze({ level: 'moyen', lite: 'Une fréquence de veine, joints fixes.' }),
+    'dentelle': Object.freeze({ level: 'lourd', lite: 'Neuf rosettes simplifiées, sans relief ni animation.' }),
+    'porcelaine': Object.freeze({ level: 'moyen', lite: 'Reflet exposant 24, décor fixe.' }),
+    'feutre': Object.freeze({ level: 'moyen', lite: 'Deux bruits à 24, liseré fixe.' }),
+    'caoutchouc': Object.freeze({ level: 'moyen', lite: 'Sans grain, reflet et jonctions fixes.' }),
   });
 
   const has = (id) => typeof id === 'string' && IDS.includes(id);
@@ -13164,10 +13369,10 @@ const BrainHybrid = (() => {
   const consts = (id) => `const vec3 C_FOND = vec3(${f3(role(id, 'fond'))});\nconst vec3 C_SILLON = vec3(${f3(role(id, 'sillon'))});\nconst vec3 C_CRETE = vec3(${f3(role(id, 'crête'))});\n`;
 
   /* Les uniformes permis : ceux des programmes de base (PC pour le cortex, PF pour les fibres), plus uHyb et ceux des animations. */
-  const PC_UNIFORMS = Object.freeze(['uMVP', 'uEye', 'uKey', 'uFill', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uTint', 'uRegMix', 'uS1', 'uS2', 'uS3', 'uTex', 'uTexA']);
-  const PF_UNIFORMS = Object.freeze(['uMVP', 'uRes', 'uW', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uDec', 'uSpeed', 'uGain', 'uFocus']);
+  const PC_UNIFORMS = Object.freeze(['uMVP', 'uEye', 'uKey', 'uFill', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uTint', 'uRegMix', 'uS1', 'uS2', 'uS3', 'uTex', 'uTexA', ...BrainGrade.UNIFORMS]);
+  const PF_UNIFORMS = Object.freeze(['uMVP', 'uRes', 'uW', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uDec', 'uSpeed', 'uGain', 'uFocus', ...BrainGrade.UNIFORMS]);
   const EXTRA_UNIFORMS = Object.freeze(['uHyb', 'uFx0', 'uFx1', 'uFx2', 'uRest']);
-  const CORTEX_UNIFORMS = Object.freeze([...PC_UNIFORMS, 'uHyb']);
+  const CORTEX_UNIFORMS = Object.freeze([...PC_UNIFORMS, 'uHyb', 'uMatPixels']);
   const FIBER_UNIFORMS = Object.freeze([...PF_UNIFORMS, ...EXTRA_UNIFORMS]);
 
   const PRECISION = `#ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -13175,6 +13380,7 @@ precision highp float;
 #else
 precision mediump float;
 #endif
+${BrainGrade.GLSL}
 `;
   const lite = (o) => (o && o.lite ? '#define HYB_LITE 1\n#define SURFACE_LITE 1\n#define HYB_CELLS 4\n' : '#define HYB_CELLS 8\n');
 
@@ -13338,7 +13544,7 @@ ${SIGNATURE[id] || ''}
     alpha = uHyb.x * rr * (0.55 + 0.45 * crest);
     col *= (0.35 + 0.9 * rr) * alpha;
   } else if (alpha < 0.999) { alpha = mix(alpha * 0.72, alpha, 1.0 - ndv); col *= alpha; }
-  gl_FragColor = vec4(col * uDim, alpha * uDim);
+  gl_FragColor = vec4(brainGradePremul(col, alpha) * uDim, alpha * uDim);
 }
 `;
 
@@ -13559,14 +13765,14 @@ void main() {
 `;
   const FIBER_OUT_ADD = `
   float depth = 1.0 - 0.62 * smoothstep(uFocus - 0.35, uFocus + 0.75, vW);
-  gl_FragColor = vec4(c * k * fxOut() * a * uGain * uDim * depth, 0.0);
+  gl_FragColor = vec4(brainGrade(c) * k * fxOut() * a * uGain * uDim * depth, 0.0);
 }
 `;
   // mode clair : de l'encre, en mélange normal (alpha non nul, prémultiplié) ; l'effet en cours donne plus d'encre, pas plus de lumière
   const FIBER_OUT_NORMAL = `
   float depth = 1.0 - 0.62 * smoothstep(uFocus - 0.35, uFocus + 0.75, vW);
   float al = clamp(a * uGain * 0.75 * k * fxOut(), 0.0, 0.4) * uDim * depth;
-  gl_FragColor = vec4(c * al, al);
+  gl_FragColor = vec4(brainGrade(c) * al, al);
 }
 `;
   const FIBER = {
@@ -13642,18 +13848,308 @@ void main() {
 `,
   };
 
+  /* v7 : repères de matière CPU attachés au cortex. Les UV sont des champs par lobe,
+     infléchis par les creux ; ce n'est pas un dépliage métrique de chaque gyrus. La tangente
+     suit les contours de cavité (gradient des triangles), avec repli sur l'axe du lobe. */
+  function coordinates(C) {
+    const grad = new Float32Array(C.nv * 3), out = new Float32Array(C.nv * 6);
+    for (let k = 0; k < C.idx.length; k += 3) {
+      const a = C.idx[k], b = C.idx[k + 1], c = C.idx[k + 2];
+      const u = [0, 1, 2].map(j => C.pos[b * 3 + j] - C.pos[a * 3 + j]);
+      const v = [0, 1, 2].map(j => C.pos[c * 3 + j] - C.pos[a * 3 + j]);
+      const uu = u.reduce((s, x) => s + x * x, 0), vv = v.reduce((s, x) => s + x * x, 0), uv = u.reduce((s, x, j) => s + x * v[j], 0);
+      const det = uu * vv - uv * uv;
+      if (det < 1e-14) continue;
+      const dg = (C.cav[b] - C.cav[a]) / 255, dh = (C.cav[c] - C.cav[a]) / 255;
+      const w1 = (dg * vv - dh * uv) / det, w2 = (dh * uu - dg * uv) / det;
+      for (const i of [a, b, c]) for (let j = 0; j < 3; j++) grad[i * 3 + j] += (w1 * u[j] + w2 * v[j]) * Math.sqrt(det);
+    }
+    for (let i = 0; i < C.nv; i++) {
+      const o = i * 3, d = i * 6, g = C.cav[i] / 255, r = C.reg[i];
+      const x = C.pos[o], y = C.pos[o + 1], z = C.pos[o + 2];
+      const angle = [0.15, -0.25, 0.55, -0.4, 0.05, 0][r] || 0;
+      const ca = Math.cos(angle), sa = Math.sin(angle);
+      out[d] = 0.5 + (z * ca + y * sa) * 0.42 + g * 0.12;
+      out[d + 1] = 0.5 + (y * ca - z * sa) * 0.42 + g * 0.08;
+      // Sept plages : les six régions anatomiques, le frontal partagé entre hémisphères.
+      out[d + 2] = r === 0 ? (x < 0 ? 0 : 1) : r + 1;
+      const n = [C.nrm[o], C.nrm[o + 1], C.nrm[o + 2]].map(v => v / 127);
+      const q = [grad[o], grad[o + 1], grad[o + 2]];
+      let t = [n[1] * q[2] - n[2] * q[1], n[2] * q[0] - n[0] * q[2], n[0] * q[1] - n[1] * q[0]];
+      if (Math.hypot(...t) < 1e-6) {
+        const axis = [0, sa, ca], dot = axis.reduce((v, a, j) => v + a * n[j], 0);
+        t = axis.map((v, j) => v - dot * n[j]);
+      }
+      const len = Math.hypot(...t) || 1;
+      for (let j = 0; j < 3; j++) out[d + 3 + j] = t[j] / len;
+    }
+    return out;
+  }
+  const V7_HEAD = `
+#ifndef GL_FRAGMENT_PRECISION_HIGH
+#ifndef HYB_LITE
+#define HYB_LITE 1
+#endif
+#endif
+varying vec3 vPos; varying vec3 vN; varying vec2 vCR;
+varying vec3 vMat; varying vec3 vTangent;
+uniform vec3 uEye, uKey, uFill, uE1, uE2, uA;
+uniform float uTime, uDim, uMatPixels;
+uniform vec4 uHyb, uS3;
+const float PI2 = 6.2831853;
+// Hash sans sinus ni grands coefficients, y compris sur les GPU mediump.
+float hash3(vec3 p) { p = fract(p * 0.1031); p += dot(p, p.yzx + 19.19); return fract((p.x + p.y) * p.z); }
+float valueNoise3(vec3 p) {
+  vec3 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash3(i),hash3(i+vec3(1,0,0)),f.x),mix(hash3(i+vec3(0,1,0)),hash3(i+vec3(1,1,0)),f.x),f.y),
+             mix(mix(hash3(i+vec3(0,0,1)),hash3(i+vec3(1,0,1)),f.x),mix(hash3(i+vec3(0,1,1)),hash3(i+vec3(1,1,1)),f.x),f.y),f.z);
+}
+vec3 linearColor(vec3 c) { return mix(c/12.92,pow((c+0.055)/1.055,vec3(2.4)),step(vec3(0.04045),c)); }
+vec3 displayColor(vec3 c) { c=max(c,vec3(0)); return mix(c*12.92,1.055*pow(c,vec3(1.0/2.4))-0.055,step(vec3(0.0031308),c)); }
+float freq(float f) {
+#ifdef HYB_LITE
+ return min(f,24.0);
+#else
+ return f;
+#endif
+}
+float detail(float f) { return smoothstep(1.5,3.5,uMatPixels/max(f,1.0)); }
+float line(float d,float width,float f) { float aa=max(width,1.5*f/max(uMatPixels,1.0)); return 1.0-smoothstep(aa,aa*1.8,abs(d)); }
+float packet(float s,float T,float period,float width) {
+ float phase=fract(T/period); float gate=smoothstep(0.0,0.1,phase)*(1.0-smoothstep(0.9,1.0,phase));
+ return exp(-pow((s-phase)/width,2.0))*gate;
+}
+vec3 bumpNormal(vec3 N,vec3 p,float f,float amount) {
+#ifdef HYB_LITE
+ return N;
+#else
+ float h=valueNoise3(p*f), e=0.002;
+ vec3 D=vec3(valueNoise3((p+vec3(e,0,0))*f),valueNoise3((p+vec3(0,e,0))*f),valueNoise3((p+vec3(0,0,e))*f))-h;
+ D/=max(e*f,0.001); return normalize(N-amount*(D-N*dot(D,N))*detail(f));
+#endif
+}
+float blinn(vec3 N,vec3 V,float power) { return pow(max(dot(N,normalize(V+uKey)),0.0),power); }
+// Trois composantes en un seul hash : 27 voisins exacts, sans recalculer trois hashes scalaires par voisin.
+vec3 hash33(vec3 p) {
+ p=fract(p*vec3(0.1031,0.1030,0.0973)); p+=dot(p,p.yxz+19.19);
+ return fract((p.xxy+p.yzz)*p.zyx);
+}
+vec3 corkCell(vec3 p) {
+#ifdef HYB_LITE
+ return vec3(valueNoise3(p*0.667),valueNoise3(p*1.333),0.0);
+#else
+ vec3 cell=floor(p), f=fract(p); float near=9.0,next=9.0,key=0.0;
+ for(int x=0;x<3;x++) for(int y=0;y<3;y++) for(int z=0;z<3;z++) {
+  vec3 o=vec3(float(x),float(y),float(z))-1.0, c=cell+o;
+  // Borne exacte de la distance au cube de jitter : ignorer un voisin qui ne peut battre les deux plus proches.
+  vec3 bound=max(vec3(0.0),max(o+0.2-f,f-o-0.8));
+  if(dot(bound,bound)<next){
+   vec3 seed=hash33(c), r=o+0.2+0.6*seed-f; float d=dot(r,r);
+   if(d<near){next=near;near=d;key=fract(seed.x+seed.y*0.618);}else if(d<next){next=d;}
+  }
+ }
+ return vec3(sqrt(near),sqrt(next),key);
+#endif
+}
+void main() {
+ vec3 N=normalize(vN), V=normalize(uEye-vPos); if(!gl_FrontFacing)N=-N;
+ vec3 tangent=normalize(vTangent+vec3(0.0001));
+ vec3 p=vPos*0.5+0.5+vec3(uHyb.w*3.0);
+ // Les creux visibles de Colin27 occupent surtout 0–0,55 : calibration de matière, géométrie intacte.
+ float g=pow(clamp(vCR.x*1.8,0.0,1.0),0.65), crest=1.0-smoothstep(0.15,0.65,g);
+ float s=vMat.x,t=vMat.y,region=vMat.z;
+ float T = uTime * uHyb.y;
+ T=mod(T,27720.0);
+ vec3 E1=linearColor(uE1), E2=linearColor(uE2), A=linearColor(uA);
+ vec3 base=E1, emission=vec3(0); float spec=0.0, wrap=0.2, fresnel=0.0, occlusion=0.72;
+ float localMask=1.0-smoothstep(0.015,0.04,distance(vec2(s,t),vec2(0.58,0.63)));
+ float motion=0.0;
+#ifndef HYB_LITE
+ motion=uHyb.y;
+#endif
+`;
+  const V7_TAIL = `
+ float diffuse=(max(dot(N,uKey)+wrap,0.0)/(1.0+wrap))*0.78+max(dot(N,uFill),0.0)*0.22+0.24;
+ vec3 col=base*diffuse*(1.0-occlusion*g)+vec3(spec)+base*fresnel+emission;
+ col=displayColor(col);
+ float alpha=uHyb.x;
+ if(uS3.w > 0.5){alpha*=pow(1.0-clamp(dot(N,V),0.0,1.0),2.6);}
+ gl_FragColor=vec4(brainGradePremul(col,alpha)*uDim,alpha*uDim);
+}
+`;
+  const V7_CORTEX = {
+    caldeira: `
+ float rock=valueNoise3(p*6.0)*0.57+valueNoise3(p*12.0)*0.29;
+#ifndef HYB_LITE
+ rock+=valueNoise3(p*24.0)*0.14;
+#endif
+ // Le fond des crevasses est souvent occulté : le masque remonte légèrement sur leurs lèvres visibles.
+ float lava=smoothstep(0.02,0.14,g)*(1.0-smoothstep(0.18,0.55,g))*smoothstep(0.5,0.72,valueNoise3(p*5.0));
+ float grain=valueNoise3(p*24.0);
+ vec3 basalt=mix(vec3(dot(linearColor(C_CRETE),vec3(0.2126,0.7152,0.0722))),E1,0.025);
+ base=basalt*(0.15+rock*0.6+grain*grain*0.7); occlusion=0.55;
+ N=bumpNormal(N,p,24.0,0.07); wrap=0.08;
+ vec3 hot=mix(E1,E2,smoothstep(0.72,0.9,g)); hot=mix(hot,A,smoothstep(0.9,1.0,g)*0.65);
+ base=mix(base,hot,lava); emission=hot*lava*(0.55+0.22*packet(s,T,7.0,0.035)*motion);
+`,
+    banquise: `
+ float warpNoise=valueNoise3(p*3.0); float layers=sin(p.y*8.0*PI2+warpNoise*2.0)+sin(p.z*13.0*PI2+warpNoise*2.0);
+#ifndef HYB_LITE
+ layers+=sin(p.y*21.0*PI2+p.x*4.0+warpNoise);
+#endif
+ float milk=smoothstep(-0.8,1.8,layers);
+ float frost=smoothstep(0.45,0.8,1.0-g)*valueNoise3(p*freq(48.0));
+ base=mix(E1,E2,milk*0.65+frost*0.35); base=mix(base,A,g*0.3); N=bumpNormal(N,p,freq(48.0),0.025);
+ spec=blinn(N,V,48.0)*0.18*(1.0+0.03*sin(T*PI2/10.0)*localMask*motion); fresnel=pow(1.0-max(dot(N,V),0.0),4.0)*0.1;
+`,
+    erg: `
+ float f=26.0;
+#ifdef HYB_LITE
+ f=13.0;
+#endif
+ float phase=PI2*(f*s+0.7*valueNoise3(p*4.0)); float ripple=sin(phase);
+ base=mix(E1,E2,valueNoise3(p*2.0)); base=mix(base,A,crest*0.22);
+ base*=1.0+0.18*ripple*detail(f);
+#ifndef HYB_LITE
+ base*=1.0+0.035*(valueNoise3(p*56.0)-0.5)*detail(56.0);
+ N=normalize(N+tangent*cos(phase)*0.045*detail(f));
+#endif
+ base*=1.0+0.02*sin(phase-T*PI2*0.008)*localMask*motion; wrap=0.3;
+`,
+    feuillets: `
+ float layers=14.0;
+#ifdef HYB_LITE
+ layers=8.0;
+#endif
+ float h=0.65*g+0.35*smoothstep(0.25,0.75,valueNoise3(p*3.0)), layer=floor(h*layers), edge=fract(h*layers);
+ float paper=mod(layer,3.0); base=mix(E1,E2,step(0.5,paper)); base=mix(base,A,step(1.5,paper)*0.6);
+ float cut=line(edge-0.05,0.04,layers); base*=1.0-0.28*line(edge-0.17,0.05,layers);
+ base=mix(base,A,cut*0.35); base*=1.0+0.075*sin(PI2*(0.65*g+0.35*s)*layers*3.0)*detail(layers*3.0); base+=A*cut*0.08*packet(s,T,8.0,0.03)*motion;
+ N=bumpNormal(N,p,14.0,0.04);
+`,
+    liege: `
+ vec3 cell=corkCell(p*18.0); float edge=1.0-smoothstep(0.02,0.12,cell.y-cell.x);
+#ifdef HYB_LITE
+ float tone=cell.x; edge=cell.y*0.25;
+#else
+ float tone=cell.z;
+#endif
+ base=mix(E1,E2,tone); base=mix(base,A,smoothstep(0.85,1.0,tone)*0.3);
+ float pore=smoothstep(0.64,0.79,valueNoise3(p*freq(48.0)));
+ base*=0.82*(1.0-0.22*edge-0.6*pore); N=bumpNormal(N,p,freq(48.0),0.045); wrap=0.25;
+ spec=blinn(N,V,8.0)*0.015; base*=1.0+localMask*0.02*sin(T*PI2/12.0)*motion;
+`,
+    brocart: `
+ float f=freq(48.0); vec2 uv=vec2(s,t)*f;
+ float parity=mod(floor(uv.x)+floor(uv.y),2.0), chain=sin(uv.x*PI2), weft=sin(uv.y*PI2);
+ float chevron=0.5+0.5*sin(PI2*(s*8.0+abs(fract(t*8.0)-0.5)));
+ float over=mix(chain,weft,parity); base=mix(E1,E2,0.2+chevron*0.55);
+ base*=0.72*(1.0+over*0.3*detail(f)); float seam=line(s-0.5,0.004,1.0);
+ base=mix(base,A,seam*0.65); base+=A*seam*packet(t,T,9.0,0.025)*0.08*motion;
+#ifndef HYB_LITE
+ N=normalize(N+tangent*over*0.055*detail(f)); spec=pow(max(0.0,1.0-abs(dot(tangent,normalize(V+uKey)))),10.0)*0.045;
+#endif
+`,
+    'terre-cuite': `
+ float fired=valueNoise3(p*3.0)*0.6+valueNoise3(p*11.0)*0.28;
+#ifndef HYB_LITE
+ float grain=valueNoise3(p*43.0); fired+=grain*0.12;
+ base=mix(E1,E2,fired); base+=A*smoothstep(0.86,0.97,grain)*0.08*detail(43.0);
+#else
+ base=mix(E1,E2,fired);
+#endif
+ float tool=sin(s*20.0*PI2)*smoothstep(0.5,0.7,valueNoise3(p*5.0));
+ base*=1.0+0.04*tool*detail(20.0);
+ float slip=smoothstep(0.65,0.82,1.0-g)*smoothstep(0.58,0.76,valueNoise3(p*4.0)); base=mix(base,A,slip*0.6);
+ N=bumpNormal(N,p,11.0,0.035); base*=1.0+localMask*0.02*sin(T*PI2/10.0)*motion;
+`,
+    marqueterie: `
+ float plate=floor(region+0.5), orient=mod(plate,2.0), grainT=mix(t,s,orient);
+ float grain=sin(PI2*(22.0*grainT+0.9*valueNoise3(p*4.0)));
+ base=mix(E1,E2,fract(plate*0.618)); base=mix(base,A,step(0.78,fract(plate*0.381))*0.6);
+ base*=0.88*(1.0+grain*0.3*detail(22.0));
+#ifndef HYB_LITE
+ base*=1.0+0.035*sin(grainT*44.0*PI2)*detail(44.0);
+#endif
+ float joint=line(abs(fract(region+0.5)-0.5)-0.5,0.012,7.0);
+ base*=1.0-0.6*joint; base+=A*joint*packet(s,T,9.0,0.025)*0.12*motion;
+ N=bumpNormal(N,p,22.0,0.025); spec=blinn(N,V,28.0)*0.07;
+`,
+    dentelle: `
+ float f=14.0;
+#ifdef HYB_LITE
+ f=9.0;
+#endif
+ vec2 q=fract(vec2(s,t)*f)-0.5; float angle=atan(q.y,q.x), radius=0.24+0.055*cos(6.0*angle);
+ float thread=line(length(q)-radius,0.035,f);
+ float loop=line(length(abs(q)-vec2(0.5,0.0))-0.25,0.025,f);
+ float scallop=line(length(q)-0.43-0.018*cos(angle*12.0),0.024,f);
+ float stitch=line(abs(q.x)+abs(q.y)-0.49,0.018,f);
+ float weave=max(max(thread,loop),max(scallop,stitch)*0.85); base=mix(E2*0.065,mix(E1,A,0.15),weave);
+ N=bumpNormal(N,p,f,0.04); fresnel=pow(1.0-max(dot(N,V),0.0),3.0)*0.025*weave;
+ base*=1.0+0.02*localMask*sin(T*PI2/14.0)*motion; occlusion=0.5;
+`,
+    porcelaine: `
+ float paint=smoothstep(0.015,0.06,g)*(1.0-smoothstep(0.16,0.36,g));
+ paint*=(0.35+0.65*smoothstep(-0.2,0.4,sin(PI2*18.0*s)))*(0.6+0.4*valueNoise3(p*5.0));
+ base=mix(E2,E1,paint*0.9); float gold=crest*smoothstep(0.75,0.87,valueNoise3(p*5.0)); base=mix(base,A,gold);
+ N=bumpNormal(N,p,freq(32.0),0.008); float power=64.0;
+#ifdef HYB_LITE
+ power=24.0;
+#endif
+ float spots=localMask+1.0-smoothstep(0.015,0.035,distance(vec2(s,t),vec2(0.37,0.44)));
+ spec=blinn(N,V,power)*0.22*(1.0+0.03*spots*(0.5+0.5*sin(T*PI2/11.0))*motion);
+ fresnel=pow(1.0-max(dot(N,V),0.0),5.0)*0.07;
+`,
+    feutre: `
+ base=mix(E1,E2,valueNoise3(p*4.0)); base=mix(base,A,smoothstep(0.56,0.78,valueNoise3(p*2.0))*0.65);
+#ifdef HYB_LITE
+ float wool=(valueNoise3(p*vec3(24,6,6))+valueNoise3(p*vec3(6,24,6)))*0.5;
+#else
+ float wool=(valueNoise3(p*vec3(48,12,12))+valueNoise3(p*vec3(12,48,12))+valueNoise3(p*vec3(12,12,48)))/3.0;
+#endif
+ base*=0.8+wool*0.4*detail(freq(48.0)); N=bumpNormal(N,p,freq(48.0),0.035);
+ fresnel=pow(1.0-max(dot(N,V),0.0),3.0)*0.08; base*=1.0+0.02*localMask*crest*sin(T*PI2/12.0)*motion;
+`,
+    caoutchouc: `
+ base=mix(E1,E2,valueNoise3(p*2.0)*0.5);
+#ifndef HYB_LITE
+ base*=1.0+0.018*(valueNoise3(p*40.0)-0.5)*detail(40.0); N=bumpNormal(N,p,40.0,0.012);
+#endif
+ float mold=max(line(s-0.32,0.008,1.0),line(s-0.68,0.008,1.0)); base*=1.0-0.08*mold;
+ float joinMask=mold*(1.0-smoothstep(0.012,0.04,abs(t-0.45))); base=mix(base,A,joinMask);
+ base*=1.0+0.02*joinMask*sin(T*PI2/10.0)*motion; wrap=0.35; spec=blinn(N,V,8.0)*0.06;
+`,
+  };
+  // Les fibres reprennent les rôles de matière pendant le voyage ; repos borné et figé par uHyb.y.
+  const v7Fiber = (id) => {
+    const i = V7.indexOf(id), packets = ['caldeira','feuillets','brocart','marqueterie'].includes(id);
+    const period = id === 'caldeira' ? 7 : id === 'feuillets' ? 8 : 9;
+    return `
+  float phase=fract(T/${period}.0+vM.y);
+  float gate=smoothstep(0.0,0.1,phase)*(1.0-smoothstep(0.9,1.0,phase));
+  float pk=exp(-pow((vM.x-phase)/0.03,2.0))*gate;
+  float strand=0.5+0.5*sin(vM.x*${(8+i*2).toFixed(1)}+vM.y*13.0);
+  c=mix(uE1,uE2,strand)*${isLight(id) ? '0.45' : '0.65'};
+  c=mix(c,uA,${packets ? 'pk*0.35' : 'step(0.97,fract(vM.y*7.1))*0.3'});
+  k=${packets ? '0.7+pk*0.22' : '1.0+0.02*sin(T*6.2831853/12.0)*step(0.97,fract(vM.y*7.1))'};
+`;
+  };
+
   /* Le fragment shader du cortex de l'univers `id` ; o.lite : la version allégée (fbm à 1 octave, cellules à 4 voisins). '' si inconnu. */
   function cortexFS(id, o) {
     if (!has(id)) return '';
+    if (V7.includes(id)) return PRECISION + lite(o) + consts(id) + V7_HEAD.replace('T=mod(T,27720.0);', `T=mod(T,${PERIODS[id]}.0);`) + V7_CORTEX[id] + V7_TAIL;
     return PRECISION + lite(o) + consts(id) + CORTEX_HEAD + CORTEX_MAIN_A + CORTEX[id] + cortexTail(id);
   }
   /* Le fragment shader des fibres de l'univers `id` (même ruban : FVS de brain-mesh.js). '' si inconnu. */
   function fiberFS(id, o) {
     if (!has(id)) return '';
-    return PRECISION + lite(o) + consts(id) + FIBER_HEAD + FX_GLSL + FIBER_MAIN_A + FIBER[id] + (isLight(id) ? FIBER_OUT_NORMAL : FIBER_OUT_ADD);
+    const fx = V7.includes(id) ? FX_GLSL.replace(/\buTime\b/g, '(uTime * uHyb.y)') : FX_GLSL;
+    return PRECISION + lite(o) + consts(id) + FIBER_HEAD + fx + FIBER_MAIN_A + (V7.includes(id) ? v7Fiber(id) : FIBER[id]) + (isLight(id) ? FIBER_OUT_NORMAL : FIBER_OUT_ADD);
   }
 
-  return Object.freeze({ IDS, LIGHT, PALETTES, COST, has, isLight, blend, cortexFS, fiberFS, FX_GLSL, PC_UNIFORMS, PF_UNIFORMS, EXTRA_UNIFORMS, CORTEX_UNIFORMS, FIBER_UNIFORMS });
+  return Object.freeze({ V7, period, coordinates, IDS, LIGHT, PALETTES, COST, has, isLight, blend, cortexFS, fiberFS, FX_GLSL, PC_UNIFORMS, PF_UNIFORMS, EXTRA_UNIFORMS, CORTEX_UNIFORMS, FIBER_UNIFORMS });
 })();
 if (typeof module !== 'undefined' && module.exports) module.exports = BrainHybrid;
 
@@ -14002,6 +14498,7 @@ precision highp float;
 #else
 precision mediump float;
 #endif
+${BrainGrade.GLSL}
 varying vec3 vPos; varying vec3 vN; varying vec4 vCol; varying vec4 vAux;
 uniform vec3 uEye; uniform vec3 uKey; uniform vec3 uFill; uniform vec3 uE1; uniform vec3 uE2; uniform vec3 uA;
 uniform float uTime; uniform float uDim; uniform float uTint; uniform float uGlow; // uGlow > 0 : passe de lueur (additive, seulement l'émission des tubes et des neurones)
@@ -14027,7 +14524,7 @@ void main(){
     }
     float soft = pow(ndv, 2.0);
     vec3 g = (grad * (0.35 + 0.65 * vCol.a) + mix(uE2, uA, 0.5) * pulse * 1.6) * (kind > 1.5 ? 1.3 : 1.0);
-    gl_FragColor = vec4(g * soft * uGlow * uDim, 0.0);
+    gl_FragColor = vec4(brainGrade(g) * soft * uGlow * uDim, 0.0);
     return;
   }
   vec3 col; float alpha = 1.0;
@@ -14074,7 +14571,7 @@ void main(){
       if (alpha < 0.999) { alpha = mix(alpha * 0.45, alpha, 1.0 - ndv); col = col * alpha; }
     }
   }
-  gl_FragColor = vec4(col * uDim, alpha * uDim);
+  gl_FragColor = vec4(brainGradePremul(col, alpha) * uDim, alpha * uDim);
 }`;
 
   /* ───────── Le cortex réel (src/assets/brain-cortex-*.bin.gz, tools/brain/real-cortex.mjs : Colin27, MNI) ─────────
@@ -14170,6 +14667,7 @@ precision highp float;
 #else
 precision mediump float;
 #endif
+${BrainGrade.GLSL}
 varying vec3 vPos; varying vec3 vN; varying vec2 vCR;
 uniform vec3 uEye; uniform vec3 uKey; uniform vec3 uFill; uniform vec3 uE1; uniform vec3 uE2; uniform vec3 uA;
 uniform float uTime; uniform float uDim; uniform float uTint; uniform float uRegMix; uniform vec3 uReg[6];
@@ -14293,8 +14791,9 @@ void main(){
     col=mix(gasColor,col,uTexA.x>0.5?0.72:0.0);
     col+=vec3(0.21,0.12,0.37)*smoothstep(0.62,0.9,grain)*crest*0.2;
   }
-  gl_FragColor = vec4(col * uDim, alpha * uDim);
+  gl_FragColor = vec4(brainGradePremul(col, alpha) * uDim, alpha * uDim);
 }`;
+  const CVS_V7 = CVS.replace('void main(){', 'attribute vec3 aMat; attribute vec3 aTangent; varying vec3 vMat; varying vec3 vTangent;\nvoid main(){ vMat=aMat; vTangent=aTangent;');
   const FVS = `
 attribute vec3 aPos; attribute vec4 aTS; attribute vec4 aM;
 uniform mat4 uMVP; uniform vec2 uRes; uniform float uW;
@@ -14321,6 +14820,7 @@ precision highp float;
 #else
 precision mediump float;
 #endif
+${BrainGrade.GLSL}
 varying float vSide; varying vec3 vTan; varying vec2 vM; varying float vB; varying float vW; varying vec3 vP;
 uniform float uFocus;
 uniform vec3 uE1; uniform vec3 uE2; uniform vec3 uA; uniform float uTime; uniform float uDim; uniform float uDec; uniform float uSpeed; uniform float uGain;
@@ -14335,7 +14835,7 @@ void main(){
   vec3 c = mix(pal, dc, uDec);
   c *= fxRest(1.0) * fxOut(); /* v6-cerveaux : le repos de l'univers (les paquets d'avant par défaut) et l'effet en cours */
   float depth = 1.0 - 0.62 * smoothstep(uFocus - 0.35, uFocus + 0.75, vW); // la face cachée s'efface : de la profondeur
-  gl_FragColor = vec4(c * a * uGain * uDim * depth, 0.0);
+  gl_FragColor = vec4(brainGrade(c) * a * uGain * uDim * depth, 0.0);
 }`;
 
   /* ───────── v6-voyage : rayons X, fondu près de l'œil, passage, densité ─────────
@@ -14420,11 +14920,12 @@ void main() {
   }
   const DETAIL_VS = VS.replace(/varying /g, 'varying mediump ');
   const DETAIL_FS = `precision mediump float;
+${BrainGrade.GLSL}
 varying mediump vec3 vPos; varying mediump vec3 vN; varying mediump vec4 vCol; varying mediump vec4 vAux;
 uniform vec3 uEye,uKey,uFill; uniform float uDim;
 void main(){vec3 N=normalize(vN);if(!gl_FrontFacing)N=-N;
 float diffuse=0.24+0.65*max(dot(N,uKey),0.0)+0.22*max(dot(N,uFill),0.0);
-gl_FragColor=vec4(vCol.rgb*(diffuse+vCol.a)*uDim,uDim);}`;
+gl_FragColor=vec4(brainGrade(vCol.rgb*(diffuse+vCol.a))*uDim,uDim);}`;
   const SPRITE_VS = `attribute vec3 aPos; attribute vec3 aNrm; attribute vec4 aCol; attribute vec4 aAux;
 uniform mat4 uMVP; uniform vec3 uRight,uUp; uniform mediump float uTime;
 varying mediump vec2 vUV; varying mediump vec3 vCol; varying mediump float vKind; varying mediump float vPhase;
@@ -14432,6 +14933,7 @@ void main(){float T=uTime;float drift=sin(T*0.35+aAux.z*6.283)*aNrm.x*0.16;
 vec3 p=aPos+uRight*(aAux.x*aNrm.x+drift)+uUp*(aAux.y*aNrm.x+sin(T*0.21+aAux.z*12.0)*aNrm.x*0.18);
 gl_Position=uMVP*vec4(p,1.0);vUV=aAux.xy;vCol=aCol.rgb;vKind=aAux.w;vPhase=aAux.z;}`;
   const SPRITE_FS = `precision mediump float;
+${BrainGrade.GLSL}
 varying mediump vec2 vUV; varying mediump vec3 vCol; varying mediump float vKind; varying mediump float vPhase;
 uniform float uTime,uDim;
 void main(){vec2 q=vUV;float a;
@@ -14445,7 +14947,7 @@ if(vKind>0.5 && vKind<1.5){
   tend*=smoothstep(-0.95,-0.65,q.y)*(1.0-smoothstep(-0.02,0.12,q.y));
   a=bell*0.34+edge*0.5+tend*0.45;
 }else{float r=dot(q,q);a=exp(-r*8.0)*(0.65+0.15*sin(uTime*0.8+vPhase*12.0));}
-if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
+if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
 
   /* ───────── Les niveaux de qualité ───────── */
   /* 0 complet · 1 allégé (enveloppe d'un cran plus simple, tubes à moins de côtés et de segments, fibres réduites, neurones simples, pas de
@@ -14474,14 +14976,14 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
     } catch (e) { console.warn('[Mesh] shader', e && e.message); return null; }
     const loc = {};
     for (const n of ['aPos', 'aNrm', 'aCol', 'aAux']) loc[n] = gl.getAttribLocation(P, n);
-    for (const n of ['uMVP', 'uEye', 'uKey', 'uFill', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uTint', 'uS1', 'uS2', 'uS3', 'uInfl', 'uGlow']) loc[n] = gl.getUniformLocation(P, n);
+    for (const n of ['uMVP', 'uEye', 'uKey', 'uFill', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uTint', 'uS1', 'uS2', 'uS3', 'uInfl', 'uGlow', ...BrainGrade.UNIFORMS]) loc[n] = gl.getUniformLocation(P, n);
     const bufS = gl.createBuffer(), bufD = gl.createBuffer();
     // le cortex réel et les fibres : deux programmes de plus
     const prog2 = (vs, fs, attrs, unis) => {
       try {
         const p = gl.createProgram(); gl.attachShader(p, compile(gl.VERTEX_SHADER, vs)); gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p);
         if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
-        const L = { p }; for (const n of attrs) L[n] = gl.getAttribLocation(p, n); for (const n of unis) L[n] = gl.getUniformLocation(p, n);
+        const L = { p }; for (const n of attrs) L[n] = gl.getAttribLocation(p, n); for (const n of new Set([...unis, ...BrainGrade.UNIFORMS])) L[n] = gl.getUniformLocation(p, n);
         L.uReg = gl.getUniformLocation(p, 'uReg[0]') || gl.getUniformLocation(p, 'uReg');
         return L;
       } catch (e) { console.warn('[Mesh] programme', e && e.message); return null; }
@@ -14496,10 +14998,11 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
     // compilation en parallèle quand le pilote sait la faire (KHR_parallel_shader_compile) : l'image n'attend pas le compilateur,
     // le programme de base reste affiché jusqu'à ce que celui de l'univers soit prêt
     const parExt = gl.getExtension('KHR_parallel_shader_compile');
+    let activeHybrid = '', activeFiberHybrid = '';
     let compiles = 0; // compilations faites pendant une image : la scène écarte ces images de sa mesure de lenteur
     function hybSrc(kind, id, lite) {
       return kind === 'cortex'
-        ? [CVS, voyWrap(BrainHybrid.cortexFS(id, { lite }), 'cortex'), ['aPos', 'aNrm', 'aCR'], [...BrainHybrid.CORTEX_UNIFORMS, ...VOY_CU]] // v6-voyage : mêmes uniformes du voyage
+        ? [BrainHybrid.V7.includes(id) ? CVS_V7 : CVS, voyWrap(BrainHybrid.cortexFS(id, { lite }), 'cortex'), ['aPos', 'aNrm', 'aCR', 'aMat', 'aTangent'], [...BrainHybrid.CORTEX_UNIFORMS, ...VOY_CU]] // v6-voyage : mêmes uniformes du voyage
         : [FVS, voyWrap(BrainHybrid.fiberFS(id, { lite }), 'fiber'), ['aPos', 'aTS', 'aM'], [...BrainHybrid.FIBER_UNIFORMS, ...VOY_FU]];
     }
     function hybProg(kind, id) {
@@ -14522,7 +15025,7 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
         hybPending.delete(key);
         L = null;
         if (gl.getProgramParameter(job.p, gl.LINK_STATUS)) {
-          L = { p: job.p }; for (const n of attrs) L[n] = gl.getAttribLocation(job.p, n); for (const n of unis) L[n] = gl.getUniformLocation(job.p, n);
+          L = { p: job.p }; for (const n of attrs) L[n] = gl.getAttribLocation(job.p, n); for (const n of new Set([...unis, ...BrainGrade.UNIFORMS])) L[n] = gl.getUniformLocation(job.p, n);
           L.uReg = gl.getUniformLocation(job.p, 'uReg[0]') || gl.getUniformLocation(job.p, 'uReg');
         } else console.warn('[Mesh] programme', gl.getProgramInfoLog(job.p) || gl.getShaderInfoLog(job.f) || gl.getShaderInfoLog(job.v));
       } else { L = prog2(vs, fs, attrs, unis); compiles++; } // sans l'extension : compilation dans l'image (gel bref), signalée à la scène
@@ -14531,6 +15034,7 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
       return L;
     }
     const uintOK = !!gl.getExtension('OES_element_index_uint');
+    const bufMat = gl.createBuffer(), matCache = new WeakMap();
     const bufC = gl.createBuffer(), bufCI = gl.createBuffer(), bufF = gl.createBuffer();
     const bufDetail=gl.createBuffer(),bufSprite=gl.createBuffer();
     let detailKey='',detailData=null,PD=null,PS=null,lastTex='',detailsAttempted=false;
@@ -14543,7 +15047,7 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
       if(!detailData || !detailData.counts.anchors)return;
       const attributes=['aPos','aNrm','aCol','aAux'];
       if(!detailsAttempted){detailsAttempted=true;PD=prog2(DETAIL_VS,DETAIL_FS,attributes,['uMVP','uEye','uKey','uFill','uDim','uInfl']);compiles++;PS=prog2(SPRITE_VS,SPRITE_FS,attributes,['uMVP','uRight','uUp','uTime','uDim']);compiles++;}
-      const bind=(Q,buf)=>{gl.useProgram(Q.p);gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+      const bind=(Q,buf)=>{gl.useProgram(Q.p); BrainGrade.bind(gl, Q, f.grade);gl.bindBuffer(gl.ARRAY_BUFFER,buf);
         for(const [name,size,off] of [['aPos',3,0],['aNrm',3,12],['aCol',4,24],['aAux',4,40]]){if(Q[name]>=0){gl.enableVertexAttribArray(Q[name]);gl.vertexAttribPointer(Q[name],size,gl.FLOAT,false,FLOATS*4,off);}}
         gl.uniformMatrix4fv(Q.uMVP,false,f.mvp);gl.uniform1f(Q.uDim,f.dim);
       };
@@ -14736,7 +15240,7 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
       }
       ensureCortex();
       const real = cortexState === 'ready' && !!cortex;
-      gl.useProgram(P);
+      gl.useProgram(P); BrainGrade.bind(gl, loc, f.grade);
       // deux lumières d'atelier qui suivent la caméra (le design system : clé en haut à gauche, remplissage à droite)
       const fz = norm3(sub3(f.eye, f.target)), rt = norm3(cross3([0, 1, 0], fz)), up = cross3(fz, rt);
       const key3 = norm3([fz[0] * 0.7 - rt[0] * 0.6 + up[0] * 0.7, fz[1] * 0.7 - rt[1] * 0.6 + up[1] * 0.7, fz[2] * 0.7 - rt[2] * 0.6 + up[2] * 0.7]);
@@ -14787,11 +15291,22 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
         if(!surfaceCache.has(dk)){const pos=new Float32Array(cortex.pos);for(let v=0;v<cortex.nv;v++){const p=Array.from(pos.subarray(v*3,v*3+3)),d=BrainSurface.displacement(f.tex,p,cortex.cav[v]/255,cortex.reg[v]);for(let j=0;j<3;j++)pos[v*3+j]+=cortex.nrm[v*3+j]/127*d;}surfaceCache.set(dk,{...cortex,pos});}
         src=surfaceCache.get(dk);
       }
+      const materialV7 = typeof BrainHybrid !== 'undefined' && BrainHybrid.V7.includes(SH.hybrid);
       const flatC = !!(SH.flat && src === lp);
-      const kc = sil + '|' + tier + '|' + (src === lp ? 'lp' : 'c') + (flatC ? 'f' : '')+'|'+f.tex;
+      const kc = sil + '|' + tier + '|' + (src === lp ? 'lp' : 'c') + (flatC ? 'f' : '')+'|'+f.tex+'|'+materialV7;
       if (kc !== keyC) {
         const warp = sil === 'classique' ? null : (p, reg) => H.warp(p, reg <= 3 ? 'cortex' : undefined);
         let B = cortexBuffers(src, warp, sil === 'arbre' ? (reg) => reg <= 3 : null, flatC);
+        if (materialV7) {
+          if (!matCache.has(src)) matCache.set(src, BrainHybrid.coordinates(src));
+          let coords = matCache.get(src);
+          if (B.idx instanceof Uint32Array && !uintOK) {
+            const expanded = new Float32Array(B.idx.length * 6);
+            for (let i = 0; i < B.idx.length; i++) expanded.set(coords.subarray(B.idx[i] * 6, B.idx[i] * 6 + 6), i * 6);
+            coords = expanded;
+          }
+          upload(bufMat, coords);
+        }
         if(B.idx instanceof Uint32Array && !uintOK) B=cortexUnindexed(B);
         gl.bindBuffer(gl.ARRAY_BUFFER, bufC); gl.bufferData(gl.ARRAY_BUFFER, B.verts, gl.STATIC_DRAW);
         if (B.idx) { gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufCI); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, B.idx, gl.STATIC_DRAW); nC = B.idx.length; idxType = B.idx instanceof Uint32Array ? gl.UNSIGNED_INT : gl.UNSIGNED_SHORT; }
@@ -14805,10 +15320,11 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
       const PCx = (hyb && hybProg('cortex', hyb)) || PC;
       const fHyb = FB && FB.hybrid && typeof BrainHybrid !== 'undefined' && BrainHybrid.has(FB.hybrid) ? FB.hybrid : '';
       const PFx = (fHyb && hybProg('fiber', fHyb)) || PF;
+      activeHybrid = PCx !== PC ? hyb : ''; activeFiberHybrid = PFx !== PF ? fHyb : '';
       const inkF = PFx !== PF && BrainHybrid.isLight(fHyb);
       const fx = f.fx || { fx0: [0, 0, 0, 0], fx1: [1, 0, 0, 0], fx2: [0, 0, 0, 1], rest: [0, 1, 1, 0] };
       const motion = f.reduced ? 0 : 1;
-      const lightFirst = PCx !== PC && BrainHybrid.isLight(hyb);
+      const lightFirst = PCx !== PC && BrainHybrid.isLight(hyb) && !materialV7; // v7 : toutes les coques sont opaques, les fibres restent à l’intérieur.
       if (lightFirst) drawCortex();
       // les fibres (classique et hémisphères : elles suivent l'anatomie)
       const wantF = FB && FB.gain > 0 && typeof BrainFibers !== 'undefined' && (sil === 'classique' || sil === 'hemispheres');
@@ -14832,7 +15348,7 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
       // les fibres ; overlay : seulement le surplus de lumière de l'effet en cours (uHyb.x = 0)
       function drawFibers(overlay) {
         const Q = PFx; // v6-cerveaux : le programme des fibres de l'univers (PF, ou la variante hybride)
-        gl.useProgram(Q.p);
+        gl.useProgram(Q.p); BrainGrade.bind(gl, Q, f.grade);
         gl.disable(gl.DEPTH_TEST); gl.depthMask(false); gl.enable(gl.BLEND); gl.disable(gl.CULL_FACE);
         if (inkF) gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); else gl.blendFunc(gl.ONE, gl.ONE); // v6-cerveaux : l'encre en mélange normal, la lumière en additif
         gl.bindBuffer(gl.ARRAY_BUFFER, bufF);
@@ -14843,7 +15359,7 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
         gl.uniform2f(Q.uRes, gl.drawingBufferWidth, gl.drawingBufferHeight);
         gl.uniform1f(Q.uW, (FB.width || 0.9) * (f.dpr || 1));
         gl.uniform3f(Q.uE1, f.e1[0], f.e1[1], f.e1[2]); gl.uniform3f(Q.uE2, f.e2[0], f.e2[1], f.e2[2]); gl.uniform3f(Q.uA, f.a[0], f.a[1], f.a[2]);
-        gl.uniform1f(Q.uTime, clock(f)); gl.uniform1f(Q.uDim, f.dim); gl.uniform1f(Q.uDec, f.dec ? 1 : 0); gl.uniform1f(Q.uSpeed, E.speed || 0.3);
+        gl.uniform1f(Q.uTime, materialV7 ? clock(f) % BrainHybrid.period(fHyb, true) : clock(f)); gl.uniform1f(Q.uDim, f.dim); gl.uniform1f(Q.uDec, f.dec ? 1 : 0); gl.uniform1f(Q.uSpeed, E.speed || 0.3);
         gl.uniform1f(Q.uGain, FB.gain * (f.glow == null ? 1 : Math.max(0.4, Math.min(1.6, f.glow))) * (tier >= 1 ? 1.6 : 1));
         gl.uniform1f(Q.uFocus, len3(sub3(f.eye, f.target)));
         /* v6-cerveaux : l'effet en cours et le repos de l'univers (FiberAnim.toUniforms) ; uHyb : passe, mouvement, lueur, graine */
@@ -14860,19 +15376,27 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
       function drawCortex() {
         if (SH.on === false || sil === 'constellation') return;
         const Q = PCx; // v6-cerveaux : le programme du cortex de l'univers (PC, ou la variante hybride)
-        gl.useProgram(Q.p);
+        gl.useProgram(Q.p); BrainGrade.bind(gl, Q, f.grade);
         gl.bindBuffer(gl.ARRAY_BUFFER, bufC); if (idxType) gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufCI);
         gl.enableVertexAttribArray(Q.aPos); gl.vertexAttribPointer(Q.aPos, 3, gl.FLOAT, false, 20, 0);
         gl.enableVertexAttribArray(Q.aNrm); gl.vertexAttribPointer(Q.aNrm, 3, gl.BYTE, true, 20, 12);
         gl.enableVertexAttribArray(Q.aCR); gl.vertexAttribPointer(Q.aCR, 2, gl.UNSIGNED_BYTE, true, 20, 16);
+        if (materialV7 && Q !== PC) {
+          gl.bindBuffer(gl.ARRAY_BUFFER, bufMat);
+          for (const [a, off] of [[Q.aMat, 0], [Q.aTangent, 12]]) if (a >= 0) {
+            gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, 3, gl.FLOAT, false, 24, off);
+          }
+          // Diamètre projeté interne : tient compte du recul et de la définition de rendu, sans dérivées GLSL.
+          gl.uniform1f(Q.uMatPixels, Math.max(1, gl.drawingBufferHeight * Math.abs(f.mvp[5]) / Math.max(0.2, f.mvp[15])));
+        }
         gl.uniformMatrix4fv(Q.uMVP, false, f.mvp);
         gl.uniform3f(Q.uEye, f.eye[0], f.eye[1], f.eye[2]); gl.uniform3f(Q.uKey, key3[0], key3[1], key3[2]); gl.uniform3f(Q.uFill, fil3[0], fil3[1], fil3[2]);
         gl.uniform3f(Q.uE1, f.e1[0], f.e1[1], f.e1[2]); gl.uniform3f(Q.uE2, f.e2[0], f.e2[1], f.e2[2]); gl.uniform3f(Q.uA, f.a[0], f.a[1], f.a[2]);
-        gl.uniform1f(Q.uTime, clock(f)); gl.uniform1f(Q.uDim, f.dim); gl.uniform1f(Q.uTint, f.tint);
+        gl.uniform1f(Q.uTime, materialV7 ? clock(f) % BrainHybrid.period(hyb) : clock(f)); gl.uniform1f(Q.uDim, f.dim); gl.uniform1f(Q.uTint, f.tint);
         if(Q.uStyle) gl.uniform1f(Q.uStyle, SH.style || 0);
         const L = f.lobes; gl.uniform1f(Q.uRegMix, L ? 0.85 : 0);
         if (Q.uReg) gl.uniform3fv(Q.uReg, new Float32Array(L ? L.flat() : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
-        // l'illustration de l'univers choisi (seulement si l'univers n'a pas été retouché : f.tex vide sinon)
+        // L’illustration de l’univers reste présente quand on retouche ses couleurs ; le grade vient après.
         if (Q.uTex) {
           const tex = f.tex ? ensureTex(f.tex) : null, K = f.tex ? TEXK[f.tex] : null;
           if (tex && K) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1i(Q.uTex, 0); gl.uniform4f(Q.uTexA, 1, K.s, K.mix, K.relief); }
@@ -14898,6 +15422,7 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
           gl.disable(gl.CULL_FACE); gl.depthMask(true);
         } else { gl.depthMask(true); drawC(); }
         gl.disableVertexAttribArray(Q.aCR);
+        if (materialV7 && Q !== PC) for (const a of [Q.aMat, Q.aTangent]) if (a >= 0) gl.disableVertexAttribArray(a);
         if (Q !== PC) { gl.disableVertexAttribArray(Q.aNrm); if (Q.aPos !== PC.aPos && (!PF || Q.aPos !== PF.aPos)) gl.disableVertexAttribArray(Q.aPos); } // v6-cerveaux : l'état d'attributs d'avant
       }
     }
@@ -14917,12 +15442,12 @@ if(a<0.015)discard;gl_FragColor=vec4(vCol*a*uDim,a*uDim);}`;
     return {
       draw, drawGhost /* v6-voyage */, invalidate() { keyS = keyD = ''; }, preload: ensureCortex, get cortexState() { return cortexState; }, get cortex() { return cortex; },
       setTier(t) { tier = Math.max(0, Math.min(2, t | 0)); keyS = keyD = ''; },
-      get tier() { return tier; }, get info() { return { ...info, cortexTris: nC/3, detail: detailData ? detailData.counts : null, texture: texCache.get(lastTex)?.state || 'none', textureReads: tier<2 && TEXK[lastTex] ? (tier>=1 || !lastTex || !['foret','ocean','ville','vitrail','circuit','galaxie','aquarelle','synthwave'].includes(lastTex) ? 6 : 8) : 0 }; }, get ready() { return !!P; },
+      get tier() { return tier; }, get info() { return { ...info, activeHybrid, activeFiberHybrid, cortexTris: nC/3, detail: detailData ? detailData.counts : null, texture: texCache.get(lastTex)?.state || 'none', textureReads: tier<2 && TEXK[lastTex] ? (tier>=1 || !lastTex || !['foret','ocean','ville','vitrail','circuit','galaxie','aquarelle','synthwave'].includes(lastTex) ? 6 : 8) : 0 }; }, get ready() { return !!P; },
       get compiles() { return compiles; }, // v6-cerveaux : programmes compilés pendant une image (la mesure de lenteur les écarte)
     };
   }
 
-  return { Builder, icosphere, tube, ball, soup, FLOATS, create, tierAfter, tierStart, TIER, parseSBR, cortexBuffers, fiberStrip, surfaceDetails, cortexUnindexed, shaders: { CVS, CFS, VS, FS, FVS, FFS, DETAIL_VS, DETAIL_FS, SPRITE_VS, SPRITE_FS } };
+  return { Builder, icosphere, tube, ball, soup, FLOATS, create, tierAfter, tierStart, TIER, parseSBR, cortexBuffers, fiberStrip, surfaceDetails, cortexUnindexed, shaders: { CVS, CVS_V7, CFS, VS, FS, FVS, FFS, DETAIL_VS, DETAIL_FS, SPRITE_VS, SPRITE_FS } };
 })();
 
 /* ——— brain-scene.js ——— */
@@ -15343,9 +15868,10 @@ void main(){
 }`;
   const FS = `
 precision mediump float;
+${BrainGrade.GLSL}
 varying vec4 vCol; varying float vHard; uniform float uLine; uniform vec2 uFh; // halo, opacité d'ensemble (Forge)
 void main(){
-  if (uLine > 0.5) { gl_FragColor = vec4(vCol.rgb * vCol.a, vCol.a); return; } // lignes du calque mémoire
+  if (uLine > 0.5) { gl_FragColor = vec4(brainGrade(vCol.rgb) * vCol.a, vCol.a); return; } // lignes du calque mémoire
   vec2 c = gl_PointCoord * 2.0 - 1.0;
   float r2 = dot(c, c);
   if (r2 > 1.0) discard;
@@ -15353,7 +15879,7 @@ void main(){
   float core = exp(-r2 * (vHard > 0.5 ? 40.0 : 22.0));
   float a = vCol.a * (glow * 0.55 * uFh.x + core * 0.9) * uFh.y;
   if (vHard < -0.5) a = vCol.a * exp(-r2 * 2.6) * (1.0 - r2); // nuage du calque mémoire : une lueur sans cœur
-  gl_FragColor = vec4(vCol.rgb * a, a);
+  gl_FragColor = vec4(brainGrade(vCol.rgb) * a, a);
 }`;
 
   function compile(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
@@ -15371,7 +15897,7 @@ void main(){
       for (const n of ['uMVP', 'uScale', 'uTime', 'uDpr', 'uKindA', 'uFlick', 'uFocusD', 'uEye', 'uReveal', 'uSeed', 'uWave', 'uWaveDir', 'uWaveCol', 'uConv', 'uIgC', 'uIgP', 'uIgS', 'uIgX', 'uIgCol', 'uRipC', 'uRipP', 'uRipCol', 'uAmb', 'uAmb2', 'uAmbL', 'uTraceA', 'uFg', 'uFc1', 'uFc2', 'uFc3', 'uFm', 'uFh', 'uZc']) loc[n] = gl.getUniformLocation(prog, n);
       loc.uGroupA = gl.getUniformLocation(prog, 'uGroupA[0]') || gl.getUniformLocation(prog, 'uGroupA');
       loc.uRegC = gl.getUniformLocation(prog, 'uRegC[0]'); loc.uRegCol = gl.getUniformLocation(prog, 'uRegCol[0]'); loc.uRegA = gl.getUniformLocation(prog, 'uRegA[0]'); loc.uRegOn = gl.getUniformLocation(prog, 'uRegOn');
-      for (const n of ['uMem', 'uBaseA', 'uLine']) loc[n] = gl.getUniformLocation(prog, n);
+      for (const n of ['uMem', 'uBaseA', 'uLine', ...BrainGrade.UNIFORMS]) loc[n] = gl.getUniformLocation(prog, n);
       loc.uZoneA = gl.getUniformLocation(prog, 'uZoneA[0]') || gl.getUniformLocation(prog, 'uZoneA');
       if (loc.uBaseA) gl.uniform2f(loc.uBaseA, 1, 1);
       mesh = null;
@@ -17053,12 +17579,12 @@ void main(){
     for (const Z of mem.zones) {
       const s = zoneScreen(Z); if (!s) continue;
       const u = Z.gi >= 0 ? mem.zu[Z.gi] : 1, rr = s.r * (0.55 + 0.5 * Z.q) * dpr, x = s.x * dpr, y = s.y * dpr;
-      const g = c.createRadialGradient(x, y, 0, x, y, rr), col = Z.col.map((v) => Math.round(v * 255)).join(',');
+      const g = c.createRadialGradient(x, y, 0, x, y, rr), col = grade2D(Z.col).map((v) => Math.round(v * 255)).join(',');
       g.addColorStop(0, `rgba(${col},${Math.min(1, (Z.count ? 0.22 + 0.4 * Z.q + 0.1 * Z.act : 0.1) * u * A)})`); g.addColorStop(1, `rgba(${col},0)`);
       c.globalAlpha = 1; c.fillStyle = g; c.fillRect(x - rr, y - rr, rr * 2, rr * 2);
     }
     // au plus ~700 points (le repli 2D est lent) : une couleur par zone, projection en ligne, sans allocation
-    const step = Math.max(1, Math.ceil(mem.nodes.length / 700)), m = mvp, cols = mem.zones.map((Z) => `rgb(${Z.col.map((v) => Math.round((v * 0.7 + 0.3) * 255)).join(',')})`);
+    const step = Math.max(1, Math.ceil(mem.nodes.length / 700)), m = mvp, cols = mem.zones.map((Z) => `rgb(${grade2D(Z.col.map(v => v * 0.7 + 0.3)).map(v => Math.round(v * 255)).join(',')})`);
     let cz = -1;
     for (let i = 0; i < mem.nodes.length; i += step) {
       const n = mem.nodes[i], p = n.p, cw = m[3] * p[0] + m[7] * p[1] + m[11] * p[2] + m[15]; if (cw <= 0.01) continue;
@@ -17071,7 +17597,7 @@ void main(){
     c.lineWidth = dpr;
     for (const b of mem.bundles) {
       const pa = project(b.cv.a), pc = project(b.cv.c), pb = project(b.cv.b); if (!pa || !pb || !pc) continue;
-      c.globalAlpha = Math.min(0.5, (0.1 + 0.05 * Math.log(1 + b.n)) * A * wk.lineA); /* step9-fx */ c.strokeStyle = `rgb(${mem.zones[b.b].col.map((v) => Math.round(v * 255)).join(',')})`;
+      c.globalAlpha = Math.min(0.5, (0.1 + 0.05 * Math.log(1 + b.n)) * A * wk.lineA); /* step9-fx */ c.strokeStyle = `rgb(${grade2D(mem.zones[b.b].col).map((v) => Math.round(v * 255)).join(',')})`;
       c.beginPath(); c.moveTo(pa.x * dpr, pa.y * dpr); c.quadraticCurveTo(2 * pc.x * dpr - (pa.x + pb.x) * dpr / 2, 2 * pc.y * dpr - (pa.y + pb.y) * dpr / 2, pb.x * dpr, pb.y * dpr); c.stroke();
     }
     if (mem.labels2D && A > 0.5) {
@@ -17357,6 +17883,8 @@ void main(){
     FG.size = num(o.size, 1, 0.4, 2); FG.halo = num(o.halo, 1, 0, 3); FG.alpha = num(o.alpha, 1, 0.3, 1.3); FG.speed = num(o.speed, 1, 0.2, 2.5);
     FG.density = num(o.density, 1, 0.2, 1); FG.boost = num(o.boost, 0, 0, 2); FG.tint = num(o.tint, 0, 0, 1);
     FG.e1 = col(o.e1, FG0.e1); FG.e2 = col(o.e2, FG0.e2); FG.a = col(o.a, FG0.a); FG.hue = num(o.hue, 0, -0.1, 0.1);
+    FG.recolor = typeof FORGE !== 'undefined' ? FORGE.normalizeRecolor(o.recolor) : o.recolor;
+    FG.grade = BrainGrade.params({ ...FG, recolor: FG.recolor });
     FG.scan = num(o.scan, 0, 0, 1); FG.facet = num(o.facet, 0, 0, 1); FG.desat = num(o.desat, 0, 0, 1); FG.rim = num(o.rim, 0, 0, 1);
     FG.zones = Math.round(num(o.zones, 8, 1, 12));
     FG.mesh = o.mesh && typeof o.mesh === 'object' ? o.mesh : null;
@@ -17478,6 +18006,7 @@ void main(){
   /* v6-voyage : ce que le maillage reçoit du voyage (rayons X, fondu près de l'œil, passage, densité des fibres et son centre) */
   function voyF() { return { xray: vx.x, near: vx.near, hole: vx.hole, density: vx.dens, dc: vx.dc }; }
   function forgeUniforms() {
+    BrainGrade.bind(gl, loc, FG.grade);
     if (!loc.uFg) return;
     gl.uniform4f(loc.uFg, FG.size, FG.density, FG.boost, 0);
     gl.uniform4f(loc.uFc1, FG.e1[0], FG.e1[1], FG.e1[2], FG.tint);
@@ -17501,14 +18030,14 @@ void main(){
       const dimK = (mem.a > 0.003 || mem.dim > 0.003 ? 1 - 0.55 * mem.dim : 1) * fadeK;
       // v6-cerveaux : les animations des fibres (l'effet en cours, le repos de l'univers) et le mouvement réduit
       const fxR = fxReduced(), fx = typeof FiberAnim !== 'undefined' ? FiberAnim.toUniforms(fxList, time * 1000, fxR, { rest: fxRestId || FG.restAnim, timeScale: FG.speed }) : null;
-      meshDrawn = mesh.draw({ M: FG.mesh, matKey: FG.matKey, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
+      meshDrawn = mesh.draw({ grade: FG.grade, M: FG.mesh, matKey: FG.matKey, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
       meshOnFrame = meshDrawn;
       if (meshDrawn) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.blendFunc(gl.ONE, gl.ONE); gl.depthMask(false); } // le test de profondeur reste : les points sont cachés par la matière
     }
     if (!(mesh && FG.mesh && FG.tint > 0.001)) meshOnFrame = false;
     // v6-voyage : sans matière forgée, le voyage montre quand même le vrai cortex, en fantôme (contour, rayons X, passage)
     if (!meshDrawn && layers.length && mesh && mesh.drawGhost) {
-      try { if (mesh.drawGhost({ mvp, eye: eyePos(), target: cam.target, time: ftime, dim: fadeK, tint: 1, e1: FG.e1, e2: FG.e2, a: FG.a, dpr, reduced: fxReduced(), ...voyF() })) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.depthMask(true); } } catch (e) { /* le nuage de points reste */ }
+      try { if (mesh.drawGhost({ grade: FG.grade, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: fadeK, tint: 1, e1: FG.e1, e2: FG.e2, a: FG.a, dpr, reduced: fxReduced(), ...voyF() })) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.depthMask(true); } } catch (e) { /* le nuage de points reste */ }
     }
     if (!meshDrawn) { gl.disable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.blendFunc(gl.ONE, gl.ONE); }
     if (loc.uAmb) { gl.uniform4f(loc.uAmb, amb.col[0], amb.col[1], amb.col[2], amb.k); gl.uniform4f(loc.uAmb2, amb.dir, amb.dim, trFocus, restA); gl.uniform4f(loc.uAmbL, amb.L[0], amb.L[1], amb.L[2], amb.spot); gl.uniform1f(loc.uTraceA, traceA); }
@@ -17563,7 +18092,7 @@ void main(){
     }
     // v6-voyage : les calques (quartiers, autoroutes, neurones-cours, trajet) par-dessus ; l'état GL des points est rendu ensuite
     if (layers.length) {
-      const c = { gl, mvp, eye: eyePos(), target: cam.target.slice(), time, dpr, W, H, scale: canvas.height / (2 * Math.tan(fov / 2)), project, reduced: fxReduced(), tier: mesh ? mesh.tier : 2 };
+      const c = { grade: FG.grade, gl, mvp, eye: eyePos(), target: cam.target.slice(), time, dpr, W, H, scale: canvas.height / (2 * Math.tan(fov / 2)), project, reduced: fxReduced(), tier: mesh ? mesh.tier : 2 };
       for (const L of layers) { try { L.draw(c); } catch (e) { console.warn('[Scene] calque', e); } }
       gl.useProgram(prog); gl.disable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE); gl.depthMask(true);
     }
@@ -17576,7 +18105,18 @@ void main(){
     return igl.out + ((igl.floor + (1 + igl.boost * litF - igl.floor) * lit) - igl.out) * inS;
   }
   /* Repli Canvas 2D : mêmes données, projection sur le processeur */
+  const grade2D = rgb => FG.grade && FG.grade.mode && typeof FORGE !== 'undefined'
+    ? FORGE.gradeRGB(rgb, FG.recolor, { e1: FG.e1, e2: FG.e2, a: FG.a }).map(v => Math.min(1, v)) : rgb;
   let sprite = null;
+  const gradeSprites = new Map();
+  function gradedSprite(col) {
+    if (!FG.grade || !FG.grade.mode) return sprite;
+    if (gradeSprites.has(col)) return gradeSprites.get(col);
+    const img = document.createElement('canvas'); img.width = img.height = 64;
+    const c = img.getContext('2d'); c.drawImage(sprite, 0, 0); c.globalCompositeOperation = 'source-in'; c.fillStyle = col; c.fillRect(0, 0, 64, 64);
+    if (gradeSprites.size >= 128) gradeSprites.delete(gradeSprites.keys().next().value);
+    gradeSprites.set(col, img); return img;
+  }
   function render2D(dynN) {
     const c = ctx2;
     c.setTransform(1, 0, 0, 1, 0, 0);
@@ -17600,9 +18140,10 @@ void main(){
         const size = arr[o + 7] * scale / pr.w;
         const x = pr.x * dpr, y = pr.y * dpr;
         c.globalAlpha = Math.min(1, a);
-        const col = `rgb(${arr[o + 3] * 255 | 0},${arr[o + 4] * 255 | 0},${arr[o + 5] * 255 | 0})`;
+        const rgb = grade2D([arr[o + 3], arr[o + 4], arr[o + 5]]);
+        const col = `rgb(${rgb[0] * 255 | 0},${rgb[1] * 255 | 0},${rgb[2] * 255 | 0})`;
         if (size < 3) { c.fillStyle = col; c.fillRect(x - 0.8, y - 0.8, 1.6, 1.6); }
-        else { c.fillStyle = col; c.beginPath(); c.arc(x, y, Math.min(size, 60) * 0.18, 0, 6.283); c.fill(); c.globalAlpha = Math.min(1, a * 0.5); c.drawImage(sprite, x - size / 2, y - size / 2, size, size); }
+        else { c.fillStyle = col; c.beginPath(); c.arc(x, y, Math.min(size, 60) * 0.18, 0, 6.283); c.fill(); c.globalAlpha = Math.min(1, a * 0.5); c.drawImage(gradedSprite(col), x - size / 2, y - size / 2, size, size); }
       }
     };
     drawSet(staticData, brainDraw, 0, 2);
@@ -17817,6 +18358,7 @@ void main() {
 }`;
   const SFS = `
 precision mediump float;
+${BrainGrade.GLSL}
 varying vec4 vCol; varying float vGrp;
 void main() {
   float r = length(gl_PointCoord - vec2(0.5)) * 2.0;
@@ -17835,7 +18377,7 @@ void main() {
     float ring = smoothstep(0.62, 0.72, r) * (1.0 - smoothstep(0.82, 0.92, r)); // repère (tu es ici, sélection) : un anneau
     k = ring * 1.2 + halo * 0.15;
   } else k = halo * 0.65;
-  gl_FragColor = vec4(vCol.rgb * k * vCol.a, 0.0);
+  gl_FragColor = vec4(brainGrade(vCol.rgb) * k * vCol.a, 0.0);
 }`;
   const RVS = `
 attribute vec3 aPos; attribute vec3 aDir; attribute vec4 aM; attribute vec4 aCol;
@@ -17849,6 +18391,7 @@ void main() {
 }`;
   const RFS = `
 precision mediump float;
+${BrainGrade.GLSL}
 varying vec4 vCol; varying float vSide; varying float vS; varying float vKind; varying float vDepth;
 uniform vec4 uR; uniform float uHw; uniform float uNodes;
 void main() {
@@ -17866,7 +18409,7 @@ void main() {
     k *= exp(-h * h / 0.00008) * uR.y; // seize petites traînées derrière le paquet, fronts continus
   } else if (vKind > 2.5) k *= uNodes;
   if (vKind > 4.5 && vKind < 5.5) k *= 1.0 / (1.0 + vDepth * 3.0);
-  gl_FragColor = vec4(vCol.rgb * a * k, 0.0);
+  gl_FragColor = vec4(brainGrade(vCol.rgb) * a * k, 0.0);
 }`;
 
   const NVS = `
@@ -17876,6 +18419,7 @@ varying vec3 vN; varying vec3 vEye; varying vec4 vCol;
 void main() { gl_Position = uMVP * vec4(aPos, 1.0); vN = aNrm; vEye = uEye - aPos; vCol = aCol; }`;
   const NFS = `
 precision mediump float;
+${BrainGrade.GLSL}
 varying vec3 vN; varying vec3 vEye; varying vec4 vCol;
 uniform float uNodes;
 void main() {
@@ -17886,7 +18430,7 @@ void main() {
   float membrane = smoothstep(0.45, 0.85, grain) * 0.22;
   float k = (0.035 + rim * 0.52 + membrane) * vCol.a * uNodes;
   k *= smoothstep(0.006, 0.018, length(vEye));
-  gl_FragColor = vec4(vCol.rgb * k, 0.0);
+  gl_FragColor = vec4(brainGrade(vCol.rgb) * k, 0.0);
 }`;
   /* Sphères fusionnées sans indices 32 bits ni instanciation. 192–512 triangles par corps.
      Normales explicites : volume et membrane restent lisibles sous toutes les orbites. */
@@ -17915,7 +18459,7 @@ void main() {
     function prog(vs, fs, attrs, unis) {
       const p = gl.createProgram(); gl.attachShader(p, compile(gl.VERTEX_SHADER, vs)); gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p);
       if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
-      const L = { p }; for (const a of attrs) L[a] = gl.getAttribLocation(p, a); for (const u of unis) L[u] = gl.getUniformLocation(p, u);
+      const L = { p }; for (const a of attrs) L[a] = gl.getAttribLocation(p, a); for (const u of [...unis, ...BrainGrade.UNIFORMS]) L[u] = gl.getUniformLocation(p, u);
       return L;
     }
     function ensure(g) {
@@ -17997,7 +18541,7 @@ void main() {
         const W = gl.drawingBufferWidth, H = gl.drawingBufferHeight;
         const ribbons = (buf, n) => {
           if (!n) return;
-          const Q = PR; gl.useProgram(Q.p);
+          const Q = PR; gl.useProgram(Q.p); BrainGrade.bind(gl, Q, c.grade);
           gl.bindBuffer(gl.ARRAY_BUFFER, buf);
           gl.enableVertexAttribArray(Q.aPos); gl.vertexAttribPointer(Q.aPos, 3, gl.FLOAT, false, 14 * F, 0);
           gl.enableVertexAttribArray(Q.aDir); gl.vertexAttribPointer(Q.aDir, 3, gl.FLOAT, false, 14 * F, 3 * F);
@@ -18011,14 +18555,14 @@ void main() {
         ribbons(rBuf, nR);
         if (nT) ribbons(tBuf, nT);
         if (nN && U.nodes > 0) {
-          const Q = PN; gl.useProgram(Q.p); gl.bindBuffer(gl.ARRAY_BUFFER, nBuf);
+          const Q = PN; gl.useProgram(Q.p); BrainGrade.bind(gl, Q, c.grade); gl.bindBuffer(gl.ARRAY_BUFFER, nBuf);
           for (const [a, size, offset] of [[Q.aPos, 3, 0], [Q.aNrm, 3, 3], [Q.aCol, 4, 6]]) { gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, size, gl.FLOAT, false, 10 * F, offset * F); }
           gl.uniformMatrix4fv(Q.uMVP, false, c.mvp); gl.uniform3f(Q.uEye, ...c.eye); gl.uniform1f(Q.uNodes, U.nodes);
           gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK); gl.drawArrays(gl.TRIANGLES, 0, nN); gl.disable(gl.CULL_FACE);
           for (const a of [Q.aPos, Q.aNrm, Q.aCol]) gl.disableVertexAttribArray(a);
         }
         if (nS) {
-          const Q = PS; gl.useProgram(Q.p);
+          const Q = PS; gl.useProgram(Q.p); BrainGrade.bind(gl, Q, c.grade);
           gl.bindBuffer(gl.ARRAY_BUFFER, sBuf);
           gl.enableVertexAttribArray(Q.aPos); gl.vertexAttribPointer(Q.aPos, 3, gl.FLOAT, false, 12 * F, 0);
           gl.enableVertexAttribArray(Q.aCol); gl.vertexAttribPointer(Q.aCol, 4, gl.FLOAT, false, 12 * F, 3 * F);
@@ -35246,8 +35790,8 @@ const SBF = (() => {
     st.raf = requestAnimationFrame(() => { if (!st) return; st.raf = 0; applied = ''; apply(st.draft); });
   }
   // l'aperçu montre toujours le style, même avant le premier « OK » : le brouillon reçoit une date dès qu'on y touche
-  // toucher à la palette ou à la matière à la main : on n'est plus tout à fait dans l'univers choisi, l'étiquette s'efface
-  const setDraft = (patch) => { st.draft = FORGE.normalize({ ...st.draft, ...(patch.palette || patch.material ? { univers: '' } : {}), ...patch, forged: st.draft.forged || Date.now() }); preview(); };
+  // La palette recolore aussi l’illustration : seul un changement de matière quitte l’univers.
+  const setDraft = (patch) => { st.draft = FORGE.normalize({ ...st.draft, ...(patch.material ? { univers: '' } : {}), ...patch, forged: st.draft.forged || Date.now() }); preview(); };
 
   /* ═════════════ Panneau ═════════════ */
   function open(o = {}) {
@@ -35303,12 +35847,18 @@ const SBF = (() => {
   /* ═════════════ Rendu ═════════════ */
   const swatch = (c) => `<span class="fg-dot" style="background:${attr(c)}" aria-hidden="true"></span>`;
   /* Les univers, dans l'ordre de la direction artistique : une puce (l'illustration), un nom, une phrase.
-     v6-cerveaux : un intertitre « Hybrides » avant le premier univers hybride (le onzième). */
+     v7 : Classiques, Mondes et Nouveaux, sans modifier l’ordre historique. */
+  const UNIVERS_GROUPS = {
+    encre: ['Classiques', 'Les dix univers d’origine.'],
+    foret: ['Mondes', 'Le cerveau croisé avec un autre monde.'],
+    caldeira: ['Nouveaux', 'Douze matières à façonner.'],
+  };
   function universPane(d) {
     const cards = FORGE.UNIVERS.map((u, i) => {
       const on = d.univers === u.id;
-      const head = u.hybrid && !(i && FORGE.UNIVERS[i - 1].hybrid) ? `<p class="fg-un-h">${esc('Hybrides')}<span>${esc('Le cerveau croisé avec un autre monde.')}</span></p>` : ''; /* v6-cerveaux */
-      return `${head}<button type="button" class="fg-un${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-fg="univ" data-v="${u.id}"><img class="fg-un-i" src="img/univers/${attr(u.id)}.webp" alt="" width="384" height="384" loading="lazy" decoding="async"><span class="fg-un-n">${esc(u.name)}</span><span class="fg-un-t">${esc(u.tagline)}</span>${u.fidelity === 'approchée' ? `<span class="fg-un-a" title="${attr('La scène interprète cette illustration ; sa matière et ses détails restent approchés.')}">${esc('ambiance approchée')}</span>` : ''}${on ? `<span class="fg-ck" aria-hidden="true">${I.check}</span>` : ''}</button>`;
+      const group = UNIVERS_GROUPS[u.id];
+      const head = group ? `<p class="fg-un-h">${esc(group[0])}<span>${esc(group[1])}</span></p>` : '';
+      return `${head}<button type="button" class="fg-un${on ? ' on' : ''}" role="radio" aria-checked="${on}" tabindex="${on || (!d.univers && u.id === FORGE.UNIVERS[0].id) ? 0 : -1}" data-fg="univ" data-v="${u.id}"><img class="fg-un-i" src="img/univers/${attr(u.id)}.webp" alt="" width="384" height="384" loading="lazy" decoding="async"><span class="fg-un-n">${esc(u.name)}</span><span class="fg-un-t">${esc(u.tagline)}</span>${u.fidelity === 'approchée' ? `<span class="fg-un-a" title="${attr('La scène interprète cette illustration ; sa matière et ses détails restent approchés.')}">${esc('ambiance approchée')}</span>` : ''}${on ? `<span class="fg-ck" aria-hidden="true">${I.check}</span>` : ''}</button>`;
     }).join('');
     return `<div class="fg-uns" role="radiogroup" aria-label="Univers">${cards}</div><p class="fg-hint">${esc('L’illustration montre l’ambiance visée ; ton cerveau l’interprète en direct. Tu peux ensuite tout retoucher : palette, matière, forme.')}</p>`;
   }
@@ -35317,7 +35867,8 @@ const SBF = (() => {
     if (st.big) return `<button type="button" class="fg-link fg-back" data-fg="small">${esc('← Revenir à la composition')}</button>${universPane(d)}`;
     const un = FORGE.UNIVERS.map((u) => {
       const on = d.univers === u.id;
-      return `<button type="button" class="fg-ut${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-fg="univ" data-v="${u.id}" aria-label="${attr(`Univers ${u.name}`)}"><img src="img/univers/${attr(u.id)}.webp" alt="" width="152" height="152" loading="lazy" decoding="async"><span>${esc(u.name)}</span></button>`;
+      const group = UNIVERS_GROUPS[u.id];
+      return `${group ? `<span class="fg-ut-group" aria-hidden="true">${esc(group[0])}</span>` : ''}<button type="button" class="fg-ut${on ? ' on' : ''}" role="radio" aria-checked="${on}" tabindex="${on || (!d.univers && u.id === FORGE.UNIVERS[0].id) ? 0 : -1}" data-fg="univ" data-v="${u.id}" aria-label="${attr(`Univers ${u.name}`)}"><img src="img/univers/${attr(u.id)}.webp" alt="" width="152" height="152" loading="lazy" decoding="async"><span>${esc(u.name)}</span></button>`;
     }).join('');
     const mats = FORGE.MATERIAL_ORDER.map((id) => {
       const m = FORGE.MATERIALS[id], on = d.material === id;
@@ -35336,20 +35887,53 @@ const SBF = (() => {
   }
   /* Couleurs + curseurs + graine, ensemble (dernière étape du premier passage) */
   function ajustePane(d) { return `${palettePane(d)}${slidersHTML(d)}${seedBlock(d)}`; }
+  const gradeModes = [['teinte', 'Teinte'], ['duo', 'Duo'], ['trio', 'Trio']];
+  const colorMode = () => st.draft.recolor.mode === 'trio' ? 'trio' : 'duo';
+  const colorPreview = (d) => {
+    const samples = ['duo', 'trio'].includes(d.recolor.mode)
+      ? [0.16, 0.32, 0.5, 0.7, 0.9].map(v => '#' + Math.round(v * 255).toString(16).padStart(2, '0').repeat(3))
+      : [d.palette.e1, d.palette.e2, d.palette.a];
+    return samples.map(hex => FORGE.gradeHex(hex, d.recolor, d.palette)).join(',');
+  };
   function palettePane(d) {
-    const cur = d.palette;
-    const chips = FORGE.PRESET_ORDER.map((id) => {
-      const p = FORGE.PRESETS[id], on = !cur.custom && cur.preset === id;
-      return `<button type="button" class="fg-chip${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-fg="preset" data-v="${id}"><span class="fg-dot fg-dot2" style="background:linear-gradient(135deg,${p.e1},${p.e2})" aria-hidden="true"></span><span>${esc(p.name)}</span></button>`;
-    }).join('');
+    const cur = d.palette, r = d.recolor;
+    const modes = gradeModes.map(([id, name]) => `<button type="button" class="fg-grade-mode" data-fg="grade-mode" data-v="${id}" aria-pressed="${r.mode === id}">${esc(name)}</button>`).join('');
+    const ranges = [['hue', 'Teinte du cerveau', 0, 360, (r.hue + 360) % 360, '°'], ['sat', 'Saturation', 0, 200, r.sat, '%'], ['val', 'Lumière', 50, 150, r.val, '%'], ['contrast', 'Contraste', 70, 140, r.contrast, '%']].map(([key, name, min, max, value, unit]) =>
+      `<label class="fg-grade-range">${esc(name)}<output for="fgGrade-${key}">${value}${unit}</output><input id="fgGrade-${key}" class="${key === 'hue' ? 'fg-rainbow' : ''}" type="range" min="${min}" max="${max}" step="1" value="${value}" data-fg="grade-slider" data-k="${key}" aria-valuetext="${value}${unit}"${key === 'hue' && (r.mode === 'duo' || r.mode === 'trio') ? ' disabled' : ''}></label>`).join('');
+    const themes = [...new Set(FORGE.THEMES.map(t => t.group))].map(group => `<fieldset class="fg-theme-group"><legend>${esc(group)}</legend><div class="fg-themes">${FORGE.THEMES.filter(t => t.group === group).map(t => {
+      const on = ['duo', 'trio'].includes(r.mode) && ['e1', 'e2', 'a'].every(k => cur[k] === t[k]);
+      return `<button type="button" class="fg-theme" data-fg="theme" data-v="${t.id}" aria-pressed="${on}"><span class="fg-theme-colors" aria-hidden="true">${swatch(t.e1)}${swatch(t.e2)}${swatch(t.a)}</span><span>${esc(t.name)}</span><span class="fg-theme-check" aria-hidden="true">${on ? '✓' : ''}</span></button>`;
+    }).join('')}</div></fieldset>`).join('');
     const low = FORGE.lowContrast(d);
-    return `<div class="fg-chips" role="radiogroup" aria-label="Palettes">${chips}</div>
-      <div class="fg-custom">
-        <button type="button" class="fg-link" data-fg="custom" aria-pressed="${!!cur.custom}">${esc(cur.custom ? 'Revenir à une palette' : 'Choisir mes deux couleurs')}</button>
-        ${cur.custom ? `<div class="fg-pick"><label>${esc('Couleur 1')}<input type="color" data-fg="e1" value="${attr(cur.e1.toLowerCase())}"></label><label>${esc('Couleur 2')}<input type="color" data-fg="e2" value="${attr(cur.e2.toLowerCase())}"></label></div>` : ''}
-        ${zoneColorsHTML(d)}
-        ${low.length ? `<p class="fg-note" role="status">${esc('Une de tes couleurs est sombre : elle reste telle quelle sur le cerveau, mais les repères de l’interface sont éclaircis pour rester lisibles.')}</p>` : ''}
-      </div>`;
+    return `<section class="fg-grade" aria-label="Couleur globale"><h3 class="fg-rowt">Teinte du cerveau</h3>
+      <div class="fg-grade-modes" role="group" aria-label="Mode de couleur">${modes}</div>
+      <p class="fg-hint" id="fgGradeState">${r.mode === 'off' ? 'Couleur d’origine. Active un mode ou déplace un curseur.' : r.mode === 'teinte' ? 'Décale les teintes de tout ton cerveau.' : 'Tout ton cerveau suit tes couleurs. Le relief et les impulsions restent visibles.'}</p>
+      <button type="button" class="fg-link" data-fg="color-reset">Remettre la couleur d’origine</button>
+      ${ranges}<div class="fg-grade-preview" style="background:linear-gradient(90deg,${colorPreview(d)})" aria-hidden="true"></div>
+      <p class="fg-hint">Teinte décale les couleurs d’origine ; Duo utilise les couleurs 1 et 2 ; Trio ajoute l’accent. Le cerveau réagit en direct.</p>
+      </section>
+      <div class="fg-pick">${[['e1', 'Couleur 1'], ['e2', 'Couleur 2'], ['a', 'Accent']].map(([key, name]) => `<label>${name}<input type="color" data-fg="${key}" value="${attr(cur[key].toLowerCase())}"></label>`).join('')}</div>
+      <h3 class="fg-rowt">Thèmes</h3>${st.colorUndo ? '<button type="button" class="fg-link" data-fg="color-undo">Annuler le dernier thème</button>' : ''}
+      <div class="fg-theme-gallery">${themes}</div>
+      <details class="fg-original-palettes"><summary>Palettes classiques</summary><div class="fg-chips">${FORGE.PRESET_ORDER.map(id => {
+        const p = FORGE.PRESETS[id], on = !cur.custom && cur.preset === id;
+        return `<button type="button" class="fg-chip${on ? ' on' : ''}" aria-pressed="${on}" data-fg="preset" data-v="${id}">${swatch(p.e1)}<span>${esc(p.name)}</span></button>`;
+      }).join('')}</div></details>
+      ${zoneColorsHTML(d)}
+      <p class="fg-hint">Les couleurs de tes zones restent réglables. La couleur globale s’applique ensuite.</p>
+      ${low.length ? `<p class="fg-note" role="status">${esc('Une de tes couleurs est sombre : elle reste telle quelle sur le cerveau, mais les repères de l’interface sont éclaircis pour rester lisibles.')}</p>` : ''}`;
+  }
+  // Met à jour le retour visuel sans remplacer le curseur qui a le focus.
+  function updateGradeUI() {
+    const r = st.draft.recolor;
+    st.el.querySelectorAll('[data-fg=grade-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === r.mode)));
+    st.el.querySelectorAll('[data-fg=theme]').forEach(b => {
+      const t = FORGE.THEMES.find(t => t.id === b.dataset.v), on = ['duo', 'trio'].includes(r.mode) && ['e1', 'e2', 'a'].every(k => st.draft.palette[k] === t[k]);
+      b.setAttribute('aria-pressed', String(on)); b.querySelector('.fg-theme-check').textContent = on ? '✓' : '';
+    });
+    const strip = st.el.querySelector('.fg-grade-preview'); if (strip) strip.style.background = `linear-gradient(90deg,${colorPreview(st.draft)})`;
+    const hue = st.el.querySelector('#fgGrade-hue'); if (hue) hue.disabled = r.mode === 'duo' || r.mode === 'trio';
+    const state = st.el.querySelector('#fgGradeState'); if (state) state.textContent = r.mode === 'teinte' ? 'Décale les teintes de tout ton cerveau.' : 'Tout ton cerveau suit tes couleurs. Le relief et les impulsions restent visibles.';
   }
   /* Les couleurs des zones : par défaut le dégradé de la palette ; chacune peut avoir la sienne (un repère pour s'y retrouver). */
   function zoneColorsHTML(d) {
@@ -35374,7 +35958,7 @@ const SBF = (() => {
   function seedBlock(d) {
     return `
       <div class="fg-seed"><span class="fg-seed-n">${I.dice}<span>${esc('Graine')} <b id="fgSeed">${seedNo(d)}</b></span></span><button type="button" class="fg-btn fg-btn-s" data-fg="seed">${esc('Un autre cerveau')}</button></div>
-      <p class="fg-hint">${esc('La graine rend ton cerveau unique : mêmes réglages, autre cerveau. Elle ne change rien à tes notes.')}</p>`;
+      <p class="fg-hint">${esc('La graine fait varier l’apparence de ton cerveau. Elle ne change rien à tes notes.')}</p>`;
   }
   function nameStep(d) {
     return `<label class="fg-field"><span>${esc('Nom du cerveau')}</span><input class="fg-input" data-fg="name" maxlength="24" autocomplete="off" placeholder="${attr('Ex. Nova')}" value="${attr(d.name)}"></label><p class="fg-hint">${esc('Tu pourras le changer.')}</p>`;
@@ -35434,15 +36018,22 @@ const SBF = (() => {
     const b = e.target.closest('[data-fg]'); if (!b || !st || b.disabled) return;
     const a = b.dataset.fg, v = b.dataset.v;
     if (a !== 'zc-auto' && a !== 'zc') zoneMode(false);
-    if (a === 'preset') { setDraft({ palette: { preset: v, custom: false } }); repaint(`[data-fg=preset][data-v=${v}]`); }
+    if (a === 'preset') { setDraft({ palette: { preset: v, custom: false }, recolor: { ...st.draft.recolor, mode: colorMode() } }); repaint(`[data-fg=preset][data-v=${v}]`); }
+    else if (a === 'grade-mode') { setDraft({ recolor: { ...st.draft.recolor, mode: v } }); repaint(`[data-fg=grade-mode][data-v=${v}]`); }
+    else if (a === 'theme') {
+      st.colorUndo = { palette: { ...st.draft.palette }, recolor: { ...st.draft.recolor } };
+      st.draft = FORGE.applyTheme({ ...st.draft, forged: st.draft.forged || Date.now() }, v); preview(); repaint(`[data-fg=theme][data-v=${v}]`);
+    }
+    else if (a === 'color-undo' && st.colorUndo) { setDraft(st.colorUndo); st.colorUndo = null; repaint('[data-fg=color-reset]'); }
+    else if (a === 'color-reset') {
+      const u = FORGE.UNIVERS_BY_ID[st.draft.univers], p = FORGE.PRESETS[st.draft.palette.preset];
+      setDraft({ palette: u ? { preset: p.id, custom: true, e1: u.e1, e2: u.e2, a: u.a } : { preset: p.id }, recolor: FORGE.RECOLOR_DEFAULT });
+      st.colorUndo = null; repaint('[data-fg=color-reset]');
+    }
     else if (a === 'univ') {
+      st.colorUndo = null;
       let ids = zoneIds.length ? zoneIds : []; if (!ids.length) { try { ids = sbZoneList().map((z) => z.id); } catch (e) { ids = []; } }
       st.draft = FORGE.applyUnivers({ ...st.draft, forged: st.draft.forged || Date.now() }, v, ids); preview(); repaint(`[data-fg=univ][data-v=${v}]`);
-    }
-    else if (a === 'custom') {
-      const c = st.draft.palette;
-      setDraft({ palette: c.custom ? { preset: c.preset, custom: false } : { preset: c.preset, custom: true, e1: c.e1, e2: c.e2, a: c.a } });
-      repaint('[data-fg=custom]');
     }
     else if (a === 'zc-auto') { zoneMode(true); const z = { ...st.draft.zoneColors }; delete z[b.dataset.id]; st.draft = FORGE.normalize({ ...st.draft, zoneColors: z, forged: st.draft.forged || Date.now() }); preview(); repaint(`[data-fg=zc-auto]`); const d0 = st.el.querySelector('.fg-zones'); if (d0) d0.open = true; }
     else if (a === 'mat') { setDraft({ material: v }); repaint(`[data-fg=mat][data-v=${v}]`); }
@@ -35453,14 +36044,19 @@ const SBF = (() => {
     else if (a === 'small') { st.big = false; repaint('[data-fg=big]'); }
     else if (a === 'next') { st.step = Math.min(STEPS.length - 1, st.step + 1); st.big = false; repaint('#fgH'); }
     else if (a === 'prev') { st.step = Math.max(0, st.step - 1); st.big = false; repaint('#fgH'); }
-    else if (a === 'reset') { st.draft = FORGE.normalize({ ...st.draft, forged: 0, sliders: {}, palette: { preset: 'cobalt' }, material: 'circuits', silhouette: 'classique' }); applied = ''; apply(null); render(false); try { sbToast('Cerveau d’origine. Touche OK pour le garder, ou Annuler.'); } catch (x) { /* rien */ } }
+    else if (a === 'reset') { st.colorUndo = null; st.draft = FORGE.normalize({ ...st.draft, forged: 0, univers: '', recolor: FORGE.RECOLOR_DEFAULT, sliders: {}, palette: { preset: 'cobalt' }, material: 'circuits', silhouette: 'classique' }); applied = ''; apply(null); render(false); try { sbToast('Cerveau d’origine. Touche OK pour le garder, ou Annuler.'); } catch (x) { /* rien */ } }
     else if (a === 'commit') commit();
     else if (a === 'cancel') close(false);
   }
   function onInput(e) {
     const t = e.target; if (!st || !t.dataset) return;
     const a = t.dataset.fg;
-    if (a === 'slider') {
+    if (a === 'grade-slider') {
+      const k = t.dataset.k, value = +t.value, v = k === 'hue' && value > 180 ? value - 360 : value;
+      setDraft({ recolor: { ...st.draft.recolor, [k]: v, mode: st.draft.recolor.mode === 'off' ? 'teinte' : st.draft.recolor.mode } });
+      const label = `${value}${k === 'hue' ? '°' : '%'}`;
+      t.parentNode.querySelector('output').textContent = label; t.setAttribute('aria-valuetext', label); updateGradeUI();
+    } else if (a === 'slider') {
       const k = t.dataset.k, v = Math.round(+t.value);
       setDraft({ sliders: { ...st.draft.sliders, [k]: v } });
       const o = t.parentNode.querySelector('output'); if (o) o.textContent = String(v);
@@ -35471,13 +36067,34 @@ const SBF = (() => {
       zoneMode(true);
       setDraft({ zoneColors: { ...st.draft.zoneColors, [t.dataset.id]: t.value } });
       const au = t.parentNode.querySelector('[data-fg=zc-auto]'); if (au) au.hidden = false; // le bouton « Auto » apparaît sans refaire la ligne (le sélecteur de couleur reste ouvert)
-    } else if (a === 'e1' || a === 'e2') {
+    } else if (a === 'e1' || a === 'e2' || a === 'a') {
       const c = st.draft.palette;
-      setDraft({ palette: { preset: c.preset, custom: true, e1: a === 'e1' ? t.value : c.e1, e2: a === 'e2' ? t.value : c.e2, a: c.a } });
+      setDraft({ palette: { preset: c.preset, custom: true, e1: a === 'e1' ? t.value : c.e1, e2: a === 'e2' ? t.value : c.e2, a: a === 'a' ? t.value : c.a }, recolor: { ...st.draft.recolor, mode: colorMode() } });
+      updateGradeUI();
       st.el.style.setProperty('--fg-e1', st.draft.palette.e1); st.el.style.setProperty('--fg-e2', st.draft.palette.e2);
     }
   }
-  function onKey(e) { if (e.key === 'Escape' && st) { e.stopPropagation(); close(false); } }
+  function onKey(e) {
+    if (!st) return;
+    if (e.key === 'Escape') { e.stopPropagation(); close(false); return; }
+    const radio = e.target.closest('[data-fg="univ"]');
+    if (!radio || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) return;
+    const radios = [...radio.closest('[role="radiogroup"]').querySelectorAll('[data-fg="univ"]')];
+    const index = radios.indexOf(radio), step = e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 1;
+    const next = e.key === 'Home' ? 0 : e.key === 'End' ? radios.length - 1 : (index + step + radios.length) % radios.length;
+    e.preventDefault(); const id = radios[next].dataset.v; radios[next].click();
+    const selected = st.el.querySelector(`[data-fg="univ"][data-v="${id}"]`);
+    selected?.focus({ preventScroll: true });
+    // Ne défile que dans la galerie : scrollIntoView déplacerait aussi la page et masquerait « OK ».
+    if (selected) {
+      const row = selected.closest('.fg-row'), panel = row || selected.closest('.fg-pane');
+      if (panel) {
+        const r = selected.getBoundingClientRect(), p = panel.getBoundingClientRect();
+        if (row) panel.scrollLeft += r.left < p.left ? r.left - p.left : r.right > p.right ? r.right - p.right : 0;
+        else panel.scrollTop += r.top < p.top ? r.top - p.top : r.bottom > p.bottom ? r.bottom - p.bottom : 0;
+      }
+    }
+  }
 
 
   /* ═════════════ Jalons ═════════════ */
@@ -35531,10 +36148,11 @@ const SBF = (() => {
   const loadImg = (u) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = u; });
   async function buildCard(p) {
     const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const colors = Object.fromEntries(['e1', 'e2', 'a'].map(k => [k, FORGE.gradeHex(p.palette[k], p.recolor, p.palette)]));
     const x = c.getContext('2d'), FONT = '-apple-system, BlinkMacSystemFont, system-ui, sans-serif';
     const ls = (px) => { if ('letterSpacing' in x) x.letterSpacing = px + 'px'; };
     const bg = x.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#090B18'); bg.addColorStop(1, '#101426'); x.fillStyle = bg; x.fillRect(0, 0, W, H);
-    const halo = x.createRadialGradient(W / 2, 620, 40, W / 2, 620, 540); halo.addColorStop(0, p.palette.e1 + '33'); halo.addColorStop(1, p.palette.e1 + '00'); x.fillStyle = halo; x.fillRect(0, 0, W, H);
+    const halo = x.createRadialGradient(W / 2, 620, 40, W / 2, 620, 540); halo.addColorStop(0, colors.e1 + '33'); halo.addColorStop(1, colors.e1 + '00'); x.fillStyle = halo; x.fillRect(0, 0, W, H);
     try {
       const url = Scene.snapshot(), box = Scene.brainBox();
       if (url && box && box.x1 > box.x0 && box.y1 > box.y0) {
@@ -35555,7 +36173,7 @@ const SBF = (() => {
     try { const hs = sbHomeStats(); n = hs.c.total || 0; z = hs.active || 0; } catch (e) { /* rien */ }
     const col = (cx, big, small) => { x.fillStyle = '#F5F6FF'; x.font = `600 68px ${FONT}`; x.fillText(big, cx, 1118); x.fillStyle = '#9AA6C6'; x.font = `500 28px ${FONT}`; x.fillText(small, cx, 1160); };
     col(240, String(n), n > 1 ? 'souvenirs' : 'souvenir'); col(540, String(z), z > 1 ? 'zones actives' : 'zone active'); col(840, seedNo(p), 'graine');
-    const gr = x.createLinearGradient(220, 0, 860, 0); gr.addColorStop(0, p.palette.e1); gr.addColorStop(1, p.palette.e2);
+    const gr = x.createLinearGradient(220, 0, 860, 0); gr.addColorStop(0, colors.e1); gr.addColorStop(0.5, colors.e2); gr.addColorStop(1, colors.a);
     x.fillStyle = gr; x.beginPath(); if (x.roundRect) x.roundRect(220, 1204, 640, 22, 11); else x.rect(220, 1204, 640, 22); x.fill();
     x.fillStyle = '#BBC2D9'; x.font = `500 28px ${FONT}`; x.fillText(p.palette.custom ? 'Mes couleurs' : FORGE.PRESETS[p.palette.preset].name, W / 2, 1268);
     x.fillStyle = '#9AA6C6'; x.font = `600 24px ${FONT}`; ls(12); x.fillText('SILLON', W / 2, 1322);
@@ -35636,7 +36254,7 @@ const SBF = (() => {
     const p = read(), forged = !!(p && p.forged);
     const name = p && p.name ? p.name : 'Mon cerveau';
     const dots = forged ? `<span class="fg-set-dots" aria-hidden="true">${swatch(p.palette.e1)}${swatch(p.palette.e2)}${swatch(p.palette.a)}</span>` : '';
-    const line = forged ? `${p.univers ? `Univers ${FORGE.UNIVERS_BY_ID[p.univers].name}` : FORGE.MATERIALS[p.material].name}, graine ${seedNo(p)}` : 'Choisis son nom, ses couleurs, sa matière. Personne n’aura le même.';
+    const line = forged ? `${p.univers ? `Univers ${FORGE.UNIVERS_BY_ID[p.univers].name}` : FORGE.MATERIALS[p.material].name}, graine ${seedNo(p)}` : 'Choisis son nom, ses couleurs, sa matière. Compose une combinaison qui te ressemble.';
     return `<section class="section sb-set" id="sbForgeSet"><h2 class="h3">Mon cerveau</h2><div class="card settings" style="padding-block:4px">
       <div class="setting sb-set-col"><span class="txt"><span class="h3">${esc(name)} ${dots}</span><span class="meta">${esc(line)}</span></span>
         <div class="row-btns">${forged

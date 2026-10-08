@@ -1,0 +1,39 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; base-uri 'none'; form-action 'none'">
+<title>Sillon · confidentialité</title><style>
+@font-face { font-family: 'Lexend'; src: url('fonts/Lexend.ttf') format('truetype'); font-weight: 100 900; font-display: swap; }
+:root { --bg: #F4F5FB; --text: #12142B; --text-2: #4A4F70; --line: #DDE0EE; --link: #3346C9; color-scheme: light dark; }
+@media (prefers-color-scheme: dark) { :root { --bg: #05060E; --text: #F2F3FF; --text-2: #AEB3D6; --line: #262A45; --link: #9DAAFF; } }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 'Lexend', system-ui, sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 24px max(16px, env(safe-area-inset-left)) 48px; }
+h1 { font-size: 1.6rem; } h2 { font-size: 1.25rem; margin-top: 2em; padding-top: 1em; border-top: 1px solid var(--line); } h3 { font-size: 1rem; margin-bottom: .3em; }
+p, li { color: var(--text); } .meta, .todo { color: var(--text-2); font-size: .9rem; } a { color: var(--link); }
+</style></head><body><main>
+<h1>Sillon : ce qui reste sur ton appareil, ce qui peut en sortir</h1>
+<p class="meta">Version 2 · mise à jour le 2026-10-07. Ce texte est le même que celui des écrans d'accord de l'app. Le texte juridique final reste à relire avant toute publication.</p>
+<h2>Par défaut</h2>
+<ul><li>Tes souvenirs, tes conversations et tes réglages restent sur cet appareil. Pas de compte, pas de publicité, pas de mesure d'audience.</li>
+<li>Rien ne part sur Internet sans un accord que tu donnes toi-même, mode par mode, et que tu peux retirer à tout moment.</li>
+<li>La police de l'app (Lexend, licence OFL) est fournie avec l'app : elle n'est téléchargée nulle part.</li></ul>
+<section><h2>Aucune · règles, hors ligne</h2><p>Par défaut. Cunea comprend tes demandes par des règles et ne lit que tes notes, sur ton appareil.</p>
+<h3>Ce qui part</h3><p>Rien.</p><h3>Ce qui ne part jamais</h3><ul><li>Rien ne quitte ton appareil.</li></ul>
+
+<h3>Pourquoi</h3><p>Rapide, gratuit, privé.</p><h3>Combien de temps</h3><ul><li>Tes notes et tes conversations restent sur ton appareil, dans Sillon.</li></ul>
+<h3>Refuser ou revenir en arrière</h3><p>Rien à refuser : c'est le mode par défaut.</p>
+
+</section>
+<section><h2>Sur l'appareil · modèle d'Apple</h2><p>Le modèle d'Apple tourne sur ton iPhone. Rien n'est envoyé.</p>
+<h3>Ce qui part</h3><ul><li>Au modèle, sur ton iPhone seulement : ta question, la fin de la conversation, et au plus 4 notes utiles, coupées à 600 caractères.</li></ul><h3>Ce qui ne part jamais</h3><ul><li>Rien ne part sur Internet.</li><li>Un message où tu dis aller mal reste traité par les règles, sans modèle.</li></ul>
+<h3>Qui le reçoit</h3><ul><li><b>Ton iPhone</b> : Le modèle « Apple Intelligence » intégré à iOS 26 ou plus récent, sur un appareil compatible.</li></ul>
+<h3>Pourquoi</h3><p>Des réponses plus souples que les règles, sans envoi. Il est petit : réponses courtes, il peut se tromper, Cunea cite ses sources pour que tu vérifies.</p><h3>Combien de temps</h3><ul><li>Rien n'est gardé par Apple pour ce mode. Les réponses restent dans tes conversations, sur l'appareil.</li></ul>
+<h3>Refuser ou revenir en arrière</h3><p>Ne rien activer. Ou revenir à « Aucune » dans Réglages &gt; Assistant, quand tu veux.</p>
+
+</section>
+<section><h2>En ligne · Claude, via le serveur Sillon</h2><p>Pour des réponses plus fines, Cunea peut demander au modèle Claude, sur Internet. Désactivé par défaut.</p>
+<h3>Ce qui part</h3><ul><li>Ta question.</li><li>Tes questions précédentes de la conversation, et un court rappel des réponses de Cunea, sans extraits ni titres de notes (6 messages au plus).</li><li>Les quelques notes utiles pour répondre : 8 au plus, chacune coupée à 1 200 caractères, avec leur zone, leur type et leur date.</li><li>Le nom de l'assistant et la liste de tes zones (leurs identifiants), pour que les propositions restent valables.</li><li>Un identifiant d'installation tiré au hasard, sans lien avec ton nom ni ton appareil, pour compter les questions du jour.</li></ul><h3>Ce qui ne part jamais</h3><ul><li>Toute ta mémoire : seulement les notes utiles à la question.</li><li>Un message où tu dis aller mal, ni la réponse de Cunea à ce message, même plus tard dans la conversation.</li><li>Ton nom, ton e-mail, ta position, tes contacts.</li></ul>
+<h3>Qui le reçoit</h3><ul><li><b>Le serveur de Sillon (Cloudflare Workers)</b> : Il vérifie la demande, compte les questions et transmet à Anthropic. Il ne garde aucun contenu : seulement des compteurs. Le code de Sillon n'enregistre pas ton adresse IP (elle sert un instant, en mémoire, à freiner les rafales). Cloudflare, qui héberge ce serveur, la traite pour acheminer la demande, selon sa propre politique de confidentialité.</li><li><b>Anthropic (modèle Claude Haiku 4.5)</b> : Il écrit la réponse. Anthropic ne se sert pas par défaut des données envoyées par l'API pour entraîner ses modèles, et les efface après une durée limitée.</li></ul>
+<h3>Pourquoi</h3><p>Des réponses plus fines quand les règles ne suffisent pas : résumer, relier, aider à réfléchir. Cunea cite toujours tes notes et sépare « tes notes » et « connaissances générales ».</p><h3>Combien de temps</h3><ul><li>Serveur Sillon : aucun contenu gardé. Un compteur de questions par identifiant d'installation, effacé après 2 jours.</li><li>Anthropic : selon ses conditions commerciales et sa politique de confidentialité, à relire au moment de l'activation.</li><li>Sur ton appareil : la conversation, comme pour les autres modes. Tu peux l'effacer.</li></ul>
+<p>Nombre de questions en ligne limité par jour.</p><h3>Refuser ou revenir en arrière</h3><p>Ne rien faire : c'est désactivé par défaut. Une fois activé, reviens à « Aucune » quand tu veux : ton accord est retiré et plus rien ne part.</p>
+<ul><li><a href="https://www.anthropic.com/legal/commercial-terms" rel="noopener">Conditions commerciales d'Anthropic</a></li><li><a href="https://privacy.anthropic.com" rel="noopener">Confidentialité chez Anthropic</a></li><li><a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">Confidentialité chez Cloudflare</a></li></ul>
+<p class="todo">À vérifier : Durée exacte de conservation chez Anthropic et texte final de la politique de confidentialité de Sillon : à confirmer avant la mise en service.</p></section>
+</main></body></html>

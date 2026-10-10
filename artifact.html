@@ -3977,6 +3977,22 @@ html.sbfx-labwait .sbh-zl { opacity: 0 !important; transition: none !important; 
 .fg-orb-filaments { background: repeating-linear-gradient(118deg, var(--fg-e1) 0 1.5px, transparent 1.5px 5px), radial-gradient(circle at 60% 40%, var(--fg-e2), #101426 75%); }
 .fg-orb-chrome { background: linear-gradient(160deg, #fff 0, #8d96ad 28%, #14172a 52%, #d3daee 72%, #3b4259 100%); box-shadow: 0 0 12px rgba(255, 255, 255, .18); }
 .fg-orb-hologramme { background: repeating-linear-gradient(0deg, color-mix(in srgb, var(--fg-e2) 85%, transparent) 0 2px, transparent 2px 5px); border: 1px solid var(--fg-e2); opacity: .92; }
+/* v8 « Modeler » : les aperçus des dix nouvelles matières (une pastille chacune, comme les six d'origine) */
+.fg-orb-lave { background: repeating-linear-gradient(35deg, transparent 0 9px, #FF7A3D 9px 10px), radial-gradient(circle at 40% 35%, #3A1E18, #0B0708 75%); }
+.fg-orb-verre { background: linear-gradient(150deg, rgba(255, 255, 255, .42), rgba(255, 255, 255, .04) 45%, rgba(255, 255, 255, .24)); border: 1px solid color-mix(in srgb, var(--fg-e1) 70%, #fff); box-shadow: inset 0 0 14px color-mix(in srgb, var(--fg-e1) 60%, transparent), 0 0 12px color-mix(in srgb, var(--fg-e1) 36%, transparent); }
+.fg-orb-marbre { background: linear-gradient(120deg, transparent 42%, var(--fg-e2) 42% 43.5%, transparent 44%), linear-gradient(200deg, #F4F3FA, #C9C6D9 60%, #F4F3FA); }
+.fg-orb-neon { background: #0B0D1C; box-shadow: inset 0 0 0 2px var(--fg-e1), inset 0 0 12px color-mix(in srgb, var(--fg-e2) 70%, transparent), 0 0 16px color-mix(in srgb, var(--fg-e1) 60%, transparent); }
+.fg-orb-bronze { background: radial-gradient(circle at 35% 30%, #E7B07A, #8A5A33 55%, #2E6E5E 90%); }
+.fg-orb-glace { background: repeating-linear-gradient(64deg, transparent 0 8px, rgba(255, 255, 255, .7) 8px 8.8px), linear-gradient(135deg, #EAF6FF, #9CCFF0 45%, #F6FBFF 60%, #6FA9D6); }
+.fg-orb-mercure { background: linear-gradient(160deg, #FFFFFF 0%, #7D8AA6 30%, #F4F7FF 46%, #3A4259 70%, #E8EEFF 100%); }
+.fg-orb-plasma { background: radial-gradient(circle, transparent 34%, #0B0D1C 70%), conic-gradient(from 0deg, var(--fg-e1), var(--fg-e2), var(--fg-a), var(--fg-e1)); }
+.fg-orb-maille { background: linear-gradient(0deg, transparent 0 7px, var(--fg-e1) 7px 8px), linear-gradient(90deg, transparent 0 7px, var(--fg-e1) 7px 8px), #0C1020; }
+.fg-orb-velours { background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--fg-e1) 55%, #12152A) 0, #1A1D33 70%); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg-e2) 60%, transparent), 0 0 12px color-mix(in srgb, var(--fg-e2) 40%, transparent); }
+/* v8 « Modeler » : les aperçus des styles de neurones (perles, orbes, cristaux, étoiles) */
+.fg-nd-perles { background: radial-gradient(circle at 50% 50%, #fff 0 16%, var(--fg-e1) 22%, transparent 60%), #0B0D1C; }
+.fg-nd-orbes { background: radial-gradient(circle, #fff 0 12%, var(--fg-e2) 22%, transparent 38%), radial-gradient(ellipse 58% 22% at 50% 50%, transparent 0 60%, var(--fg-e1) 62% 68%, transparent 70%), #0B0D1C; }
+.fg-nd-cristaux { border-radius: 0; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); background: conic-gradient(from 45deg, var(--fg-e1), var(--fg-e2), #fff 25%, var(--fg-e1) 50%, var(--fg-e2) 75%, var(--fg-e1)); }
+.fg-nd-etoiles { background: repeating-conic-gradient(from 0deg, var(--fg-e1) 0 4deg, transparent 4deg 30deg), radial-gradient(circle, #fff 0 10%, var(--fg-e2) 18%, transparent 40%), #0B0D1C; }
 
 .fg-sliders { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
 .fg-sl { display: grid; grid-template-columns: 76px 1fr 32px; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; }
@@ -4268,6 +4284,9 @@ html.sbfx-labwait .sbh-zl { opacity: 0 !important; transition: none !important; 
 .vc-prog::-webkit-progress-value { background: var(--mc); border-radius: 999px; transition: width .35s ease; }
 .vc-prog::-moz-progress-bar { background: var(--mc); border-radius: 999px; }
 .vc-bar { display: flex; gap: 10px; width: min(100%, 430px); margin: 0 auto; }
+.vc-rate { display: flex; gap: 10px; width: min(100%, 430px); margin: 0 auto; }
+.vc-rate[hidden] { display: none; }
+.vc-rate .btn { flex: 1; }
 .vc-arrow { flex: 0 0 56px; min-height: 52px; padding: 0; display: grid; place-items: center; }
 .vc-arrow svg { width: 22px; height: 22px; }
 .vc-next svg { transform: scaleX(-1); }
@@ -4297,6 +4316,41 @@ html.sbfx-labwait .sbh-zl { opacity: 0 !important; transition: none !important; 
 .vc-res.ok { color: #176B30; } .vc-res.ko { color: #A31512; }
 .vc-go { margin-top: auto; min-height: 48px; width: 100%; }
 .vc-score { text-align: center; margin: 0; min-height: 1.2em; }
+
+/* Images du pack (WebP/PNG/JPEG en data URI) : pleine largeur du cadre, jamais plus large que l'écran. */
+.sbm-img { display: block; width: 100%; max-width: 100%; height: auto; border-radius: 12px; }
+.voy-vis { display: grid; gap: 12px; margin: 8px 0 12px; }
+.voy-fig { margin: 0; }
+
+/* Fiches vivantes : entrée en fondu à chaque carte, illustration qui flotte doucement. Désactivé avec « réduire les animations ». */
+.vc-card { animation: vcIn .45s cubic-bezier(.2, .8, .2, 1) backwards; }
+.vc-art { margin: 0 0 10px; }
+.vc-art img { display: block; width: 100%; max-height: 180px; object-fit: contain; border-radius: 12px; background: #0B0D1A; animation: vcFloat 6s ease-in-out infinite; }
+@keyframes vcIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes vcFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .vc-card, .vc-art img { animation: none; } }
+
+/* Fiches : tout tient à l'écran sans défiler. La carte prend la hauteur disponible ; l'illustration et le titre se réduisent. */
+.vc-card { height: clamp(340px, calc(100dvh - 360px), 540px); }
+.vc-card.vc-tall { height: clamp(400px, calc(100dvh - 300px), 620px); }
+.vc-face { padding: 16px 18px 18px; gap: 8px; overflow: hidden; }
+.vc-back { overflow-y: auto; }
+.vc-art img { max-height: clamp(96px, 19dvh, 170px); }
+.vc-word { font-size: clamp(26px, 7vw, 40px); }
+.vc-w2 { font-size: clamp(20px, 5.4vw, 28px); }
+
+/* Fiches (2e passe) : le titre n'est jamais coupé. L'illustration cède la place au texte ; si la question est très longue, le recto défile. */
+.vc-card { height: clamp(360px, calc(100dvh - 320px), 560px); }
+.vc-face { overflow-y: auto; }
+.vc-art img { max-height: clamp(78px, 15dvh, 140px); }
+.vc-word { font-size: clamp(22px, 6vw, 34px); line-height: 1.12; }
+.vc-w2 { font-size: clamp(18px, 4.8vw, 26px); }
+
+/* Fiches (3e passe) : la carte laisse la place aux boutons et à la barre de saisie en bas de l'écran. */
+.vc-card { height: clamp(340px, calc(100dvh - 400px), 540px); }
+
+/* Vue des fiches : espace réservé sous le contenu pour que les boutons restent au-dessus de la barre de saisie. */
+.sbm.vc { padding-bottom: 150px; }
 
 /* ═════════════ v6-biblio : la Bibliothèque (src/sb/sb-library.js) ═════════════
    Mêmes jetons que sb.css (thèmes sombre et clair). --bc : couleur de la matière (lisible, FORGE.legible).
@@ -6999,6 +7053,8 @@ const FORGE = (() => {
        size  : taille des points ; halo : gain de halo ; scan : tranches horizontales (hologramme) ;
        facet : facettes de luminosité (cristal) ; desat : part de gris argenté (chrome) ; rim : éclat de la silhouette ;
        alpha : opacité d'ensemble. */
+  /* v8 : taille, halo et gris (size, halo, desat) des matières v8 dans la scène de secours : chacune garde un rendu distinct. */
+  const SCENE_V8 = { lave: [1, 1.25, 0], verre: [0.9, 0.7, 0], marbre: [1, 0.85, 0], neon: [0.8, 1.5, 0], bronze: [0.95, 0.6, 0.4], glace: [1.05, 0.8, 0], mercure: [0.9, 0.9, 0.5], plasma: [1.1, 1.4, 0], maille: [0.7, 1, 0], velours: [1.15, 0.7, 0] };
   const MATERIALS = Object.freeze({
     circuits: { id: 'circuits', name: 'Circuits lumineux', hint: 'Sillons nets, jonctions rondes.', emission: 0.65, pulse: 2.40, bloomGain: 0.28, bloomRadius: 12, rimGain: 0.22, rimPower: 3.0, speed: 0.32, sigma: 0.055, rest: 4.8,
       scene: { size: 1.0, halo: 1.0, scan: 0, facet: 0, desat: 0, rim: 0.22, alpha: 1 },
@@ -7031,6 +7087,24 @@ const FORGE = (() => {
     /* « Nuage » : le nuage de points lumineux du départ (aucun maillage). Pas de carte dans la liste des matières : seul l'univers Cosmos la choisit. */
     nuage: { id: 'nuage', name: 'Nuage', hint: 'Un nuage de points lumineux.', emission: 0.5, pulse: 1.8, bloomGain: 0.3, bloomRadius: 14, rimGain: 0.2, rimPower: 3, speed: 0.25, sigma: 0.06, rest: 5,
       scene: { size: 1.0, halo: 1.2, scan: 0, facet: 0, desat: 0, rim: 0.2, alpha: 1 }, mesh: null },
+    /* v8 « Modeler » : dix matières de plus, toutes dessinées sur le vrai cortex (CFS, src/brain-mesh.js). `code` = le numéro de style que
+       le shader lit dans shell.lines (7 à 16). `shell` : rugosité, métal, éclat de bord, opacité ; `em` : lumière des tubes et des neurones. */
+    ...Object.fromEntries([
+      ['lave', 'Lave', 'Une croûte de basalte, des fissures qui brûlent.', 7, { rough: 0.85, metal: 0, rim: 0.25, rimPow: 3, alpha: 1 }, { base: 0.7, pulse: 1.6, speed: 0.12, sigma: 0.09, rest: 5, bloom: 0.4, bloomR: 16, tr: 0.009, nr: 0.02 }],
+      ['verre', 'Verre', 'Transparent, les bords brillent.', 8, { rough: 0.05, metal: 0, rim: 0.9, rimPow: 2.2, alpha: 0.45 }, { base: 0.35, pulse: 2.0, speed: 0.3, sigma: 0.05, rest: 5, bloom: 0.3, bloomR: 12, tr: 0.007, nr: 0.016 }],
+      ['marbre', 'Marbre', 'Pierre polie, veines de lumière.', 9, { rough: 0.22, metal: 0.05, rim: 0.22, rimPow: 3, alpha: 1 }, { base: 0.4, pulse: 1.6, speed: 0.2, sigma: 0.06, rest: 5.5, bloom: 0.22, bloomR: 10, tr: 0.008, nr: 0.018 }],
+      ['neon', 'Néon', 'Des tubes de lumière sur un fond sombre.', 10, { rough: 0.6, metal: 0, rim: 0.95, rimPow: 1.5, alpha: 1 }, { base: 1, pulse: 2.6, speed: 0.45, sigma: 0.04, rest: 4, bloom: 0.6, bloomR: 18, tr: 0.006, nr: 0.016 }],
+      ['bronze', 'Bronze', 'Un métal ancien, patine verte dans les creux.', 11, { rough: 0.4, metal: 0.9, rim: 0.18, rimPow: 3, alpha: 1 }, { base: 0.3, pulse: 1.5, speed: 0.2, sigma: 0.06, rest: 5.5, bloom: 0.18, bloomR: 9, tr: 0.009, nr: 0.018 }],
+      ['glace', 'Glace', 'Givre bleuté, fractures qui scintillent.', 12, { rough: 0.12, metal: 0, rim: 0.5, rimPow: 2.5, alpha: 0.92 }, { base: 0.45, pulse: 1.9, speed: 0.22, sigma: 0.05, rest: 5, bloom: 0.3, bloomR: 12, tr: 0.007, nr: 0.018 }],
+      ['mercure', 'Mercure', 'Un métal liquide, des reflets qui coulent.', 13, { rough: 0.02, metal: 1, rim: 0.35, rimPow: 3, alpha: 1 }, { base: 0.25, pulse: 2.2, speed: 0.35, sigma: 0.05, rest: 5, bloom: 0.2, bloomR: 10, tr: 0.008, nr: 0.02 }],
+      ['plasma', 'Plasma', 'Une énergie qui circule sur toute la surface.', 14, { rough: 0.5, metal: 0, rim: 0.5, rimPow: 2, alpha: 1 }, { base: 0.9, pulse: 2.8, speed: 0.6, sigma: 0.06, rest: 4, bloom: 0.5, bloomR: 16, tr: 0.008, nr: 0.02 }],
+      ['maille', 'Maille', 'Une grille de lumière, esprit de système.', 15, { rough: 0.3, metal: 0, rim: 0.4, rimPow: 2.4, alpha: 0.85 }, { base: 0.8, pulse: 2, speed: 0.4, sigma: 0.04, rest: 4.5, bloom: 0.4, bloomR: 12, tr: 0.005, nr: 0.014 }],
+      ['velours', 'Velours', 'Doux et mat, avec un liseré de lumière.', 16, { rough: 0.95, metal: 0, rim: 0.7, rimPow: 1.8, alpha: 1 }, { base: 0.35, pulse: 1.4, speed: 0.15, sigma: 0.1, rest: 6, bloom: 0.22, bloomR: 14, tr: 0.01, nr: 0.02 }],
+    ].map(([id, name, hint, code, sh, em]) => [id, {
+      id, name, hint, emission: em.base, pulse: em.pulse, bloomGain: em.bloom, bloomRadius: em.bloomR, rimGain: sh.rim, rimPower: sh.rimPow, speed: em.speed, sigma: em.sigma, rest: em.rest,
+      scene: { size: SCENE_V8[id][0], halo: SCENE_V8[id][1], scan: 0, facet: 0, desat: SCENE_V8[id][2], rim: sh.rim, alpha: sh.alpha }, // ce que la scène de secours (points) sait en faire
+      mesh: { shell: { on: true, sub: 3, lines: code, ...sh }, tube: { r: em.tr, sides: 5, fibers: 1 }, node: { r: em.nr, hub: em.nr * 2 }, em: { base: em.base, pulse: em.pulse, speed: em.speed, sigma: em.sigma, rest: em.rest } },
+    }])),
     /* v6-cerveaux : les huit matières hybrides, réservées à leur univers (pas de carte dans la liste des matières). Le cortex et les fibres
        ont leur propre shader (src/brain-hybrid.js : mesh.shell.hybrid, mesh.fibers.hybrid) ; mesh.shell.rest = l'animation de repos des fibres
        (FiberAnim). Coque opaque pour une matière lisible et une seule passe, puis masquée pendant le voyage ; aquarelle : fibres d'encre par-dessus. */
@@ -7061,7 +7135,30 @@ const FORGE = (() => {
       mesh: { shell: { on: true, hybrid: hid, rest: restAnim, sub: 3, metal: 0, lines: 0, ...sh }, fibers: { hybrid: hid, ...fb }, tube: { r: 0.006, sides: 4, fibers: 1 }, node: { r: 0.018, hub: 0.036 }, em: { base: 0.4, pulse: 1.8, speed, sigma: 0.05, rest: 5 } },
     }])),
   });
-  const MATERIAL_ORDER = Object.freeze(['circuits', 'organique', 'cristal', 'filaments', 'chrome', 'hologramme']);
+  /* Seize matières dans la liste (v8) : les six d'origine, puis dix nouvelles, toutes sur le vrai cortex. */
+  const MATERIAL_ORDER = Object.freeze(['circuits', 'organique', 'cristal', 'filaments', 'chrome', 'hologramme', 'lave', 'verre', 'marbre', 'neon', 'bronze', 'glace', 'mercure', 'plasma', 'maille', 'velours']);
+
+  /* v8 « Modeler » : six curseurs qui déforment le cerveau lui-même (50 = forme d'origine). Les quatre premiers changent la géométrie
+     (FORGE.shapeWarp, appliquée avant la silhouette) ; « plis » accentue les sillons à l'affichage (le relief du cortex) ; l'asymétrie
+     élargit un hémisphère et rétrécit l'autre. Aucun contenu n'entre ici : ce sont des goûts de forme. */
+  const SHAPE = Object.freeze({
+    vol: { id: 'vol', name: 'Volume', hint: 'Un cerveau plus gonflé, ou plus fin.', def: 50 },
+    long: { id: 'long', name: 'Longueur', hint: 'Plus long d’avant en arrière, ou plus court.', def: 50 },
+    haut: { id: 'haut', name: 'Hauteur', hint: 'Plus haut ou plus aplati.', def: 50 },
+    ecart: { id: 'ecart', name: 'Écart des hémisphères', hint: 'Les deux moitiés se séparent, ou se serrent.', def: 50 },
+    asym: { id: 'asym', name: 'Asymétrie', hint: 'Un hémisphère plus large que l’autre.', def: 50 },
+    plis: { id: 'plis', name: 'Plis', hint: 'Des sillons plus creusés, ou un cortex plus lisse.', def: 50 },
+  });
+  const SHAPE_ORDER = Object.freeze(['vol', 'long', 'haut', 'ecart', 'asym', 'plis']);
+
+  /* v8 : le style des neurones (les « sphères » du cerveau). `perles` = l'aspect d'avant. */
+  const NODE_STYLES = Object.freeze({
+    perles: { id: 'perles', name: 'Perles', hint: 'Des billes nettes, comme avant.' },
+    orbes: { id: 'orbes', name: 'Orbes', hint: 'Un cœur lumineux, un halo, un anneau qui tourne.' },
+    cristaux: { id: 'cristaux', name: 'Cristaux', hint: 'Des facettes de verre taillé.' },
+    etoiles: { id: 'etoiles', name: 'Étoiles', hint: 'Des pointes de lumière, comme une onde d’énergie.' },
+  });
+  const NODE_ORDER = Object.freeze(['perles', 'orbes', 'cristaux', 'etoiles']);
 
   /* Les silhouettes : une déformation (FORGE.warp) des positions du cerveau, appliquée par la scène à tout ce qui a une place
      (nuage, neurones, territoires, régions, zones mémoire). `ready` : la scène sait la dessiner. */
@@ -7254,6 +7351,9 @@ const FORGE = (() => {
     const sl = p.sliders && typeof p.sliders === 'object' ? p.sliders : {};
     const sliders = {};
     for (const k of SLIDER_ORDER) sliders[k] = int(sl[k], SLIDERS[k].def);
+    const shIn = p.shape && typeof p.shape === 'object' ? p.shape : {};
+    const shape = {};
+    for (const k of SHAPE_ORDER) shape[k] = int(shIn[k], SHAPE[k].def);
     const zc = {};
     if (p.zoneColors && typeof p.zoneColors === 'object') {
       for (const [k, v] of Object.entries(p.zoneColors).slice(0, 24)) if (/^[\w-]{1,40}$/.test(k) && isHex(v)) zc[k] = v.toUpperCase();
@@ -7269,6 +7369,8 @@ const FORGE = (() => {
       silhouette: pick(p.silhouette, SILHOUETTES, 'classique'),
       univers: typeof p.univers === 'string' && Object.prototype.hasOwnProperty.call(UNIVERS_BY_ID, p.univers) ? p.univers : '',
       sliders,
+      shape,
+      nodes: pick(p.nodes, NODE_STYLES, 'perles'),
       recolor: normalizeRecolor(p.recolor),
       zoneColors: zc,
       forged: Number(p.forged) > 0 ? Math.floor(Number(p.forged)) : (p.forged === true ? 1 : 0), // 0 = pas encore forgé (rendu d'avant) ; sinon la date
@@ -7293,7 +7395,22 @@ const FORGE = (() => {
      o.kind : 'cortex' | 'cervelet' | 'tronc' (points du nuage ; absent pour un neurone, une région, une zone) ;
      o.ph : nombre au hasard stable du point (0–1) ; o.hubs : centres des amas de la constellation.
      Rend [x, y, z], ou null si le point disparaît (la poussière entre les amas). Pur, déterministe, sans NaN. */
+  /* v8 : le modelage de forme (curseurs « Modeler »), avant la silhouette. Chaque curseur va de −1 (à gauche) à +1 (à droite) autour de 50.
+     Pur ; un profil neutre (tous à 50) rend le point tel quel, à l'identique. */
+  function shapeWarp(p, shape) {
+    const k = (key) => clampN(((shape && shape[key] != null ? shape[key] : 50) - 50) / 50, -1, 1);
+    let x = p[0], y = p[1], z = p[2];
+    const vol = 1 + 0.12 * k('vol'); x *= vol; y *= vol; z *= vol;          // gonflé ou fin, partout
+    z *= 1 + 0.18 * k('long');                                              // avant-arrière
+    y *= 1 + 0.15 * k('haut');                                              // haut-bas
+    const g = sstep(0.04, 0.3, Math.abs(x));                                // l'écart ne joue que sur les deux moitiés
+    x += (x < 0 ? -1 : 1) * 0.12 * k('ecart') * g;
+    x *= x > 0 ? 1 + 0.2 * k('asym') : 1 - 0.2 * k('asym');                  // un hémisphère plus large que l'autre
+    return [x, y, z];
+  }
+  const shapeNeutral = (s) => !s || SHAPE_ORDER.every((k) => (s[k] == null || s[k] === 50));
   function warp(id, p, o = {}) {
+    if (o.shape && !shapeNeutral(o.shape)) p = shapeWarp(p, o.shape);
     const x = +p[0] || 0, y = +p[1] || 0, z = +p[2] || 0;
     if (id === 'hemispheres') {
       // deux moitiés qui s'écartent et se relèvent en V ; ce qui est sur la ligne médiane (tronc, centre du cervelet) reste en place
@@ -7362,7 +7479,7 @@ const FORGE = (() => {
   /* Les paramètres que brain-scene.js applique (Scene.setForge). Neutre (tint 0, tout à 1) si le profil n'a pas été forgé. */
   function sceneParams(p) {
     const q = normalize(p);
-    const neutral = { recolor: normalizeRecolor(), silhouette: 'classique', material: '', mesh: null, tex: '', dec: false, lobes: null, size: 1, halo: 1, speed: 1, density: 1, boost: 0, tint: 0, e1: [0.46, 0.55, 0.92], e2: [0.46, 0.55, 0.92], a: [1, 1, 1], scan: 0, facet: 0, desat: 0, rim: 0, alpha: 1, hue: 0, phase: 0, hybrid: '', restAnim: 'repos-paquets' /* v6-cerveaux */ };
+    const neutral = { recolor: normalizeRecolor(), silhouette: 'classique', shape: null, plis: 1, nodes: 'perles', material: '', mesh: null, tex: '', dec: false, lobes: null, size: 1, halo: 1, speed: 1, density: 1, boost: 0, tint: 0, e1: [0.46, 0.55, 0.92], e2: [0.46, 0.55, 0.92], a: [1, 1, 1], scan: 0, facet: 0, desat: 0, rim: 0, alpha: 1, hue: 0, phase: 0, hybrid: '', restAnim: 'repos-paquets' /* v6-cerveaux */ };
     if (!q || q.forged === 0) return neutral;
     const MM = MATERIALS[q.material], m = MM.scene, s = q.sliders, mo = morph(q.seed);
     /* Mapping des curseurs (§6.3), valeur par défaut = ×1 avant le gain ci-dessus :
@@ -7379,6 +7496,9 @@ const FORGE = (() => {
     return {
       recolor: { ...q.recolor },
       silhouette: q.silhouette, material: q.material, mesh: sceneMesh,
+      shape: shapeNeutral(q.shape) ? null : { ...q.shape }, // v8 : la forme modelée (null = forme d'origine)
+      plis: 1 + 0.9 * clampN(((q.shape.plis) - 50) / 50, -1, 1), // le relief des sillons à l'affichage (1 = d'origine)
+      nodes: q.nodes, // v8 : le style des neurones
       tex: q.univers || '', // l’illustration reste sous le grade, même après changement de palette
       dec: q.univers === 'fibres', // les couleurs de la tractographie (rouge, vert, bleu selon la direction)
       lobes: q.univers && UNIVERS_BY_ID[q.univers].lobes ? UNIVERS_BY_ID[q.univers].lobes.map(rgb01) : null, // Atlas : une couleur par lobe
@@ -7428,6 +7548,7 @@ const FORGE = (() => {
 
   return Object.freeze({
     VERSION, NIGHT, SURFACE_MAX, PRESETS, PRESET_ORDER, MATERIALS, MATERIAL_ORDER, SILHOUETTES, SILHOUETTE_ORDER, SLIDERS, SLIDER_ORDER, THEME_COLORS,
+    SHAPE, SHAPE_ORDER, shapeWarp, shapeNeutral, NODE_STYLES, NODE_ORDER,
     RECOLOR_DEFAULT, normalizeRecolor, gradeRGB, gradeHex, THEMES, applyTheme,
     isHex, contrast, luminance, mix, legible, newSeed, morph, create, normalize, equal, lowContrast, isNeutral, zoneColors, zoneOverrides, sceneParams, applyUnivers, UNIVERS, UNIVERS_BY_ID, warp, hubsFor, MILESTONES, milestone, milestoneTitle, serialize, parse,
   });
@@ -9684,13 +9805,43 @@ const SBM = (() => {
   const SVG_ATTR = new Set(['viewbox', 'width', 'height', 'x', 'y', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'fx', 'fy', 'dx', 'dy', 'd', 'points', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'opacity', 'fill-opacity', 'stroke-opacity', 'transform', 'offset', 'stop-color', 'stop-opacity', 'id', 'gradientunits', 'gradienttransform', 'font-size', 'font-weight', 'font-family', 'text-anchor', 'dominant-baseline', 'preserveaspectratio', 'role', 'aria-label', 'xmlns', 'class']);
   const SVG_CAMEL = { viewbox: 'viewBox', gradientunits: 'gradientUnits', gradienttransform: 'gradientTransform', preserveaspectratio: 'preserveAspectRatio', lineargradient: 'linearGradient', radialgradient: 'radialGradient' };
   const SVG_MAX = 24000;
+  const SVG_VAL_MAX = 4000;
+  /* Animations SMIL : fondus, tracés et déplacements numériques seulement, bornés dans le temps. Pas de lien, pas de script. */
+  const ANIM_PARENT = new Set(['rect', 'line', 'circle', 'ellipse', 'path', 'polyline', 'polygon', 'g', 'text', 'tspan']);
+  const ANIM_PROP = new Set(['opacity', 'fill-opacity', 'stroke-opacity', 'stroke-dashoffset']);
+  const ANIM_ATTR = { attributename: 'attributeName', from: 'from', to: 'to', values: 'values', dur: 'dur', begin: 'begin', repeatcount: 'repeatCount', fill: 'fill', calcmode: 'calcMode', keytimes: 'keyTimes', keysplines: 'keySplines' };
+  const animSecs = (x) => { const m = /^(\d+(?:\.\d+)?)(s|ms)$/.exec(x); if (m) return m[2] === 'ms' ? +m[1] / 1000 : +m[1]; return x === '0' ? 0 : NaN; };
+  function animOk(an, v) {
+    if (an === 'attributename') return ANIM_PROP.has(v);
+    if (['from', 'to', 'values', 'keytimes', 'keysplines'].includes(an)) return /^[\d.,;\s-]{1,200}$/.test(v);
+    if (an === 'dur') { const s = animSecs(v); return s > 0 && s <= 10; }
+    if (an === 'begin') { const s = animSecs(v); return s >= 0 && s <= 10; }
+    if (an === 'repeatcount') return v === '1' || v === 'indefinite';
+    if (an === 'fill') return v === 'freeze' || v === 'remove';
+    if (an === 'calcmode') return v === 'linear' || v === 'discrete';
+    return false;
+  }
+  /* Une seule valeur refusée retire toute l'animation : une animation à moitié valide serait trompeuse. */
+  function animTag(rawAttrs, report) {
+    const attrs = {}; const re = /([^\s=\/>"']+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>"']+)))?/g; let a, bad = null;
+    while ((a = re.exec(rawAttrs))) {
+      const an = a[1].toLowerCase(); const v = (a[2] ?? a[3] ?? a[4] ?? '').trim();
+      if (an === '/' || an === '') continue;
+      if (!ANIM_ATTR[an] || an.startsWith('on') || !animOk(an, v)) { bad = bad || 'animate.' + an; continue; }
+      attrs[an] = v;
+    }
+    if (bad) { report.dropped.push(bad); return ''; }
+    if (!attrs.attributename || !attrs.dur) { report.dropped.push('animate'); return ''; }
+    return `<animate ${Object.entries(attrs).map(([k, v]) => `${ANIM_ATTR[k]}="${esc(v)}"`).join(' ')}/>`;
+  }
   function svgValueOk(name, v) {
     if (/[<>`]/.test(v) || /&#|&[a-z]+;/i.test(v)) return false;
     if (/javascript:|data:|vbscript:|expression\s*\(|@import|\\/i.test(v)) return false;
     if (/url\s*\(/i.test(v)) return /^\s*url\(\s*#[\w-]+\s*\)\s*$/.test(v) && (name === 'fill' || name === 'stroke');
-    return v.length <= 600;
+    return v.length <= SVG_VAL_MAX;
   }
-  function sanitizeSvg(input) {
+  /* report.dropped reçoit les NOMS des attributs ou éléments retirés (jamais leurs valeurs) : l'appelant avertit l'utilisateur. */
+  function sanitizeSvg(input, report = { dropped: [] }) {
     let s = str(input).trim();
     if (!s || s.length > SVG_MAX * 2) return null;
     const tokens = s.match(/<!--[\s\S]*?-->|<!\[CDATA\[[\s\S]*?\]\]>|<[!?][^>]*>|<\/?[a-zA-Z][^>]*>|[^<]+|</g) || [];
@@ -9703,6 +9854,11 @@ const SBM = (() => {
       const m = /^<(\/?)([a-zA-Z][\w:.-]*)([\s\S]*?)(\/?)>$/.exec(tk);
       if (!m) continue;
       const closing = m[1] === '/', name = m[2].toLowerCase(), selfClose = m[4] === '/' || /\/\s*$/.test(m[3]);
+      if (name === 'animate' && !closing) {
+        if (!skip) { const parent = stack[stack.length - 1]; out += parent && ANIM_PARENT.has(parent) ? animTag(m[3], report) : (report.dropped.push('animate'), ''); }
+        if (!selfClose) skip++;
+        continue;
+      }
       if (skip) { if (SVG_SKIP.has(name)) { if (closing) skip--; else if (!selfClose) skip++; } continue; }
       if (SVG_SKIP.has(name)) { if (!closing && !selfClose) skip = 1; continue; }
       if (!SVG_TAGS.has(name)) continue;
@@ -9712,10 +9868,10 @@ const SBM = (() => {
       const attrs = []; const re = /([^\s=\/>"']+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>"']+)))?/g; let a;
       while ((a = re.exec(m[3]))) {
         const an = a[1].toLowerCase(); let v = a[2] ?? a[3] ?? a[4] ?? '';
-        if (!SVG_ATTR.has(an) || an.startsWith('on')) continue;
+        if (!SVG_ATTR.has(an) || an.startsWith('on')) { if (an !== 'xmlns') report.dropped.push(an); continue; }
         v = v.trim();
         if (an === 'xmlns') { if (v !== 'http://www.w3.org/2000/svg') continue; }
-        else if (!svgValueOk(an, v)) continue;
+        else if (!svgValueOk(an, v)) { report.dropped.push(an); continue; }
         attrs.push(`${SVG_CAMEL[an] || an}="${esc(v)}"`);
       }
       if (name === 'svg') { if (!attrs.some((x) => x.startsWith('viewBox='))) return null; if (!attrs.some((x) => x.startsWith('role='))) attrs.push('role="img"'); if (!attrs.some((x) => x.startsWith('xmlns='))) attrs.push('xmlns="http://www.w3.org/2000/svg"'); }
@@ -9730,7 +9886,7 @@ const SBM = (() => {
   }
 
   /* ───────────── Pack d'étude : validation et nettoyage ───────────── */
-  const LIM = { concepts: 60, cards: 120, gaps: 60, tf: 60, order: 20, match: 20, diagrams: 12, mnemonics: 30, explain: 20, audio: 40, plan: 14, sources: 30, vocab: 120, flash: 150 };
+  const LIM = { concepts: 60, cards: 120, gaps: 60, tf: 60, order: 20, match: 20, diagrams: 12, images: 12, mnemonics: 30, explain: 20, audio: 40, plan: 14, sources: 30, vocab: 120, flash: 150 };
   const list = (v, n) => (Array.isArray(v) ? v.slice(0, n) : []);
   const rid = (o, i, p) => clean(o && o.id, 40).replace(/[^\w-]/g, '') || `${p}${i + 1}`;
   const isoDay = (v) => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(str(v)); if (!m) return ''; const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])); return d.getUTCFullYear() === +m[1] && d.getUTCMonth() === +m[2] - 1 ? `${m[1]}-${m[2]}-${m[3]}` : ''; };
@@ -9761,9 +9917,22 @@ const SBM = (() => {
     p.match = list(raw.match, LIM.match).filter(isObj).map((m, i) => ({ id: uid(rid(m, i, 'm')), q: clip(clean(m.q, 200), 25), pairs: list(m.pairs, 5).filter((x) => Array.isArray(x) && x.length === 2).map((x) => [clip(clean(x[0], 100), 10), clip(clean(x[1], 100), 10)]).filter((x) => x[0] && x[1]), why: clip(clean(m.why, 300), 25) })).filter((m) => m.q && m.pairs.length >= 3);
     p.diagrams = [];
     list(raw.diagrams, LIM.diagrams).filter(isObj).forEach((d, i) => {
-      const svg = sanitizeSvg(d.svg);
-      if (!svg) { warn.push(`Schéma « ${clean(d.title, 60) || i + 1} » ignoré : SVG illisible ou non autorisé.`); return; }
+      const rep = { dropped: [] };
+      const svg = sanitizeSvg(d.svg, rep);
+      const label = clean(d.title, 60) || i + 1;
+      if (!svg) { warn.push(`Schéma « ${label} » ignoré : SVG illisible ou non autorisé.`); return; }
+      if (rep.dropped.length) warn.push(`Schéma « ${label} » : ${rep.dropped.length} élément(s) retiré(s) par sécurité (${[...new Set(rep.dropped)].slice(0, 5).join(', ')}).`);
       p.diagrams.push({ id: uid(rid(d, i, 'd')), title: clean(d.title, 100), caption: clip(clean(d.caption, 300), 30), svg, concept: clean(d.concept, 40) });
+    });
+    /* Images (WebP, PNG ou JPEG) en data URI, avec texte alternatif obligatoire, 1,5 Mo au plus par image. */
+    p.images = [];
+    list(raw.images, LIM.images).filter(isObj).forEach((im, i) => {
+      const alt = clip(clean(im.alt, 200), 25);
+      const m = /^data:image\/(webp|png|jpeg);base64,([A-Za-z0-9+/=]+)$/.exec(str(im.src));
+      if (!alt) { warn.push(`Image ${i + 1} ignorée : texte alternatif (alt) obligatoire.`); return; }
+      if (!m) { warn.push(`Image « ${alt.slice(0, 40)} » ignorée : format attendu WebP, PNG ou JPEG en data URI.`); return; }
+      if (m[2].length > Math.ceil(1.5 * 1024 * 1024 * 4 / 3)) { warn.push(`Image « ${alt.slice(0, 40)} » ignorée : plus de 1,5 Mo.`); return; }
+      p.images.push({ id: uid(rid(im, i, 'i')), alt, src: str(im.src), caption: clip(clean(im.caption, 300), 30), concept: clean(im.concept, 40), mime: m[1] });
     });
     p.mnemonics = list(raw.mnemonics, LIM.mnemonics).filter(isObj).map((m, i) => ({ id: uid(rid(m, i, 'n')), type: ['loci', 'acronym', 'story', 'image'].includes(m.type) ? m.type : 'story', text: clip(clean(m.text, 500), 45), concept: clean(m.concept, 40),
       steps: list(m.steps, 8).filter(isObj).map((s) => ({ zone: clean(s.zone, 40), item: clip(clean(s.item, 120), 12) })).filter((s) => s.zone && s.item) })).filter((m) => m.text);
@@ -9849,8 +10018,13 @@ const SBM = (() => {
   /* Le paquet de cartes à retourner : `flash` s'il existe, sinon les fiches `vocab` rendues au même format. */
   function deckOf(pack) {
     if (pack.flash && pack.flash.length) return pack.flash;
-    return (pack.vocab || []).map((v) => ({ id: v.id, q: v.word, hint: '', choices: [], tag: '', a: [v.fr, v.en ? `Sens : ${v.en}` : ''].filter(Boolean).join(' · '),
-      more: [v.syn && v.syn.length ? { h: v.verified ? 'Synonymes · WordReference' : 'Mots proches', t: v.syn.join(', ') } : { h: '', t: v.note || 'Pas de synonyme vérifié.' }], ex: v.ex, src: v.src, doc: v.doc }));
+    return (pack.vocab || []).map((v) => ({ id: v.id, q: v.word, hint: "", choices: [], tag: "", a: [v.fr, v.en ? `Sens : ${v.en}` : ""].filter(Boolean).join(" · "),
+      more: [v.syn && v.syn.length ? { h: v.verified ? "Synonymes · WordReference" : "Mots proches", t: v.syn.join(", ") } : { h: "", t: v.note || "Pas de synonyme vérifié." }], ex: v.ex, src: v.src, doc: v.doc }));
+  }
+  /* La visionneuse des fiches : les cartes flash ET le vocabulaire (les Révisions gardent deckOf). */
+  function viewCards(pack) {
+    const flash = Array.isArray(pack.flash) ? pack.flash : [];
+    return [...flash, ...deckOf({ vocab: pack.vocab || [] })];
   }
   /* Le verso en texte (Révisions, Bibliothèque) : réponse, bonnes propositions, sections, phrase du cours. */
   function flashBack(f) {
@@ -9970,7 +10144,7 @@ ${blocks.length ? `DOCUMENTS${trunc ? ` (${trunc} tronqué${trunc > 1 ? 's' : ''
   }
   const daysUntil = (iso, now) => { const d = isoDay(iso); if (!d) return null; const [y, m, dd] = d.split('-').map(Number); const t = fin(now) ? now : Date.now(); const n = new Date(t); return Math.round((Date.UTC(y, m - 1, dd) - Date.UTC(n.getFullYear(), n.getMonth(), n.getDate())) / 86400000); };
 
-  return { SCHEMA, PALETTE, shapeName, METHODS, EVIDENCE_LABEL, method, pickColor, identity, emblem, paletteIndex, initials, sanitizeSvg, validatePack, packCounts, packToDeck, packToScreens, packToMemories, packMemoDocs, docTitle, vocabBack, deckOf, flashBack,
+  return { SCHEMA, PALETTE, shapeName, METHODS, EVIDENCE_LABEL, method, pickColor, identity, emblem, paletteIndex, initials, sanitizeSvg, validatePack, packCounts, packToDeck, packToScreens, packToMemories, packMemoDocs, docTitle, vocabBack, deckOf, viewCards, flashBack,
     sessionPlan, buildClaudePrompt, chunkText, daysUntil, isoDay, fnv, clip, normHex };
 })();
 
@@ -14448,6 +14622,42 @@ const BrainMesh = (() => {
     return I.f.length / 3;
   }
 
+  /* v8 : un octaèdre (le cristal d'un neurone), ses faces orientées vers l'extérieur pour que la lumière tombe du bon côté. */
+  const OCTA = (() => {
+    const V = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], F = [];
+    for (const a of [0, 1]) for (const b of [2, 3]) for (const c of [4, 5]) {
+      let t = [a, b, c]; const P = t.map((i) => V[i]), n = cross3(sub3(P[1], P[0]), sub3(P[2], P[0]));
+      const cen = [P[0][0] + P[1][0] + P[2][0], P[0][1] + P[1][1] + P[2][1], P[0][2] + P[1][2] + P[2][2]];
+      if (n[0] * cen[0] + n[1] * cen[1] + n[2] * cen[2] < 0) t = [a, c, b];
+      F.push(...t);
+    }
+    return { v: V.flat(), f: F };
+  })();
+  function octa(B, p, r, col, em, ph) {
+    const pos = new Float32Array(OCTA.v.length);
+    for (let i = 0; i < OCTA.v.length; i += 3) { pos[i] = p[0] + OCTA.v[i] * r; pos[i + 1] = p[1] + OCTA.v[i + 1] * r; pos[i + 2] = p[2] + OCTA.v[i + 2] * r; }
+    return soup(B, pos, OCTA.f, { flat: true, col, em, kind: 2 });
+  }
+  /* v8 : un anneau d'énergie autour d'un neurone : un cercle incliné (son plan vient de `seed`), parcouru de lumière (les impulsions du tube). */
+  function orbitRing(B, p, R, col, em, ph, seed) {
+    const n = norm3([Math.sin(seed * 12.9898), Math.cos(seed * 78.233), Math.sin(seed * 37.7 + 1)]);
+    const u = norm3(cross3(n, Math.abs(n[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0])), v = cross3(n, u);
+    const pts = [];
+    for (let k = 0; k <= 24; k++) { const t = (k / 24) * Math.PI * 2, c = Math.cos(t) * R, d = Math.sin(t) * R; pts.push([p[0] + u[0] * c + v[0] * d, p[1] + u[1] * c + v[1] * d, p[2] + u[2] * c + v[2] * d]); }
+    return tube(B, pts, { r: () => R * 0.14, sides: 4, col, em, ph, kind: 1 });
+  }
+  /* v8 : une étoile d'énergie : six pointes (±x, ±y, ±z tournés selon `seed`), qui s'éteignent en s'éloignant du neurone. */
+  function spikes(B, p, R, col, em, ph, seed) {
+    const a = seed * 6.2831, ca = Math.cos(a), sa = Math.sin(a), dirs = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]];
+    let t = 0;
+    for (const d of dirs) {
+      const q = [d[0] * ca - d[2] * sa, d[1], d[0] * sa + d[2] * ca], pts = [];
+      for (let k = 0; k <= 3; k++) { const s2 = (k / 3) * R * 3; pts.push([p[0] + q[0] * s2, p[1] + q[1] * s2, p[2] + q[2] * s2]); }
+      t += tube(B, pts, { r: (s) => R * 0.16 * (1 - s) + 0.0008, sides: 4, col, em, ph, kind: 1 });
+    }
+    return t;
+  }
+
   /* Un maillage indexé (v positions, f triangles) écrit en triangles à plat : normales de face (`flat`) ou lissées (moyenne des faces voisines).
      `keep(i)` écarte un triangle ; `col` / `em` / `kind` constants. */
   function soup(B, pos, faces, o) {
@@ -14659,7 +14869,7 @@ uniform float uTime; uniform float uDim; uniform float uTint; uniform float uReg
 uniform vec4 uS1; // rugosité, métal, éclat de bord, puissance du bord
 uniform vec4 uS2; // émission de base, émission d'impulsion, vitesse, —
 uniform vec4 uS3; // opacité, gravures (1 sillons lumineux, 2 reflets de crête), sans lumière, —
-uniform float uStyle;
+uniform float uStyle; uniform float uPlis; // v8 : relief des sillons (1 = d'origine)
 uniform sampler2D uTex; uniform vec4 uTexA; // l'illustration de l'univers : activé, échelle, part du mélange, relief
 ${typeof BrainSurface !== 'undefined' ? BrainSurface.GLSL : 'float surfaceNoise(vec3 p) { return 0.5; } vec3 illustration(vec3 p, vec3 n, out vec3 b) { b=n; return texture2D(uTex,p.xy).rgb; }'}
 void main(){
@@ -14672,7 +14882,7 @@ void main(){
   float gt = clamp(0.5 + vPos.y * 0.8, 0.0, 1.0);
   vec3 grad = mix(uE1, uE2, gt);
   vec3 base = mix(grad, rc, uRegMix);
-  float ao = 1.0 - 0.72 * cav;                  // les sillons dans l'ombre : la profondeur réelle du cortex
+  float ao = clamp(1.0 - 0.72 * cav * uPlis, 0.0, 1.0); // les sillons dans l'ombre : la profondeur réelle du cortex (v8 : × « Plis »)
   float crest = smoothstep(0.35, 0.0, cav);     // le haut des gyri
   float wave = 0.5 + 0.5 * sin(vPos.z * 5.0 - uTime * uS2.z * 6.0 + vPos.x * 3.0);
   vec3 col; float alpha = uS3.x;
@@ -14688,7 +14898,7 @@ void main(){
     col = grad * (0.6 + 1.1 * rimK) * alpha;
   } else {
     vec3 albedo = mix(vec3(0.05, 0.06, 0.13), base, 0.18 + 0.72 * uRegMix) * (0.75 + 0.25 * crest) * (1.0 + 0.35 * uRegMix);
-    if (uS3.y > 2.5) albedo = vec3(0.018, 0.016, 0.024); // laque : un noir profond
+    if (uS3.y > 2.5 && uS3.y < 3.5) albedo = vec3(0.018, 0.016, 0.024); // laque : un noir profond
     float diff = max(dot(N, uKey), 0.0) * 0.9 + max(dot(N, uFill), 0.0) * 0.32 + 0.12;
     vec3 R = reflect(-V, N);
     float sky = clamp(R.y * 0.5 + 0.5, 0.0, 1.0);
@@ -14718,7 +14928,7 @@ void main(){
       paper = mix(paper, uE2 * 0.9, 0.26 * smoothstep(0.6, 0.15, lum));          // lavis bleu de Prusse dans l'ombre
       col = mix(paper * (0.9 + 0.1 * lum), vec3(0.2, 0.13, 0.08), clamp(ink, 0.0, 1.0) * 0.88);
     }
-    if (uS3.y > 5.5) {
+    if (uS3.y > 5.5 && uS3.y < 6.5) {
       // origami : papier plié mat, chaque facette prend une couleur du crépuscule selon son orientation (rose, orange, jaune, violet, bleu),
       // arêtes nettes, lumière douce ; les facettes tournées vers la lumière s'éclaircissent
       float hsh = fract(sin(dot(floor(N * 6.0), vec3(12.9898, 78.233, 37.719))) * 43758.5453);
@@ -14726,7 +14936,7 @@ void main(){
       vec3 c1 = mix(uE2, uE1, smoothstep(0.0, 0.55, t)); c1 = mix(c1, uA, smoothstep(0.6, 1.0, t));
       col = c1 * (0.42 + 0.7 * max(dot(N, uKey), 0.0) + 0.18 * max(dot(N, uFill), 0.0)) * (1.0 - 0.25 * cav);
       alpha = 1.0;
-    } else if (uS3.y > 4.5) {
+    } else if (uS3.y > 4.5 && uS3.y < 5.5) {
       // nacre : interférences en couches minces, la couleur glisse avec l'angle, comme une bulle de savon ; reflets de studio nets
       float th = 1.0 - ndv;
       vec3 iri = 0.5 + 0.5 * cos(6.2831 * (th * 1.7 + vPos.y * 0.6 + vec3(0.0, 0.33, 0.67)));
@@ -14743,6 +14953,72 @@ void main(){
     if (uS3.y > 1.5 && uS3.y < 3.5) col += mix(uE1, uE2, 0.5) * crest * pow(max(dot(R, uKey), 0.0), 18.0) * 0.8;                     // chrome : les crêtes accrochent la lumière
     if(uS3.y < 3.5) col += grad * uS2.x * 0.18 * crest;
     if (alpha < 0.999) { alpha = mix(alpha * 0.4, alpha, 1.0 - ndv); col *= alpha; }
+  }
+  if (uS3.y > 6.5 && uS3.w < 0.5) {
+    // v8 « Modeler » : dix matières de plus (codes 7 à 16 de FORGE.MATERIALS). Chacune a sa lumière ; le relief des sillons reste lisible.
+    float n1 = surfaceNoise(vPos * 4.0), n2 = surfaceNoise(vPos * 13.0 + 7.0);
+    float diff = max(dot(N, uKey), 0.0) * 0.85 + max(dot(N, uFill), 0.0) * 0.3 + 0.14;
+    vec3 Rf = reflect(-V, N);
+    float spec = pow(max(dot(Rf, uKey), 0.0), 60.0);
+    float sheen = pow(1.0 - ndv, 1.6);
+    float tw = 0.5 + 0.5 * sin(uTime * uS2.z * 3.0 + n2 * 9.0);
+    alpha = uS3.x;
+    if (uS3.y < 7.5) {
+      // lave : une croûte de basalte, des fissures incandescentes qui pulsent
+      float ridge = 1.0 - abs(2.0 * n1 - 1.0);
+      float crack = smoothstep(0.82, 0.97, ridge);
+      vec3 rock = vec3(0.17, 0.085, 0.06) * diff * (0.7 + 0.5 * crest);
+      vec3 ember = mix(vec3(1.0, 0.42, 0.1), uA, 0.18);   // la lave a sa couleur : orange incandescent, l'accent seulement en touche
+      col = rock + ember * crack * (0.9 + 0.7 * tw) * (1.0 + 1.0 * cav);
+    } else if (uS3.y < 8.5) {
+      // verre soufflé : presque transparent, les bords et les reflets portent la forme
+      alpha = clamp(0.16 + 0.55 * rimK + 0.5 * spec, 0.0, 1.0) * uS3.x;
+      col = grad * (0.22 + 0.9 * rimK) + vec3(spec) * 0.8 + uA * rimK * 0.25;
+    } else if (uS3.y < 9.5) {
+      // marbre veiné : pierre polie, des veines de lumière
+      float v = abs(sin(vPos.x * 4.0 + vPos.y * 2.5 + n1 * 9.0));
+      float vein = smoothstep(0.1, 0.0, v);
+      vec3 stone = mix(uE1, uE2, 0.5 + 0.5 * n2) * 0.55 + vec3(0.12);
+      col = stone * diff * (1.0 - uS1.y) + mix(uE2, uA, 0.5) * vein * (0.9 + 0.5 * tw) + vec3(spec) * 0.45 + rimK * uE2 * 0.15;
+    } else if (uS3.y < 10.5) {
+      // néon : un fond sombre, des tubes de lumière le long des bords et des sillons
+      col = grad * 0.04 * diff + mix(uE2, uA, 0.4) * pow(rimK, 0.9) * 2.2 + uE1 * smoothstep(0.5, 0.75, cav) * (1.2 + 0.6 * tw);
+    } else if (uS3.y < 11.5) {
+      // bronze patiné : un métal ancien, la patine verte dans les creux
+      vec3 metal = vec3(0.7, 0.44, 0.24);
+      vec3 env = mix(vec3(0.1, 0.08, 0.07), vec3(0.95, 0.78, 0.55), clamp(Rf.y * 0.5 + 0.5, 0.0, 1.0));
+      vec3 patina = mix(vec3(0.2, 0.7, 0.55), uE2, 0.15);
+      float pat = smoothstep(0.34, 0.66, cav * 0.7 + 0.45 * n1);
+      col = mix(metal * (0.25 + 0.75 * diff) + env * metal * 1.1 + vec3(spec) * 1.2, patina * (0.3 + 0.6 * diff), pat);
+    } else if (uS3.y < 12.5) {
+      // glace fissurée : un givre bleuté, des fractures qui scintillent
+      vec3 frost = mix(uE1, vec3(0.92, 0.97, 1.0), 0.55);
+      float fr = 1.0 - smoothstep(0.0, 0.035, abs(n2 - 0.5));
+      col = frost * (0.3 + 0.7 * diff) + vec3(spec) * 0.9 + sheen * uE2 * 0.5 + uA * fr * (1.0 + 0.6 * tw);
+    } else if (uS3.y < 13.5) {
+      // mercure : un métal liquide, la surface ondule et reflète le décor
+      vec3 Nw = normalize(N + 0.14 * vec3(sin(vPos.y * 14.0 + uTime * uS2.z * 2.0), sin(vPos.z * 12.0), sin(vPos.x * 11.0)));
+      vec3 Rw = reflect(-V, Nw);
+      float bandW = smoothstep(-0.25, 0.75, Rw.y);
+      vec3 env = mix(vec3(0.03, 0.04, 0.08), vec3(0.96, 0.97, 1.0), bandW) + grad * 0.15 * bandW;
+      col = env * (0.75 + 0.25 * diff) + vec3(pow(max(dot(Rw, uKey), 0.0), 40.0)) * 1.4 + grad * rimK * 0.25;
+    } else if (uS3.y < 14.5) {
+      // plasma : une énergie qui coule sur toute la surface
+      float flow = surfaceNoise(vPos * 3.0 + vec3(uTime * uS2.z * 1.6, 0.0, 0.0));
+      float band = smoothstep(0.6, 0.72, flow);
+      col = mix(uE1, uE2, smoothstep(0.2, 0.8, flow)) * (0.4 + 0.6 * diff) + uA * band * 0.55 + uE2 * rimK * 0.4;
+    } else if (uS3.y < 15.5) {
+      // maille : une grille de lumière tracée dans l'espace, comme un réseau
+      vec3 g = abs(fract(vPos * 11.0 + 0.5) - 0.5);
+      float line = 1.0 - smoothstep(0.0, 0.05, min(g.x, min(g.y, g.z)));
+      col = uE1 * 0.04 + mix(uE1, uE2, n1) * line * 1.5 + uA * line * 0.25 * tw;
+      alpha = clamp(0.25 + 0.75 * line + 0.25 * rimK, 0.0, 1.0) * uS3.x;
+    } else {
+      // velours : mat, des fibres douces et un liseré de lumière au bord
+      float fib = surfaceNoise(vPos * 38.0);
+      col = grad * (0.22 + 0.5 * diff) * (0.8 + 0.4 * fib) + uE2 * sheen * 1.1 + uA * rimK * 0.35;
+    }
+    if (alpha < 0.999) col *= alpha; // couleur prémultipliée, comme les autres styles translucides
   }
   if (uTexA.x > 0.5) {
     vec3 bump; vec3 tx = illustration(vPos*uTexA.y,N,bump);
@@ -14947,7 +15223,9 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
   function tierStart(minSide, touch) { return minSide < 520 || touch ? 1 : 0; }
 
   /* ───────── Le rendu ───────── */
-  function create(H) {
+  function create(H0) {
+    // v8 : la forme modelée, le style des neurones et le relief ; un pont sans eux (banc d'essai) garde le rendu d'avant
+    const H = { shapeKey: () => '', nodes: () => 'perles', plis: () => 1, ...H0 };
     const gl = H.gl;
     if (!gl) return null;
     const DC0 = new Float32Array([0, 0, 0, 0]); // v6-voyage : aucun passage, aucun centre
@@ -14973,7 +15251,7 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
         return L;
       } catch (e) { console.warn('[Mesh] programme', e && e.message); return null; }
     };
-    const PC = prog2(CVS, voyWrap('#define SURFACE_LITE 1\n' + CFS, 'cortex') /* v6-voyage */, ['aPos', 'aNrm', 'aCR'], ['uMVP', 'uEye', 'uKey', 'uFill', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uTint', 'uRegMix', 'uS1', 'uS2', 'uS3', 'uTex', 'uTexA', 'uStyle', ...VOY_CU]);
+    const PC = prog2(CVS, voyWrap('#define SURFACE_LITE 1\n' + CFS, 'cortex') /* v6-voyage */, ['aPos', 'aNrm', 'aCR'], ['uMVP', 'uEye', 'uKey', 'uFill', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uTint', 'uRegMix', 'uS1', 'uS2', 'uS3', 'uTex', 'uTexA', 'uStyle', 'uPlis', ...VOY_CU]);
     const PF = prog2(FVS, voyWrap(FFS, 'fiber') /* v6-voyage */, ['aPos', 'aTS', 'aM'], ['uMVP', 'uRes', 'uW', 'uE1', 'uE2', 'uA', 'uTime', 'uDim', 'uDec', 'uSpeed', 'uGain', 'uFocus', 'uFx0', 'uFx1', 'uFx2', 'uRest', 'uHyb' /* v6-cerveaux */, ...VOY_FU]);
     /* v6-cerveaux : les programmes des univers hybrides, compilés seulement quand on choisit l'univers, gardés dans un cache (un échec aussi :
        on ne recompile pas à chaque image). Mêmes attributs et uniformes que PC et PF, plus uHyb et les animations ; une compilation qui
@@ -15025,10 +15303,10 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
     let detailKey='',detailData=null,PD=null,PS=null,lastTex='',detailsAttempted=false;
     const clock=f=>typeof BrainSurface !== 'undefined' ? BrainSurface.time(f) : (f.reduced?0:f.time);
     function drawDetails(f,key3,fil3) {
-      const sil=H.silId();
+      const sil=H.silId(), warpOn=()=>sil!=='classique'||!!H.shapeKey();
       if(!cortex || !f.tex || (sil!=='classique' && sil!=='hemispheres') || f.xray>0.01 || f.near>0 || (f.hole && f.hole[3]>0))return;
-      const dk=f.tex+'|'+tier+'|'+sil;
-      if(dk!==detailKey){detailData=surfaceDetails(cortex,f.tex,tier,sil==='classique'?null:p=>H.warp(p));upload(bufDetail,detailData.solid);upload(bufSprite,detailData.sprites);detailKey=dk;}
+      const dk=f.tex+'|'+tier+'|'+sil+'|'+H.shapeKey();
+      if(dk!==detailKey){detailData=surfaceDetails(cortex,f.tex,tier,warpOn()?p=>H.warp(p):null);upload(bufDetail,detailData.solid);upload(bufSprite,detailData.sprites);detailKey=dk;}
       if(!detailData || !detailData.counts.anchors)return;
       const attributes=['aPos','aNrm','aCol','aAux'];
       if(!detailsAttempted){detailsAttempted=true;PD=prog2(DETAIL_VS,DETAIL_FS,attributes,['uMVP','uEye','uKey','uFill','uDim','uInfl']);compiles++;PS=prog2(SPRITE_VS,SPRITE_FS,attributes,['uMVP','uRight','uUp','uTime','uDim']);compiles++;}
@@ -15135,11 +15413,17 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
         const A = BrainTree.attractors(cortex, (p) => H.warp(p, 'cortex'), { count: T.segs >= 9 ? 3600 : 2200 });
         const G = BrainTree.grow(A, {}), R = BrainTree.roots({});
         const sd = Math.max(4, 7 + T.sides), ico = icosphere(T.nodeSub), bark = [0.42, 0.34, 0.55];
+        // v8 « arbre des âmes » : un tronc plus fort (rayons × 1,35), une sève qui monte dans les branches (impulsions du tube), des fleurs
+        // plus grandes au bout des rameaux, et des particules lumineuses qui flottent dans la couronne.
+        const GIRTH = 1.35;
         [...G.branches, ...R].forEach((b, i) => {
-          const rs = b.r, n = b.pts.length;
-          tube(B, b.pts, { r: (s) => { const x = s * (n - 1), j = Math.min(n - 2, Math.floor(x)), f = x - j; return rs[j] + (rs[j + 1] - rs[j]) * f; }, sides: rs[0] > 0.02 ? sd + 3 : sd, col: bark, em: 0.35 + 0.65 * Math.min(1, rs[0] * 18), ph: (i * 0.137) % 1, kind: 1 });
+          const rs = b.r.map((x) => x * GIRTH), n = b.pts.length;
+          tube(B, b.pts, { r: (s) => { const x = s * (n - 1), j = Math.min(n - 2, Math.floor(x)), f = x - j; return rs[j] + (rs[j + 1] - rs[j]) * f; }, sides: rs[0] > 0.02 ? sd + 3 : sd, col: bark, em: 0.45 + 0.55 * Math.min(1, rs[0] * 14), ph: (i * 0.137) % 1, kind: 1 });
         });
-        G.tips.forEach((p, i) => ball(B, p, 0.011 + 0.006 * ((i * 7) % 5) / 5, [1, 1, 1], 0.85, (i * 0.61) % 1, 2, ico));
+        // pas de grosses billes au bout des rameaux (elles faisaient un étendoir) : de petits bourgeons lumineux, et des particules fines
+        G.tips.forEach((p, i) => ball(B, p, 0.0065 + 0.003 * ((i * 7) % 5) / 5, [1, 1, 1], 0.7, (i * 0.61) % 1, 2, ico));
+        const stride = Math.max(1, Math.floor(A.length / (T.segs >= 9 ? 260 : 160))), icoSm = icosphere(0);
+        for (let i = 0; i < A.length; i += stride) ball(B, A[i], 0.0016 + 0.0016 * (((i * 13) % 7) / 7), [1, 1, 1], 0.75, (i * 0.37) % 1, 2, icoSm);
       } else if (sil === 'arbre' && SH && SH.on) { // l'arbre : tronc, racines, branches (à la place du cervelet et du tronc cérébral)
         const trunk = [];
         for (let k = 0; k <= 10; k++) { const t = k / 10; trunk.push([0.03 * Math.sin(t * 5), -0.95 + t * 1.0, 0]); }
@@ -15185,10 +15469,15 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
       const NS = M.node || { r: 0.02, hub: 0.04 };
       const hubIds = new Set(); model.territories.forEach((t) => { const f = model.neurons.find((n) => n.t === t.id); if (f) hubIds.add(f.id); });
       const shadow = new Set(model.territories.filter((t) => t.shadow).map((t) => t.id));
+      const nodeStyle = H.nodes() || 'perles'; // v8 : perles (d'avant), orbes d'énergie, cristaux, étoiles
       for (const n of model.neurons) {
         if (shadow.has(n.t)) continue;
         const lit = litOf(n), ph = H.hashStr(n.id) % 997 / 997, grow = sil === 'constellation' ? 1.7 : 1; // en constellation, les neurones sont les étoiles
-        ball(B, n.pos, (hubIds.has(n.id) ? NS.hub : NS.r * (0.8 + 0.5 * lit)) * grow, colOf(n), 0.25 + 0.75 * lit, ph, 2, ico);
+        const R = (hubIds.has(n.id) ? NS.hub : NS.r * (0.8 + 0.5 * lit)) * grow, col = colOf(n), em = 0.25 + 0.75 * lit, seed = (H.hashStr(n.id) % 997) / 997 + 0.01;
+        if (nodeStyle === 'orbes') { ball(B, n.pos, R * 1.2, col, Math.min(1, em + 0.3), ph, 2, ico); orbitRing(B, n.pos, R * 2.8, col, Math.min(1, em + 0.2), ph, seed); }
+        else if (nodeStyle === 'cristaux') octa(B, n.pos, R * 1.6, col, em, ph);
+        else if (nodeStyle === 'etoiles') { ball(B, n.pos, R * 0.7, col, Math.min(1, em + 0.2), ph, 2, ico); spikes(B, n.pos, R * 1.7, col, Math.min(1, em + 0.2), ph, seed); }
+        else ball(B, n.pos, R, col, em, ph, 2, ico);
       }
       return { data: B.data(), tubes: [startTubes, startNodes - startTubes], nodes: [startNodes, B.n - startNodes], edges: edges.length, ms: performance.now() - t0 };
     }
@@ -15207,7 +15496,7 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
       lastTex=f.tex||'';
       const M = f.M; if (!M || tier >= 2) return false;
       const model = H.model(); if (!model) return false;
-      const ks = f.matKey + '|' + H.silId() + '|' + tier + '|' + (cortex ? 'c' : ''), kd = ks + '|' + H.litSig();
+      const ks = f.matKey + '|' + H.silId() + '|' + H.shapeKey() + '|' + tier + '|' + (cortex ? 'c' : ''), kd = ks + '|' + H.litSig() + '|' + H.nodes();
       if (model !== modelRef) { modelRef = model; S = D = null; keyS = keyD = ''; }
       let tb = 0;
       if (ks !== keyS || !S) {
@@ -15253,7 +15542,16 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
         gl.uniform1f(loc.uInfl, 0); gl.uniform1f(loc.uGlow, 0);
         gl.depthMask(true); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
       }
-      if (real) { drawReal(f, M, SH, E, key3, fil3); drawDetails(f,key3,fil3); return true; }
+      if (real) {
+        drawReal(f, M, SH, E, key3, fil3); drawDetails(f,key3,fil3);
+        // v8 : les styles de neurones autres que les perles (orbes, cristaux, étoiles) se voient À TRAVERS le cortex, en lumière additive
+        if (H.nodes() && H.nodes() !== 'perles' && D && D.nodes[1] > 0) {
+          gl.useProgram(P); gl.bindBuffer(gl.ARRAY_BUFFER, bufD); bindAttribs();
+          gl.disable(gl.DEPTH_TEST); gl.blendFunc(gl.ONE, gl.ONE); gl.uniform1f(loc.uDim, f.dim * 0.42); run(D.nodes); // à travers la coque : plus doux qu'une lumière pleine
+          gl.uniform1f(loc.uDim, f.dim); gl.enable(gl.DEPTH_TEST); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        }
+        return true;
+      }
       if (SH.on !== false && S.shell[1] > 0) {
         gl.bindBuffer(gl.ARRAY_BUFFER, bufS); bindAttribs();
         if (glass) {
@@ -15278,9 +15576,9 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
       }
       const materialV7 = typeof BrainHybrid !== 'undefined' && BrainHybrid.V7.includes(SH.hybrid);
       const flatC = !!(SH.flat && src === lp);
-      const kc = sil + '|' + tier + '|' + (src === lp ? 'lp' : 'c') + (flatC ? 'f' : '')+'|'+f.tex+'|'+materialV7;
+      const kc = sil + '|' + H.shapeKey() + '|' + tier + '|' + (src === lp ? 'lp' : 'c') + (flatC ? 'f' : '')+'|'+f.tex+'|'+materialV7; // v8 : la forme modelée reconstruit le cortex
       if (kc !== keyC) {
-        const warp = sil === 'classique' ? null : (p, reg) => H.warp(p, reg <= 3 ? 'cortex' : undefined);
+        const warp = !(sil !== 'classique' || H.shapeKey()) ? null : (p, reg) => H.warp(p, reg <= 3 ? 'cortex' : undefined);
         let B = cortexBuffers(src, warp, sil === 'arbre' ? (reg) => reg <= 3 : null, flatC);
         if (materialV7) {
           if (!matCache.has(src)) matCache.set(src, BrainHybrid.coordinates(src));
@@ -15314,11 +15612,11 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
       // les fibres (classique et hémisphères : elles suivent l'anatomie)
       const wantF = FB && FB.gain > 0 && typeof BrainFibers !== 'undefined' && (sil === 'classique' || sil === 'hemispheres');
       if (wantF) {
-        const kf = sil + '|' + tier;
+        const kf = sil + '|' + tier + '|' + H.shapeKey();
         if (kf !== keyF) {
           const t0 = performance.now();
           const Fb = BrainFibers.build(cortex, { seed: 7, scale: tier >= 1 ? 0.45 : 1, segs: tier >= 1 ? 22 : 30 });
-          const st = fiberStrip(Fb, sil === 'classique' ? null : (p) => H.warp(p));
+          const st = fiberStrip(Fb, !(sil !== 'classique' || H.shapeKey()) ? null : (p) => H.warp(p));
           gl.bindBuffer(gl.ARRAY_BUFFER, bufF); gl.bufferData(gl.ARRAY_BUFFER, st.verts, gl.STATIC_DRAW); nF = st.count; keyF = kf;
           if (debug()) console.log('[Mesh] fibres', Fb.count, 'fibres', st.count, 'sommets', Math.round(performance.now() - t0), 'ms');
         }
@@ -15379,6 +15677,7 @@ if(a<0.015)discard;gl_FragColor=vec4(brainGrade(vCol)*a*uDim,a*uDim);}`;
         gl.uniform3f(Q.uE1, f.e1[0], f.e1[1], f.e1[2]); gl.uniform3f(Q.uE2, f.e2[0], f.e2[1], f.e2[2]); gl.uniform3f(Q.uA, f.a[0], f.a[1], f.a[2]);
         gl.uniform1f(Q.uTime, materialV7 ? clock(f) % BrainHybrid.period(hyb) : clock(f)); gl.uniform1f(Q.uDim, f.dim); gl.uniform1f(Q.uTint, f.tint);
         if(Q.uStyle) gl.uniform1f(Q.uStyle, SH.style || 0);
+        if(Q.uPlis) gl.uniform1f(Q.uPlis, f.plis == null ? 1 : f.plis); // v8 : le relief des sillons (« Plis »)
         const L = f.lobes; gl.uniform1f(Q.uRegMix, L ? 0.85 : 0);
         if (Q.uReg) gl.uniform3fv(Q.uReg, new Float32Array(L ? L.flat() : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
         // L’illustration de l’univers reste présente quand on retouche ses couleurs ; le grade vient après.
@@ -15933,9 +16232,11 @@ void main(){
   const SILS = ['classique', 'hemispheres', 'constellation', 'arbre'];
   let silId = 'classique';
   const hasForge = () => typeof FORGE !== 'undefined' && FORGE && typeof FORGE.warp === 'function';
-  function silPos(p) { if (silId === 'classique' || !hasForge()) return p; const w = FORGE.warp(silId, p); return w || p; }
+  /* v8 : la déformation s'applique dès qu'il y a une silhouette OU une forme modelée (curseurs « Modeler », FG.shape) */
+  const silActive = () => (silId !== 'classique' || !!FG.shapeKey) && hasForge();
+  function silPos(p) { if (!silActive()) return p; const w = FORGE.warp(silId, p, { shape: FG.shape }); return w || p; }
   function silPts(all) {
-    if (silId === 'classique' || !hasForge() || !all) return all;
+    if (!silActive() || !all) return all;
     const hubs = silId === 'constellation' ? FORGE.hubsFor(model.territories.filter((t) => !t.shadow).map((t) => t.pos0 || t.pos), all.map((q) => q.p)) : null;
     const out = [];
     for (const q of all) {
@@ -15943,7 +16244,7 @@ void main(){
       const copies = silId === 'arbre' && q.kind === 'tronc' ? 3 : 1;
       for (let j = 0; j < copies; j++) {
         const ph = j ? (q.ph * (7.13 + j * 3.1) + 0.37 * j) % 1 : q.ph;
-        const w = FORGE.warp(silId, q.p, { kind: q.kind, ph, hubs });
+        const w = FORGE.warp(silId, q.p, { kind: q.kind, ph, hubs, shape: FG.shape });
         if (w) out.push({ ...q, p: w, ph });
       }
     }
@@ -16024,10 +16325,7 @@ void main(){
   function silApply(id) {
     silId = SILS.includes(id) ? id : 'classique';
     if (!model) return;
-    silNeurons(model);
-    for (const e of model.edges || []) e.curve = curveFor(e.a.pos, e.b.pos, e.cross ? 0.42 : 0.6);
-    if (model.brainAll) model.brainPts = silPts(model.brainAll);
-    silRegions();
+    silReshape();
     // l'angle de départ : les hémisphères se lisent de dessus (un écartement gauche-droite est invisible de profil), les autres de trois quarts
     const v = silId === 'hemispheres' ? { sway: 0.45, pitch: 0.8 } : { sway: 1.32, pitch: 0.22 };
     swayBase = v.sway; BRAIN_VIEW.pitch = v.pitch;
@@ -16035,6 +16333,17 @@ void main(){
     upload();
     if (mem.src) buildMem();
     if (view.level === 'brain' || view.level === 'connectome') go({ level: view.level }, { resetYaw: true }); // recadre la caméra sur la nouvelle forme
+    wake();
+  }
+  /* v8 : les positions seules se recalculent (curseurs « Modeler ») ; la caméra garde son angle et son cadrage */
+  function silReshape() {
+    if (!model) return;
+    silNeurons(model);
+    for (const e of model.edges || []) e.curve = curveFor(e.a.pos, e.b.pos, e.cross ? 0.42 : 0.6);
+    if (model.brainAll) model.brainPts = silPts(model.brainAll);
+    silRegions();
+    upload();
+    if (mem.src) buildMem();
     wake();
   }
 
@@ -17852,7 +18161,8 @@ void main(){
   /* Ce que le maillage ne sait que de la scène : la forme du cerveau, le bruit, le modèle, la silhouette. */
   const MESH_H = {
     get gl() { return gl; }, model: () => model, silId: () => silId, hex, SHAPES: () => SHAPES, shapeOf, noise, insideBrain, STEM: () => STEM,
-    warp: (p, kind) => (silId !== 'classique' && hasForge() ? FORGE.warp(silId, p, { kind }) || p : p),
+    warp: (p, kind) => (silActive() ? FORGE.warp(silId, p, { kind, shape: FG.shape }) || p : p),
+    shapeKey: () => FG.shapeKey, nodes: () => FG.nodeStyle, plis: () => FG.plis, // v8
     onCortex: (C) => snapToCortex(C), // le vrai cortex est chargé : les neurones se posent sur ses gyri
     lowPolyURL: () => 'assets/brain-cortex-lp.bin.gz',
     texURL: (id) => 'img/univers/tex/' + id + '.webp', // les échantillons de matière tirés des illustrations
@@ -17873,6 +18183,9 @@ void main(){
     FG.scan = num(o.scan, 0, 0, 1); FG.facet = num(o.facet, 0, 0, 1); FG.desat = num(o.desat, 0, 0, 1); FG.rim = num(o.rim, 0, 0, 1);
     FG.zones = Math.round(num(o.zones, 8, 1, 12));
     FG.mesh = o.mesh && typeof o.mesh === 'object' ? o.mesh : null;
+    FG.shape = o.shape && typeof o.shape === 'object' ? o.shape : null; FG.plis = num(o.plis, 1, 0, 2); FG.nodeStyle = typeof o.nodes === 'string' ? o.nodes : 'perles'; // v8
+    const shk = FG.shape ? JSON.stringify(FG.shape) : '';
+    const shapeChanged = shk !== (FG.shapeKey || ''); FG.shapeKey = shk;
     FG.hybrid = typeof o.hybrid === 'string' ? o.hybrid : ''; FG.restAnim = typeof o.restAnim === 'string' ? o.restAnim : ''; /* v6-cerveaux */
     FG.tex = typeof o.tex === 'string' ? o.tex : '';
     FG.dec = !!o.dec; FG.lobes = Array.isArray(o.lobes) && o.lobes.length >= 6 ? o.lobes.slice(0, 6).map((c) => col(c, [0.5, 0.5, 0.5])) : null;
@@ -17880,6 +18193,7 @@ void main(){
     if (mk !== FG.matKey) { FG.matKey = mk; if (mesh) mesh.invalidate(); }
     FG.zc.fill(0);
     if (Array.isArray(o.zoneColors)) o.zoneColors.slice(0, 12).forEach((c, i) => { const k = col(c, null); if (k) { FG.zc[i * 4] = k[0]; FG.zc[i * 4 + 1] = k[1]; FG.zc[i * 4 + 2] = k[2]; FG.zc[i * 4 + 3] = 1; } });
+    if (shapeChanged) silReshape(); // v8 : la forme modelée se pose tout de suite sur les neurones, les tubes et le cortex
     const sid = SILS.includes(o.silhouette) ? o.silhouette : 'classique';
     if (silFade ? silFade.to !== sid : sid !== silId) silChange(sid, !!o.instant); // o.instant : au lancement de l'app, la forme enregistrée se pose sans fondu
     wake();
@@ -18015,7 +18329,7 @@ void main(){
       const dimK = (mem.a > 0.003 || mem.dim > 0.003 ? 1 - 0.55 * mem.dim : 1) * fadeK;
       // v6-cerveaux : les animations des fibres (l'effet en cours, le repos de l'univers) et le mouvement réduit
       const fxR = fxReduced(), fx = typeof FiberAnim !== 'undefined' ? FiberAnim.toUniforms(fxList, time * 1000, fxR, { rest: fxRestId || FG.restAnim, timeScale: FG.speed }) : null;
-      meshDrawn = mesh.draw({ grade: FG.grade, M: FG.mesh, matKey: FG.matKey, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
+      meshDrawn = mesh.draw({ grade: FG.grade, M: FG.mesh, matKey: FG.matKey, plis: FG.plis, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
       meshOnFrame = meshDrawn;
       if (meshDrawn) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.blendFunc(gl.ONE, gl.ONE); gl.depthMask(false); } // le test de profondeur reste : les points sont cachés par la matière
     }
@@ -18277,7 +18591,7 @@ void main(){
     cortex() { return mesh && mesh.cortexState === 'ready' && mesh.cortex ? mesh.cortex : null; },
     get meshTier() { return mesh ? mesh.tier : 2; },
     /* la forme du cerveau (« Forge ») appliquée à un point : les calques se posent là où le cortex est dessiné */
-    warp(p) { return silId !== 'classique' && hasForge() ? FORGE.warp(silId, p, { kind: 'cortex' }) || p : p; },
+    warp(p) { return silActive() ? FORGE.warp(silId, p, { kind: 'cortex', shape: FG.shape }) || p : p; },
     get silhouette() { return silId; },
     reveal(seed, dur, cb) { if (reduced || !(dur >= 0.05)) { reveal = null; if (cb) cb(); wake(); return; } reveal = { seed: seed || [0.1, 0.2, 0.6], r: -0.3, t0: time + (dur > 0 ? 0.5 : 0), dur: dur || 2.6, cb }; wake(); },
     hold() { reveal = { seed: [0, 0, 0], r: -1, t0: 1e9, dur: 1, cb: null }; wake(); },
@@ -31688,7 +32002,7 @@ function sbmDetail(id) {
     <div class="sbm-modes">
       ${(pack.flash && pack.flash.length) || (pack.vocab && pack.vocab.length) ? `<button class="sbm-mode primary" data-act="sbm-vocab" data-id="${attr(id)}"><span class="sbm-mi" aria-hidden="true">${I.book || I.mission}</span><span class="txt"><span class="sb-zname">Flash cards</span><span class="cap">${esc(`${plural(SBM.deckOf(pack).length, 'carte', 'cartes')} : une question, des propositions, puis la fiche`)}</span></span></button>` : ''}
       <button class="sbm-mode${(pack.flash && pack.flash.length) || (pack.vocab && pack.vocab.length) ? '' : ' primary'}" data-act="sbm-play" data-id="${attr(id)}"><span class="sbm-mi" aria-hidden="true">${I.play}</span><span class="txt"><span class="sb-zname">Jouer une séance</span><span class="cap">${esc(`Cartes, trous, vrai ou faux, ordre${lastLog ? ` · dernière : ${lastLog.ok} sur ${lastLog.n}` : ''}`)}</span></span></button>
-      ${pack.diagrams.length ? `<button class="sbm-mode" data-act="sbm-gallery" data-id="${attr(id)}"><span class="sbm-mi" aria-hidden="true">${I.eye}</span><span class="txt"><span class="sb-zname">Schémas</span><span class="cap">${esc(`${plural(pack.diagrams.length, 'schéma', 'schémas')} à refaire de mémoire`)}</span></span></button>` : ''}
+      ${pack.diagrams.length || (pack.images || []).length ? `<button class="sbm-mode" data-act="sbm-gallery" data-id="${attr(id)}"><span class="sbm-mi" aria-hidden="true">${I.eye}</span><span class="txt"><span class="sb-zname">Schémas</span><span class="cap">${esc(`${plural(pack.diagrams.length, 'schéma', 'schémas')} à refaire de mémoire`)}</span></span></button>` : ''}
       ${pack.audio.length ? `<button class="sbm-mode" data-act="sbm-listen" data-id="${attr(id)}"><span class="sbm-mi" aria-hidden="true">${I.ear}</span><span class="txt"><span class="sb-zname">Écouter</span><span class="cap">${esc('Le résumé lu à voix haute, idée par idée')}</span></span></button>` : ''}
       ${pack.mnemonics.length ? `<button class="sbm-mode" data-act="sbm-loci" data-id="${attr(id)}"><span class="sbm-mi" aria-hidden="true">${I.hand}</span><span class="txt"><span class="sb-zname">Palais de la mémoire</span><span class="cap">${esc('Poser les idées sur la carte du cerveau')}</span></span></button>` : ''}
       <button class="sbm-mode" data-act="sbm-biblio" data-id="${attr(id)}"><span class="sbm-mi" aria-hidden="true">${I.explore}</span><span class="txt"><span class="sb-zname">Voyager dans le cerveau</span><span class="cap">${esc('Range les cartes dans la Bibliothèque (un cours par document), puis plonge dans le cerveau')}</span></span></button>
@@ -31732,10 +32046,14 @@ function sbmGallery(id) {
   const p = sbmMission(id), pack = p && sbmPack(p);
   if (!pack) return `${navbar('Schémas')}<div class="col sb"><div class="sb-empty">${I.help}<div><p class="h3">Pas de schéma pour l’instant.</p></div></div></div>`;
   const photos = Array.isArray(p.media) ? p.media : [];
-  const fig = (d) => { const svg = SBM.sanitizeSvg(d.svg); return svg ? `<figure class="sbm-fig" ${sbmStyle(p)}><div class="sbm-svg">${svg}</div><figcaption><b>${esc(d.title)}</b>${d.caption ? `<span class="cap">${esc(d.caption)}</span>` : ''}</figcaption></figure>` : ''; };
+  /* « Réduire les animations » : on retire les balises <animate> avant l'affichage (le SVG reste lisible, figé dans son état final). */
+  const reduceMotion = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const staticSvg = (svg) => (reduceMotion ? svg.replace(/<animate\b[^>]*\/>/g, '') : svg);
+  const fig = (d) => { const svg = SBM.sanitizeSvg(d.svg); return svg ? `<figure class="sbm-fig" ${sbmStyle(p)}><div class="sbm-svg">${staticSvg(svg)}</div><figcaption><b>${esc(d.title)}</b>${d.caption ? `<span class="cap">${esc(d.caption)}</span>` : ''}</figcaption></figure>` : ''; };
+  const img = (im) => `<figure class="sbm-fig" ${sbmStyle(p)}><img class="sbm-img" src="${attr(im.src)}" alt="${attr(im.alt)}" loading="lazy"><figcaption><b>${esc(im.alt)}</b>${im.caption ? `<span class="cap">${esc(im.caption)}</span>` : ''}</figcaption></figure>`;
   return `${navbar('Schémas')}<div class="col sb sbm sbm-one" ${sbmStyle(p)}>${sbmTitle(`Schémas : ${p.name}`)}
     <p class="meta">${esc('Regarde un schéma une minute, cache-le, puis refais-le de mémoire sur une feuille. Un schéma qui explique aide à retenir ; une image qui décore, non.')} ${sbmEvBadge('solide')}</p>
-    ${pack.diagrams.map(fig).join('')}
+    ${pack.diagrams.map(fig).join('')}${(pack.images || []).map(img).join('')}
     <section class="section" aria-labelledby="sbmPhH"><h2 class="h3" id="sbmPhH">Tes photos</h2>
       ${photos.length ? `<div class="sbm-photos">${photos.map((m, i) => `<figure class="sbm-ph"><img src="${attr(m.data)}" alt="${attr(m.alt || 'Photo de ta mission')}"><figcaption class="cap">${esc(m.alt || '')} <button class="link" data-act="sbm-photo-del" data-id="${attr(id)}" data-i="${i}">Retirer</button></figcaption></figure>`).join('')}</div>` : `<p class="meta">${esc('Ajoute une photo de ton cours ou de ton propre schéma : elle reste sur cet appareil.')}</p>`}
       <div class="row-btns"><label class="btn btn-quiet" for="sbmPhoto">${I.upload} Ajouter une photo</label><input id="sbmPhoto" type="file" accept="image/*" data-sbmfile="photo" data-id="${attr(id)}" hidden></div></section></div>`;
@@ -31784,15 +32102,23 @@ function sbmLoci(id) {
 /* ═════════════ Fiches de vocabulaire ═════════════
    Une fiche blanche, écriture noire : le mot au recto ; au verso, le sens, les synonymes (vérifiés ou non, dit clairement) et la phrase du cours.
    Retournement en 3D, glisser ou flèches pour passer à la suivante ; mouvement réduit : pas d'animation. */
-const SBVC = { id: null, doc: '', i: 0, flip: false, swiped: false, ans: {} };
+const SBVC = { id: null, doc: '', i: 0, flip: false, swiped: false, ans: {}, rate: {} };
 const sbmVcPack = () => { const p = sbmMission(SBVC.id); return p && sbmPack(p); };
-function sbmVcDeck() { const pk = sbmVcPack(); const all = pk ? SBM.deckOf(pk) : []; return SBVC.doc ? all.filter((v) => v.doc === SBVC.doc) : all; }
+function sbmVcDeck() { const pk = sbmVcPack(); const all = pk ? SBM.viewCards(pk) : []; return SBVC.doc ? all.filter((v) => v.doc === SBVC.doc) : all; }
 /* Les propositions dans un ordre mélangé mais stable (la même carte donne toujours le même ordre) */
 const sbmVcOrder = (f) => f.choices.map((c, k) => ({ ...c, k })).sort((x, y) => SBM.fnv(`${f.id}|${x.t}`) - SBM.fnv(`${f.id}|${y.t}`));
 const sbmVcAns = (f) => (SBVC.ans[`${SBVC.id}|${f.id}`] = SBVC.ans[`${SBVC.id}|${f.id}`] || { sel: [], done: false, ok: false });
+/* Une illustration par document : celle dont le concept appartient à ce document (sinon rien). Les fiches restent lisibles sans elle. */
+function sbmVcArt(pk, doc) {
+  const imgs = (pk && pk.images) || [];
+  if (!imgs.length || !doc) return '';
+  const docOf = new Map((pk.concepts || []).map((c) => [c.id, (/^\s*([^\s:]+)\s*:/.exec(String(c.src || '')) || [])[1] || null]));
+  const im = imgs.find((x) => docOf.get(x.concept) === doc);
+  return im ? `<figure class="vc-art"><img src="${attr(im.src)}" alt="${attr(im.alt)}" loading="lazy"></figure>` : '';
+}
 function sbmVcFront(f, n) {
   const pk = sbmVcPack(), q = f.choices.length > 0, A = sbmVcAns(f);
-  const top = `<div class="vc-top"><span class="vc-doc">${esc(SBM.docTitle(pk, f.doc))}</span><span class="vc-n">${SBVC.i + 1} / ${n}</span></div>`;
+  const top = `<div class="vc-top"><span class="vc-doc">${esc(SBM.docTitle(pk, f.doc))}</span><span class="vc-n">${SBVC.i + 1} / ${n}</span></div>${sbmVcArt(pk, f.doc)}`;
   if (!q) return `${top}<div class="vc-word" lang="en">${esc(f.q)}</div><p class="vc-hint">${esc(f.hint || 'Touche la fiche pour la retourner')}</p>`;
   const need = f.choices.filter((c) => c.ok).length;
   const opts = sbmVcOrder(f).map((c) => {
@@ -31805,19 +32131,19 @@ function sbmVcFront(f, n) {
   const res = A.done ? `<p class="vc-res ${A.ok ? 'ok' : 'ko'}" role="status">${A.ok ? 'Bien joué !' : 'Pas tout à fait : regarde la fiche.'}</p>` : '';
   return `${top}<div class="vc-word vc-q" lang="en">${esc(f.q)}</div><p class="vc-hint">${esc(f.hint || (need > 1 ? `Coche les ${need} bonnes propositions` : 'Choisis la bonne proposition'))}</p>
     <ul class="vc-opts" aria-label="Propositions">${opts}</ul>
-    ${A.done ? `${res}<button class="btn btn-primary vc-go" data-act="sbm-vcflip">${esc('Voir la fiche')}</button>` : `<button class="btn btn-primary vc-go" data-act="sbm-vccheck" ${A.sel.length ? '' : 'disabled'}>${esc('Vérifier')}</button>`}`;
+    ${A.done ? `${res}<button class="btn btn-primary vc-go" data-act="sbm-vcflip">${esc('Voir la fiche')}</button>` : `<button class="btn btn-primary vc-go" data-act="sbm-vccheck" ${A.sel.length ? '' : 'disabled'}>${esc('Vérifier')}</button> <button class="btn btn-quiet vc-go" data-act="sbm-vcflip">${esc('Voir la réponse')}</button>`}`;
 }
 function sbmVcBack(f, n) {
   const pk = sbmVcPack(), label = esc(SBM.docTitle(pk, f.doc));
   const good = f.choices.filter((c) => c.ok).map((c) => c.t);
-  return `<div class="vc-top"><span class="vc-doc">${label}</span><span class="vc-n">${SBVC.i + 1} / ${n}</span></div><div class="vc-w2" lang="en">${esc(f.q)}</div>
+  return `<div class="vc-top"><span class="vc-doc">${label}</span><span class="vc-n">${SBVC.i + 1} / ${n}</span></div>${sbmVcArt(pk, f.doc)}<div class="vc-w2" lang="en">${esc(f.q)}</div>
     ${f.a ? `<p class="vc-fr">${esc(f.a)}</p>` : ''}
     ${good.length ? `<h3 class="vc-h">${good.length > 1 ? 'Bonnes réponses' : 'Bonne réponse'}</h3><ul class="vc-chips">${good.map((x) => `<li lang="en">${esc(x)}</li>`).join('')}</ul>` : ''}
     ${(f.more || []).map((m) => (m.h ? `<h3 class="vc-h">${esc(m.h)}</h3>` : '') + (/synonym|proches|bonn/i.test(m.h) && m.t.includes(',') ? `<ul class="vc-chips">${m.t.split(',').map((x) => `<li lang="en">${esc(x.trim())}</li>`).join('')}</ul>` : `<p class="${m.h ? 'vc-en' : 'vc-note'}">${esc(m.t)}</p>`)).join('')}
     ${f.ex ? `<blockquote class="vc-ex" lang="en">« ${esc(f.ex)} »<cite>${esc('Dans le cours')}</cite></blockquote>` : ''}`;
 }
 function sbmVocab(id) {
-  const p = sbmMission(id), pk = p && sbmPack(p), all = pk ? SBM.deckOf(pk) : [];
+  const p = sbmMission(id), pk = p && sbmPack(p), all = pk ? SBM.viewCards(pk) : [];
   if (!pk || !all.length) return `${navbar('Flash cards')}<div class="col sb"><div class="sb-empty">${I.help}<div><p class="h3">Pas de flash card dans ce pack.</p></div></div></div>`;
   if (SBVC.id !== id) { SBVC.id = id; SBVC.doc = ''; SBVC.i = 0; SBVC.flip = false; }
   const docs = [...new Set(all.map((v) => v.doc || ''))];
@@ -31830,13 +32156,15 @@ function sbmVocab(id) {
       <div class="vc-face vc-front" id="vcFront">${sbmVcFront(f, deck.length)}</div><div class="vc-face vc-back" id="vcBack">${sbmVcBack(f, deck.length)}</div></div></div></div>
     <progress class="vc-prog" id="vcProg" max="${deck.length}" value="${SBVC.i + 1}" aria-hidden="true"></progress>
     <p class="cap vc-score" id="vcScore">${sbmVcScore(deck)}</p>
+    <div class="vc-rate" id="vcRate" hidden><button class="btn btn-secondary" data-act="sbm-vcagain">${esc('À revoir')}</button><button class="btn btn-primary" data-act="sbm-vcknow">${esc('Je savais')}</button></div>
     <div class="vc-bar"><button class="btn btn-secondary vc-arrow" data-act="sbm-vcprev" aria-label="Fiche précédente">${I.back}</button><button class="btn btn-primary vc-flipbtn" data-act="sbm-vcflip">${esc('Retourner')}</button><button class="btn btn-secondary vc-arrow vc-next" data-act="sbm-vcnext" aria-label="Fiche suivante">${I.back}</button></div>
     <div class="row-btns"><button class="btn btn-quiet" data-act="sbm-vcbrain">${I.explore} ${esc('Voir ce cours dans le cerveau')}</button></div>
     <p class="cap" id="vcLive" aria-live="polite">${esc('Glisse la fiche, ou utilise les flèches du clavier ; espace pour retourner.')}</p></div>`;
 }
 function sbmVcScore(deck) {
   const q = deck.filter((f) => f.choices.length), done = q.filter((f) => sbmVcAns(f).done), ok = done.filter((f) => sbmVcAns(f).ok).length;
-  return q.length ? `${ok} réussie${ok > 1 ? 's' : ''} sur ${done.length} répondue${done.length > 1 ? 's' : ''} · ${q.length} avec propositions` : '';
+  const base = q.length ? `${ok} réussie${ok > 1 ? 's' : ''} sur ${done.length} répondue${done.length > 1 ? 's' : ''} · ${q.length} avec propositions` : '';
+  return base + sbmVcRateLine();
 }
 function sbmVcPick(k) {
   const deck = sbmVcDeck(), f = deck[SBVC.i]; if (!f || !f.choices.length) return; const A = sbmVcAns(f); if (A.done) return;
@@ -31858,6 +32186,19 @@ function sbmVcRepaintFront() {
 function sbmVcFlip() {
   const c = document.getElementById('vcCard'); if (!c) return;
   SBVC.flip = !SBVC.flip; c.classList.toggle('flip', SBVC.flip); c.setAttribute('aria-pressed', String(SBVC.flip));
+  const r = document.getElementById('vcRate'); if (r) r.hidden = !SBVC.flip;
+}
+/* Auto-évaluation : « Je savais » / « À revoir » après avoir retourné la fiche, puis fiche suivante. Compté pendant la session. */
+function sbmVcRate(ok) {
+  const deck = sbmVcDeck(), f = deck[SBVC.i]; if (!f || !SBVC.flip) return;
+  SBVC.rate[`${SBVC.id}|${f.id}`] = ok ? 'ok' : 'ko';
+  sbmChime(ok ? sbmIdentity(sbmMission(SBVC.id)).sound.good : null); if (!ok) sbmBuzz([30]);
+  sbmVcStep(1);
+}
+function sbmVcRateLine() {
+  const vals = Object.entries(SBVC.rate).filter(([k]) => k.startsWith(`${SBVC.id}|`)).map(([, v]) => v);
+  if (!vals.length) return '';
+  return ` · cette session : ${vals.filter((v) => v === 'ok').length} sues, ${vals.filter((v) => v === 'ko').length} à revoir`;
 }
 function sbmVcStep(d) {
   const deck = sbmVcDeck(); if (!deck.length) return;
@@ -31867,6 +32208,7 @@ function sbmVcPaint(dir) {
   const pk = sbmVcPack(), deck = sbmVcDeck(); if (!pk || !deck.length) return;
   const v = deck[SBVC.i], c = document.getElementById('vcCard'), sl = document.getElementById('vcSlide'); if (!c || !sl) { sbRefresh(true); return; }
   c.classList.remove('flip'); c.setAttribute('aria-pressed', 'false'); c.classList.toggle('vc-tall', v.choices.length > 0);
+  const rr = document.getElementById('vcRate'); if (rr) rr.hidden = true;
   document.getElementById('vcFront').innerHTML = sbmVcFront(v, deck.length); document.getElementById('vcBack').innerHTML = sbmVcBack(v, deck.length);
   const sc = document.getElementById('vcScore'); if (sc) sc.textContent = sbmVcScore(deck);
   const pr = document.getElementById('vcProg'); if (pr) { pr.max = deck.length; pr.value = SBVC.i + 1; }
@@ -31990,6 +32332,13 @@ function sbmShelve(id) {
       const cid = courseFor(docs[i]), cur = Store.get(m.id);
       if (cur) { if (cur.course !== cid) { Store.patch(m.id, { course: cid }); made += 1; } } else { Store.put({ ...m, course: cid }); made += 1; }
     });
+    /* Schémas et images du pack : chacun va au cours de son document (repéré par le concept qu'il illustre), sinon au premier cours. */
+    const docOfConcept = new Map((pack.concepts || []).map((c) => [c.id, (/^\s*([^\s:]+)\s*:/.exec(String(c.src || '')) || [])[1] || null]));
+    const visualsByCourse = new Map();
+    const place = (concept, vis) => { const doc = docOfConcept.get(concept) || docs[0] || null; const cid = courseFor(doc); if (!visualsByCourse.has(cid)) visualsByCourse.set(cid, []); visualsByCourse.get(cid).push(vis); };
+    for (const d of pack.diagrams || []) place(d.concept, { kind: 'svg', title: d.title, caption: d.caption, svg: d.svg });
+    for (const im of pack.images || []) place(im.concept, { kind: 'img', alt: im.alt, caption: im.caption, src: im.src });
+    for (const [cid, vis] of visualsByCourse) { const cur = Store.get(cid); if (cur) Store.put({ ...cur, visuals: vis }); }
   });
   return sid ? { sid, courses, pack, memos, made, name } : null;
 }
@@ -32073,6 +32422,8 @@ Object.assign(ACTIONS, {
   'sbm-vccheck': () => sbmVcCheck(),
   'sbm-vcnext': () => sbmVcStep(1),
   'sbm-vcprev': () => sbmVcStep(-1),
+  'sbm-vcknow': () => sbmVcRate(true),
+  'sbm-vcagain': () => sbmVcRate(false),
   'sbm-vcdoc': (el) => { SBVC.doc = el.dataset.doc || ''; SBVC.i = 0; SBVC.flip = false; sbmVcPaint(0); },
   'sbm-vcbrain': () => { const d = sbmVcDeck(); const v = d[SBVC.i]; sbmBiblio(SBVC.id, v && v.doc); },
   'sbm-listen-go': (el) => sbmListenGo(el.dataset.id),
@@ -33903,7 +34254,15 @@ function voyCard() {
   let body = '';
   if (tab === 'cours') {
     const ex = String(c.body || (info.files[0] && info.files[0].body) || '').replace(/\s+/g, ' ').trim();
+    /* Schémas et images du pack rangés dans ce cours. « Réduire les animations » : les <animate> sont retirés, le schéma reste figé. */
+    const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const vis = (Array.isArray(c.visuals) ? c.visuals : []).map((v) => {
+      if (v.kind === 'img') return `<figure class="voy-fig"><img class="sbm-img" src="${attr(v.src)}" alt="${attr(v.alt)}" loading="lazy"><figcaption class="cap">${esc(v.caption || v.alt)}</figcaption></figure>`;
+      const svg = SBM.sanitizeSvg(v.svg);
+      return svg ? `<figure class="voy-fig"><div class="sbm-svg">${still ? svg.replace(/<animate\b[^>]*\/>/g, '') : svg}</div><figcaption class="cap">${esc(v.title || v.caption || 'Schéma')}</figcaption></figure>` : '';
+    }).join('');
     body = `${ch ? `<p class="cap">${esc(`${s ? s.name : ''} › ${ch.name}`)}</p>` : ''}
+      ${vis ? `<div class="voy-vis">${vis}</div>` : ''}
       ${ex ? `<p class="voy-ex">${esc(sbCut(ex, 220))}</p>` : ''}
       ${info.files.length ? `<ul class="voy-rows">${info.files.slice(0, 4).map((m) => `<li><button type="button" class="voy-row" data-act="bib-file" data-id="${attr(m.id)}">${I.doc}<span>${esc(sbCut(m.title || (m.file && m.file.name) || 'Fichier', 46))}<small>${esc(bibFileMeta(m))}</small></span>${chev}</button></li>`).join('')}</ul>` : `<p class="cap">${esc('Aucun fichier dans ce cours.')}</p>`}
       ${info.cards.length ? `<button type="button" class="voy-row" data-act="bib-review" data-id="${attr(c.id)}">${I.cards}<span>${esc(info.due ? `${plural(info.due, 'fiche', 'fiches')} à réviser` : `Réviser ${plural(info.cards.length, 'fiche', 'fiches')}`)}</span>${chev}</button>` : ''}
@@ -35730,7 +36089,7 @@ const SBF = (() => {
   const KEY = 'forge';
   /* Univers, matière et forme se choisissent ENSEMBLE (onglet « Composer ») : on change l'un et l'on voit ce que donnent les autres sur le vrai
      cerveau, en direct. Les couleurs et les curseurs viennent après, l'Atelier les garde dans deux autres onglets. */
-  const TABS = [['compose', 'Composer'], ['couleurs', 'Couleurs'], ['reglages', 'Réglages']];
+  const TABS = [['compose', 'Composer'], ['modeler', 'Modeler'], ['couleurs', 'Couleurs'], ['reglages', 'Réglages']];
   const STEPS = [
     ['nom', 'Donne un nom à ton cerveau.', 'Il grandit avec toi.'],
     ['compose', 'Compose ton cerveau.', ''],
@@ -35937,6 +36296,23 @@ const SBF = (() => {
       return `<label class="fg-sl"><span class="fg-sl-n">${esc(s.name)}</span><input type="range" min="0" max="100" step="1" value="${v}" data-fg="slider" data-k="${k}" aria-label="${attr(s.name)}" aria-valuetext="${v} sur 100" title="${attr(s.hint)}"><output>${v}</output></label>`;
     }).join('')}</div>`;
   }
+  /* v8 « Modeler » : le cerveau se modèle comme une pâte (curseurs de forme, en direct) et ses neurones prennent un style. */
+  function modelerPane(d) {
+    const sl = FORGE.SHAPE_ORDER.map((k) => {
+      const s = FORGE.SHAPE[k], v = d.shape[k];
+      return `<label class="fg-sl"><span class="fg-sl-n">${esc(s.name)}</span><input type="range" min="0" max="100" step="1" value="${v}" data-fg="shape" data-k="${k}" aria-label="${attr(s.name)}" aria-valuetext="${v} sur 100" title="${attr(s.hint)}"><output>${v}</output></label>`;
+    }).join('');
+    const nodes = FORGE.NODE_ORDER.map((id) => {
+      const n = FORGE.NODE_STYLES[id], on = d.nodes === id;
+      return `<button type="button" class="fg-mat${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-fg="nodes" data-v="${id}"><span class="fg-orb fg-nd-${id}" aria-hidden="true"></span><span class="fg-mat-n">${esc(n.name)}</span>${on ? `<span class="fg-ck" aria-hidden="true">${I.check}</span>` : ''}</button>`;
+    }).join('');
+    const shaped = !FORGE.shapeNeutral(d.shape);
+    return `<p class="fg-rowt">${esc('Forme')}<button type="button" class="fg-link fg-rowl" data-fg="shape-reset"${shaped ? '' : ' disabled'}>${esc('Remettre la forme d’origine')}</button></p>
+      <p class="fg-hint">${esc('Modèle ton cerveau comme une pâte : il se déforme sous tes doigts, en direct. 50 = la forme d’origine.')}</p>
+      <div class="fg-sliders">${sl}</div>
+      <p class="fg-rowt">${esc('Neurones')}<span class="fg-rowh" id="fgNodeHint">${esc(FORGE.NODE_STYLES[d.nodes].hint)}</span></p>
+      <div class="fg-row" role="radiogroup" aria-label="Style des neurones" data-row="n">${nodes}</div>`;
+  }
   function reglagesPane(d) {
     return `<label class="fg-field"><span>${esc('Nom du cerveau')}</span><input class="fg-input" data-fg="name" maxlength="24" autocomplete="off" placeholder="${attr('Ex. Nova')}" value="${attr(d.name)}"></label>${slidersHTML(d)}${seedBlock(d)}`;
   }
@@ -35951,7 +36327,7 @@ const SBF = (() => {
   function paneHTML() {
     const d = st.draft;
     if (st.first) { const k = STEPS[st.step][0]; return k === 'nom' ? nameStep(d) : k === 'compose' ? composePane(d) : ajustePane(d); }
-    return st.tab === 'compose' ? composePane(d) : st.tab === 'couleurs' ? palettePane(d) : reglagesPane(d);
+    return st.tab === 'compose' ? composePane(d) : st.tab === 'modeler' ? modelerPane(d) : st.tab === 'couleurs' ? palettePane(d) : reglagesPane(d);
   }
   function render(initial) {
     if (!st) return;
@@ -36023,13 +36399,15 @@ const SBF = (() => {
     else if (a === 'zc-auto') { zoneMode(true); const z = { ...st.draft.zoneColors }; delete z[b.dataset.id]; st.draft = FORGE.normalize({ ...st.draft, zoneColors: z, forged: st.draft.forged || Date.now() }); preview(); repaint(`[data-fg=zc-auto]`); const d0 = st.el.querySelector('.fg-zones'); if (d0) d0.open = true; }
     else if (a === 'mat') { setDraft({ material: v }); repaint(`[data-fg=mat][data-v=${v}]`); }
     else if (a === 'sil') { setDraft({ silhouette: v }); repaint(`[data-fg=sil][data-v=${v}]`); }
+    else if (a === 'nodes') { setDraft({ nodes: v }); repaint(`[data-fg=nodes][data-v=${v}]`); }
+    else if (a === 'shape-reset') { setDraft({ shape: {} }); repaint('[data-fg=shape-reset]'); }
     else if (a === 'seed') { setDraft({ seed: FORGE.newSeed() }); const o = $('#fgSeed', st.el); if (o) o.textContent = seedNo(st.draft); }
     else if (a === 'tab') { st.tab = v; st.big = false; repaint(`#fgT-${v}`); }
     else if (a === 'big') { st.big = true; repaint('.fg-back'); }
     else if (a === 'small') { st.big = false; repaint('[data-fg=big]'); }
     else if (a === 'next') { st.step = Math.min(STEPS.length - 1, st.step + 1); st.big = false; repaint('#fgH'); }
     else if (a === 'prev') { st.step = Math.max(0, st.step - 1); st.big = false; repaint('#fgH'); }
-    else if (a === 'reset') { st.colorUndo = null; st.draft = FORGE.normalize({ ...st.draft, forged: 0, univers: '', recolor: FORGE.RECOLOR_DEFAULT, sliders: {}, palette: { preset: 'cobalt' }, material: 'circuits', silhouette: 'classique' }); applied = ''; apply(null); render(false); try { sbToast('Cerveau d’origine. Touche OK pour le garder, ou Annuler.'); } catch (x) { /* rien */ } }
+    else if (a === 'reset') { st.colorUndo = null; st.draft = FORGE.normalize({ ...st.draft, forged: 0, univers: '', recolor: FORGE.RECOLOR_DEFAULT, sliders: {}, shape: {}, nodes: 'perles', palette: { preset: 'cobalt' }, material: 'circuits', silhouette: 'classique' }); applied = ''; apply(null); render(false); try { sbToast('Cerveau d’origine. Touche OK pour le garder, ou Annuler.'); } catch (x) { /* rien */ } }
     else if (a === 'commit') commit();
     else if (a === 'cancel') close(false);
   }
@@ -36041,6 +36419,11 @@ const SBF = (() => {
       setDraft({ recolor: { ...st.draft.recolor, [k]: v, mode: st.draft.recolor.mode === 'off' ? 'teinte' : st.draft.recolor.mode } });
       const label = `${value}${k === 'hue' ? '°' : '%'}`;
       t.parentNode.querySelector('output').textContent = label; t.setAttribute('aria-valuetext', label); updateGradeUI();
+    } else if (a === 'shape') {
+      const k = t.dataset.k, v = Math.round(+t.value);
+      setDraft({ shape: { ...st.draft.shape, [k]: v } });
+      const o = t.parentNode.querySelector('output'); if (o) o.textContent = String(v);
+      t.setAttribute('aria-valuetext', `${v} sur 100`);
     } else if (a === 'slider') {
       const k = t.dataset.k, v = Math.round(+t.value);
       setDraft({ sliders: { ...st.draft.sliders, [k]: v } });
@@ -36272,6 +36655,7 @@ Object.assign(ACTIONS, {
   'forge-first': () => { SBF.open({ first: true }); },
   'forge-share': () => { SBF.share(); },
 });
+try { if (/[?&]debug/.test(location.search)) window.__sbf = SBF; } catch (e) { /* rien */ }
 
 /* ——— sb/sb-fx.js ——— */
 /* Sillon · second cerveau : réveil du cerveau, HUD, micro-interactions, vibrations, sons (v4 · étape 9).

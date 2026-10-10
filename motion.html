@@ -2222,9 +2222,11 @@ void main(){
   const SILS = ['classique', 'hemispheres', 'constellation', 'arbre'];
   let silId = 'classique';
   const hasForge = () => typeof FORGE !== 'undefined' && FORGE && typeof FORGE.warp === 'function';
-  function silPos(p) { if (silId === 'classique' || !hasForge()) return p; const w = FORGE.warp(silId, p); return w || p; }
+  /* v8 : la déformation s'applique dès qu'il y a une silhouette OU une forme modelée (curseurs « Modeler », FG.shape) */
+  const silActive = () => (silId !== 'classique' || !!FG.shapeKey) && hasForge();
+  function silPos(p) { if (!silActive()) return p; const w = FORGE.warp(silId, p, { shape: FG.shape }); return w || p; }
   function silPts(all) {
-    if (silId === 'classique' || !hasForge() || !all) return all;
+    if (!silActive() || !all) return all;
     const hubs = silId === 'constellation' ? FORGE.hubsFor(model.territories.filter((t) => !t.shadow).map((t) => t.pos0 || t.pos), all.map((q) => q.p)) : null;
     const out = [];
     for (const q of all) {
@@ -2232,7 +2234,7 @@ void main(){
       const copies = silId === 'arbre' && q.kind === 'tronc' ? 3 : 1;
       for (let j = 0; j < copies; j++) {
         const ph = j ? (q.ph * (7.13 + j * 3.1) + 0.37 * j) % 1 : q.ph;
-        const w = FORGE.warp(silId, q.p, { kind: q.kind, ph, hubs });
+        const w = FORGE.warp(silId, q.p, { kind: q.kind, ph, hubs, shape: FG.shape });
         if (w) out.push({ ...q, p: w, ph });
       }
     }
@@ -2313,10 +2315,7 @@ void main(){
   function silApply(id) {
     silId = SILS.includes(id) ? id : 'classique';
     if (!model) return;
-    silNeurons(model);
-    for (const e of model.edges || []) e.curve = curveFor(e.a.pos, e.b.pos, e.cross ? 0.42 : 0.6);
-    if (model.brainAll) model.brainPts = silPts(model.brainAll);
-    silRegions();
+    silReshape();
     // l'angle de départ : les hémisphères se lisent de dessus (un écartement gauche-droite est invisible de profil), les autres de trois quarts
     const v = silId === 'hemispheres' ? { sway: 0.45, pitch: 0.8 } : { sway: 1.32, pitch: 0.22 };
     swayBase = v.sway; BRAIN_VIEW.pitch = v.pitch;
@@ -2324,6 +2323,17 @@ void main(){
     upload();
     if (mem.src) buildMem();
     if (view.level === 'brain' || view.level === 'connectome') go({ level: view.level }, { resetYaw: true }); // recadre la caméra sur la nouvelle forme
+    wake();
+  }
+  /* v8 : les positions seules se recalculent (curseurs « Modeler ») ; la caméra garde son angle et son cadrage */
+  function silReshape() {
+    if (!model) return;
+    silNeurons(model);
+    for (const e of model.edges || []) e.curve = curveFor(e.a.pos, e.b.pos, e.cross ? 0.42 : 0.6);
+    if (model.brainAll) model.brainPts = silPts(model.brainAll);
+    silRegions();
+    upload();
+    if (mem.src) buildMem();
     wake();
   }
 
@@ -4141,7 +4151,8 @@ void main(){
   /* Ce que le maillage ne sait que de la scène : la forme du cerveau, le bruit, le modèle, la silhouette. */
   const MESH_H = {
     get gl() { return gl; }, model: () => model, silId: () => silId, hex, SHAPES: () => SHAPES, shapeOf, noise, insideBrain, STEM: () => STEM,
-    warp: (p, kind) => (silId !== 'classique' && hasForge() ? FORGE.warp(silId, p, { kind }) || p : p),
+    warp: (p, kind) => (silActive() ? FORGE.warp(silId, p, { kind, shape: FG.shape }) || p : p),
+    shapeKey: () => FG.shapeKey, nodes: () => FG.nodeStyle, plis: () => FG.plis, // v8
     onCortex: (C) => snapToCortex(C), // le vrai cortex est chargé : les neurones se posent sur ses gyri
     lowPolyURL: () => 'assets/brain-cortex-lp.bin.gz',
     texURL: (id) => 'img/univers/tex/' + id + '.webp', // les échantillons de matière tirés des illustrations
@@ -4162,6 +4173,9 @@ void main(){
     FG.scan = num(o.scan, 0, 0, 1); FG.facet = num(o.facet, 0, 0, 1); FG.desat = num(o.desat, 0, 0, 1); FG.rim = num(o.rim, 0, 0, 1);
     FG.zones = Math.round(num(o.zones, 8, 1, 12));
     FG.mesh = o.mesh && typeof o.mesh === 'object' ? o.mesh : null;
+    FG.shape = o.shape && typeof o.shape === 'object' ? o.shape : null; FG.plis = num(o.plis, 1, 0, 2); FG.nodeStyle = typeof o.nodes === 'string' ? o.nodes : 'perles'; // v8
+    const shk = FG.shape ? JSON.stringify(FG.shape) : '';
+    const shapeChanged = shk !== (FG.shapeKey || ''); FG.shapeKey = shk;
     FG.hybrid = typeof o.hybrid === 'string' ? o.hybrid : ''; FG.restAnim = typeof o.restAnim === 'string' ? o.restAnim : ''; /* v6-cerveaux */
     FG.tex = typeof o.tex === 'string' ? o.tex : '';
     FG.dec = !!o.dec; FG.lobes = Array.isArray(o.lobes) && o.lobes.length >= 6 ? o.lobes.slice(0, 6).map((c) => col(c, [0.5, 0.5, 0.5])) : null;
@@ -4169,6 +4183,7 @@ void main(){
     if (mk !== FG.matKey) { FG.matKey = mk; if (mesh) mesh.invalidate(); }
     FG.zc.fill(0);
     if (Array.isArray(o.zoneColors)) o.zoneColors.slice(0, 12).forEach((c, i) => { const k = col(c, null); if (k) { FG.zc[i * 4] = k[0]; FG.zc[i * 4 + 1] = k[1]; FG.zc[i * 4 + 2] = k[2]; FG.zc[i * 4 + 3] = 1; } });
+    if (shapeChanged) silReshape(); // v8 : la forme modelée se pose tout de suite sur les neurones, les tubes et le cortex
     const sid = SILS.includes(o.silhouette) ? o.silhouette : 'classique';
     if (silFade ? silFade.to !== sid : sid !== silId) silChange(sid, !!o.instant); // o.instant : au lancement de l'app, la forme enregistrée se pose sans fondu
     wake();
@@ -4304,7 +4319,7 @@ void main(){
       const dimK = (mem.a > 0.003 || mem.dim > 0.003 ? 1 - 0.55 * mem.dim : 1) * fadeK;
       // v6-cerveaux : les animations des fibres (l'effet en cours, le repos de l'univers) et le mouvement réduit
       const fxR = fxReduced(), fx = typeof FiberAnim !== 'undefined' ? FiberAnim.toUniforms(fxList, time * 1000, fxR, { rest: fxRestId || FG.restAnim, timeScale: FG.speed }) : null;
-      meshDrawn = mesh.draw({ grade: FG.grade, M: FG.mesh, matKey: FG.matKey, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
+      meshDrawn = mesh.draw({ grade: FG.grade, M: FG.mesh, matKey: FG.matKey, plis: FG.plis, glow: FG.halo, dpr, tex: FG.tex, dec: FG.dec, lobes: FG.lobes, mvp, eye: eyePos(), target: cam.target, time: ftime, dim: dimK, tint: FG.tint, e1: FG.e1, e2: FG.e2, a: FG.a, fx, reduced: fxR, phase: FG.phase || 0, ...voyF() /* v6-voyage */ });
       meshOnFrame = meshDrawn;
       if (meshDrawn) { gl.useProgram(prog); gl.disable(gl.CULL_FACE); gl.blendFunc(gl.ONE, gl.ONE); gl.depthMask(false); } // le test de profondeur reste : les points sont cachés par la matière
     }
@@ -4566,7 +4581,7 @@ void main(){
     cortex() { return mesh && mesh.cortexState === 'ready' && mesh.cortex ? mesh.cortex : null; },
     get meshTier() { return mesh ? mesh.tier : 2; },
     /* la forme du cerveau (« Forge ») appliquée à un point : les calques se posent là où le cortex est dessiné */
-    warp(p) { return silId !== 'classique' && hasForge() ? FORGE.warp(silId, p, { kind: 'cortex' }) || p : p; },
+    warp(p) { return silActive() ? FORGE.warp(silId, p, { kind: 'cortex', shape: FG.shape }) || p : p; },
     get silhouette() { return silId; },
     reveal(seed, dur, cb) { if (reduced || !(dur >= 0.05)) { reveal = null; if (cb) cb(); wake(); return; } reveal = { seed: seed || [0.1, 0.2, 0.6], r: -0.3, t0: time + (dur > 0 ? 0.5 : 0), dur: dur || 2.6, cb }; wake(); },
     hold() { reveal = { seed: [0, 0, 0], r: -1, t0: 1e9, dur: 1, cb: null }; wake(); },
